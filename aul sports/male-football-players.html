@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Male Football Players - School Sports Hub</title>
+    <link rel="stylesheet" href="aupl.css">
+</head>
+
+<body>
+
+<header>
+    <h1>🏆 School Sports Hub</h1>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+        <a href="aupl live.html">Live</a>
+        <a href="news.html">News</a>
+        <a href="aupl-fixtures.html">Fixtures</a>
+        <a href="results.html">Results</a>
+        <a href="aupltables.html">Tables</a>
+        <a href="aupl clubs.html">Clubs</a>
+        <a href="players.html">Players</a>
+        <a href="aupl fantasy.html">Fantasy</a>
+    </nav>
+
+    <a href="login.html">
+        <button>Login</button>
+    </a>
+</header>
+
+
+<main class="football-players-page">
+
+    <h2>⚽ Male Football Players</h2>
+
+    <p class="players-intro">
+        Player rankings, ratings and statistics
+    </p>
+    <div class="player-filters">
+
+    <input
+        type="text"
+        id="playerSearch"
+        placeholder="Search player..."
+    >
+
+    <select id="clubFilter">
+        <option value="all">All Clubs</option>
+        <option value="Anchor">Anchor</option>
+        <option value="Dominion">Dominion</option>
+        <option value="Empowerment">Empowerment</option>
+        <option value="Golden Stars">Golden Stars</option>
+        <option value="Milan">Milan</option>
+        <option value="Phoenix">Phoenix</option>
+        <option value="Saints">Saints</option>
+        <option value="Spartan">Spartan</option>
+    </select>
+
+    <select id="positionFilter">
+        <option value="all">All Positions</option>
+        <option value="GK">Goalkeeper</option>
+        <option value="DEF">Defender</option>
+        <option value="MID">Midfielder</option>
+        <option value="FWD">Forward</option>
+    </select>
+
+    <select id="sortPlayers">
+    <option value="default">Sort By</option>
+    <option value="rating">Rating</option>
+    <option value="goals">Goals</option>
+    <option value="assists">Assists</option>
+    <option value="name">Name A-Z</option>
+</select>
+
+</div>
+
+    <div class="player-table-container">
+
+        <table class="player-table">
+
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Club</th>
+                    <th>No.</th>
+                    <th>Position</th>
+                    <th>⭐ Rating</th>
+                    <th>MP</th>
+                    <th>Min</th>
+                    <th>G</th>
+                    <th>A</th>
+                </tr>
+            </thead>
+
+            <!-- Players will be added automatically by JavaScript -->
+            <tbody id="maleFootballPlayerList"></tbody>
+
+        </table>
+        <div id="profileOverlay" class="profile-overlay"></div>
+    </div>
+    <div id="playerProfile" class="player-profile">
+
+    <button onclick="closePlayerCard()">✖ Close</button>
+
+    <img id="profilePhoto" src="" alt="Player Photo">
+
+    <h2 id="profileName"></h2>
+
+    <p><strong>Club:</strong> <span id="profileClub"></span></p>
+    <p><strong>Jersey Number:</strong> <span id="profileNumber"></span></p>
+    <p><strong>Position:</strong> <span id="profilePosition"></span></p>
+    <p><strong>Rating:</strong> ⭐ <span id="profileRating"></span></p>
+
+    <div class="profile-stats">
+        <div>
+            <strong id="profileMatches"></strong>
+            <span>Matches</span>
+        </div>
+
+        <div>
+            <strong id="profileMinutes"></strong>
+            <span>Minutes</span>
+        </div>
+
+        <div>
+            <strong id="profileGoals"></strong>
+            <span>Goals</span>
+        </div>
+
+        <div>
+            <strong id="profileAssists"></strong>
+            <span>Assists</span>
+        </div>
+    </div>
+
+</div>
+
+</main>
+
+
+<script src="aupl.js"></script>
+
+</body>
+</html>

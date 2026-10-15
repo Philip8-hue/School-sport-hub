@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Live Scores - School Sports Hub</title>
+
+    <link rel="stylesheet" href="aupl.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>🏆 School Sports Hub</h1>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+
+        <a href="aupl live.html" class="active">
+            Live
+        </a>
+
+        <a href="news.html">News</a>
+
+        <a href="aupl-fixtures.html">Fixtures</a>
+
+        <a href="results.html">Results</a>
+
+        <a href="aupltables.html">Tables</a>
+
+        <a href="aupl clubs.html">Clubs</a>
+
+        <a href="players.html">Players</a>
+
+        <a href="aupl fantasy.html">Fantasy</a>
+    </nav>
+
+    <a href="login.html">
+        <button>Login</button>
+    </a>
+
+</header>
+
+
+<main class="live-page">
+
+    <!-- PAGE HEADER -->
+
+    <section class="live-header">
+
+        <p>LIVE SCORES</p>
+
+        <h2>🔴 Live Matches</h2>
+
+        <span>
+            Follow the action happening right now
+        </span>
+
+    </section>
+
+
+    <!-- SPORT SELECTOR -->
+
+    <section class="live-selector">
+
+        <label for="liveSportSelect">
+            Select Sport
+        </label>
+
+        <select id="liveSportSelect">
+
+            <option value="maleFootball">
+                ⚽ Male Football
+            </option>
+
+            <option value="femaleFootball">
+                ⚽ Female Football
+            </option>
+
+            <option value="maleBasketball">
+                🏀 Male Basketball
+            </option>
+
+            <option value="femaleBasketball">
+                🏀 Female Basketball
+            </option>
+
+            <option value="volleyball">
+                🏐 Volleyball
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- LIVE MATCHES -->
+
+    <section class="live-section">
+
+        <div class="live-section-title">
+
+            <div>
+
+                <p id="liveSport">
+                    MALE FOOTBALL
+                </p>
+
+                <h3>
+                    Live Matches
+                </h3>
+
+            </div>
+
+            <span class="live-indicator">
+                ● LIVE
+            </span>
+
+        </div>
+
+
+        <div id="liveMatchesList">
+
+            <!-- JavaScript will add live matches -->
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="aupl.js"></script>
+
+</body>
+
+</html>

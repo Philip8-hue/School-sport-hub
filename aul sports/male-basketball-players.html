@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Male Basketball Players</title>
+
+    <link rel="stylesheet" href="aupl.css">
+
+    
+
+</head>
+
+<body>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+        <a href="aupl live.html">Live</a>
+        <a href="news.html">News</a>
+        <a href="aupl-fixtures.html">Fixtures</a>
+        <a href="results.html">Results</a>
+        <a href="aupltables.html">Tables</a>
+        <a href="aupl clubs.html">Clubs</a>
+        <a href="players.html">Players</a>
+        <a href="aupl fantasy.html">Fantasy</a>
+
+        <a href="login.html">
+            <button>Login</button>
+        </a>
+    </nav>
+
+    <section class="basketball-players-page">
+
+        <h1>🏀 Male Basketball Players</h1>
+        <p>Player statistics and rankings</p>
+
+        <div class="basketball-filters">
+
+    <input
+        type="text"
+        id="basketballPlayerSearch"
+        placeholder="Search player..."
+        onkeyup="filterBasketballPlayers()"
+    >
+
+    <select id="basketballClubFilter" onchange="filterBasketballPlayers()">
+        <option value="all">All Clubs</option>
+        <option value="Sharks">Sharks</option>
+        <option value="Vinisio">Vinisio</option>
+        <option value="Warriors">Warriors</option>
+        <option value="Wolves">Wolves</option>
+    </select>
+
+    <select id="basketballPositionFilter" onchange="filterBasketballPlayers()">
+        <option value="all">All Positions</option>
+        <option value="PG">PG - Point Guard</option>
+        <option value="SG">SG - Shooting Guard</option>
+        <option value="SF">SF - Small Forward</option>
+        <option value="PF">PF - Power Forward</option>
+        <option value="C">C - Center</option>
+    </select>
+
+</div>
+
+        <div class="player-table-container">
+
+            <table class="player-table">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player</th>
+                        <th>Club</th>
+                        <th>Jersey</th>
+                        <th>Position</th>
+                        <th>Rating</th>
+                        <th>Games</th>
+                        <th>Min</th>
+                        <th>PTS</th>
+                        <th>AST</th>
+                        <th>REB</th>
+                        <th>STL</th>
+                        <th>BLK</th>
+                    </tr>
+                </thead>
+
+                <tbody id="maleBasketballPlayerList"></tbody>
+
+            </table>
+
+        </div>
+
+        <div class="basketball-abbreviations">
+
+            <p>
+                <strong>Position:</strong>
+                PG — Point Guard |
+                SG — Shooting Guard |
+                SF — Small Forward |
+                PF — Power Forward |
+                C — Center
+            </p>
+
+            <p>
+                <strong>Stats:</strong>
+                PTS — Points |
+                AST — Assists |
+                REB — Rebounds |
+                STL — Steals |
+                BLK — Blocks
+            </p>
+
+        </div>
+
+        <!-- PLAYER CARD -->
+<div id="basketballPlayerCard" class="basketball-player-card">
+
+    <div class="basketball-card-content">
+
+        <button class="basketball-card-close" onclick="closeBasketballPlayerCard()">
+            &times;
+        </button>
+
+        <img id="basketballCardPhoto"
+             src="#"
+             alt="Player"
+             class="basketball-card-photo">
+
+        <h2 id="basketballCardName">Player Name</h2>
+
+        <p id="basketballCardClub">Club</p>
+
+        <div class="basketball-card-basic-info">
+            <span id="basketballCardNumber">Jersey: -</span>
+            <span id="basketballCardHeight">Height: -</span>
+            <span id="basketballCardPosition">Position: -</span>
+        </div>
+
+        <div class="basketball-card-stats">
+
+            <div>
+                <strong id="basketballCardRating">5.0</strong>
+                <small>Rating</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardGames">0</strong>
+                <small>Games</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardMinutes">0</strong>
+                <small>Minutes</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardPoints">0</strong>
+                <small>Points</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardAssists">0</strong>
+                <small>Assists</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardRebounds">0</strong>
+                <small>Rebounds</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardSteals">0</strong>
+                <small>Steals</small>
+            </div>
+
+            <div>
+                <strong id="basketballCardBlocks">0</strong>
+                <small>Blocks</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    </section>
+
+    <script src="aupl.js"></script>
+
+</body>
+</html>

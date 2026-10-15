@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tables - School Sports Hub</title>
+
+    <link rel="stylesheet" href="aupl.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>🏆 School Sports Hub</h1>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+        <a href="aupl live.html">Live</a>
+        <a href="news.html">News</a>
+        <a href="aupl-fixtures.html">Fixtures</a>
+        <a href="results.html">Results</a>
+        <a href="aupltables.html">Tables</a>
+        <a href="aupl clubs.html">Clubs</a>
+        <a href="players.html">Players</a>
+        <a href="aupl fantasy.html">Fantasy</a>
+    </nav>
+
+    <a href="login.html">
+        <button>Login</button>
+    </a>
+
+</header>
+
+
+<main class="tables-page">
+
+    <!-- PAGE TITLE -->
+    <section class="tables-header">
+
+        <p>LEAGUE STANDINGS</p>
+
+        <h2>Sports Tables</h2>
+
+        <span>School Sports Hub • 2026 Season</span>
+
+    </section>
+
+
+    <!-- SPORT SELECTION -->
+    <section class="sport-selector">
+
+        <label for="sportSelect">Select Sport</label>
+
+        <select id="sportSelect">
+
+            <option value="maleFootball">
+                ⚽ Male Football
+            </option>
+
+            <option value="femaleFootball">
+                ⚽ Female Football
+            </option>
+
+            <option value="maleBasketball">
+                🏀 Male Basketball
+            </option>
+
+            <option value="femaleBasketball">
+                🏀 Female Basketball
+            </option>
+
+            <option value="volleyball">
+                🏐 Volleyball
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- SELECTED SPORT TABLE -->
+    <section class="league-table-section">
+
+        <div class="table-title">
+
+            <div>
+
+                <p id="tableSport">MALE FOOTBALL</p>
+
+                <h3>League Table</h3>
+
+            </div>
+
+            <span>2026 Season</span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table class="league-table">
+
+                <thead id="tableHead">
+
+                    <!-- JavaScript will add the correct headings -->
+
+                </thead>
+
+                <tbody id="leagueTableBody">
+
+                    <!-- JavaScript will add the teams -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="aupl.js"></script>
+
+</body>
+
+</html>

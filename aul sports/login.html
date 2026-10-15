@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - School Sports Hub</title>
+
+    <link rel="stylesheet" href="aupl.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>🏆 School Sports Hub</h1>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+        <a href="aupl live.html">Live</a>
+        <a href="news.html">News</a>
+        <a href="aupl-fixtures.html">Fixtures</a>
+        <a href="results.html">Results</a>
+        <a href="aupltables.html">Tables</a>
+        <a href="aupl clubs.html">Clubs</a>
+        <a href="players.html">Players</a>
+        <a href="aupl fantasy.html">Fantasy</a>
+    </nav>
+
+</header>
+
+
+<main class="login-page">
+
+    <section class="login-container">
+
+        <div class="login-header">
+
+            <p>SCHOOL SPORTS HUB</p>
+
+            <h2>Welcome Back</h2>
+
+            <span>
+                Choose your account type
+            </span>
+
+        </div>
+
+
+        <!-- ACCOUNT TYPE -->
+
+        <div class="account-types">
+
+            <button
+                type="button"
+                class="account-type"
+                data-type="player"
+            >
+                <span class="account-icon">👤</span>
+
+                <strong>Player</strong>
+
+                <small>
+                    League participant
+                </small>
+            </button>
+
+
+            <button
+                type="button"
+                class="account-type"
+                data-type="coach"
+            >
+                <span class="account-icon">🧑‍🏫</span>
+
+                <strong>Coach</strong>
+
+                <small>
+                    Team coach
+                </small>
+            </button>
+
+
+            <button
+                type="button"
+                class="account-type"
+                data-type="fan"
+            >
+                <span class="account-icon">👥</span>
+
+                <strong>Fan</strong>
+
+                <small>
+                    Follow the league
+                </small>
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form id="loginForm">
+
+            <input
+                type="hidden"
+                id="accountType"
+                value=""
+            >
+
+
+            <div class="selected-account" id="selectedAccount">
+                Select an account type above
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="loginEmail">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <div class="login-footer">
+
+            <p>
+                Don't have an account?
+            </p>
+
+            <a href="register.html">
+                Create an Account
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="aupl.js"></script>
+
+</body>
+
+</html>

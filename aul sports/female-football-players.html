@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Female Football Players - School Sports Hub</title>
+
+    <link rel="stylesheet" href="aupl.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>🏆 School Sports Hub</h1>
+
+    <nav>
+        <a href="aupl.html">Home</a>
+        <a href="aupl live.html">Live</a>
+        <a href="news.html">News</a>
+        <a href="aupl-fixtures.html">Fixtures</a>
+        <a href="results.html">Results</a>
+        <a href="aupltables.html">Tables</a>
+        <a href="aupl clubs.html">Clubs</a>
+        <a href="players.html">Players</a>
+        <a href="aupl fantasy.html">Fantasy</a>
+    </nav>
+
+    <a href="login.html">
+        <button>Login</button>
+    </a>
+
+</header>
+
+
+<main class="players-page">
+
+    <h2>⚽ Female Football Players</h2>
+
+    <p class="players-intro">
+        View female football players, ratings and statistics.
+    </p>
+
+
+    <!-- SEARCH AND FILTERS -->
+
+    <div class="player-search-section">
+
+        <input
+            type="text"
+            id="femaleFootballSearch"
+            placeholder="Search player name..."
+            onkeyup="filterFemaleFootballPlayers()"
+        >
+
+        <select
+            id="femaleFootballClubFilter"
+            onchange="filterFemaleFootballPlayers()"
+        >
+            <option value="all">All Clubs</option>
+            <option value="Golden Stars">Golden Stars</option>
+            <option value="Milan">Milan</option>
+            <option value="Phoenix">Phoenix</option>
+            <option value="Spartans">Spartans</option>
+        </select>
+
+        <select
+            id="femaleFootballPositionFilter"
+            onchange="filterFemaleFootballPlayers()"
+        >
+            <option value="all">All Positions</option>
+            <option value="GK">GK</option>
+            <option value="DEF">DEF</option>
+            <option value="MID">MID</option>
+            <option value="FWD">FWD</option>
+        </select>
+
+    </div>
+
+
+    <!-- PLAYERS TABLE -->
+
+    <div class="players-table-container">
+
+        <table class="players-table">
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Player</th>
+                    <th>Club</th>
+                    <th>Jersey</th>
+                    <th>Position</th>
+                    <th>Rating</th>
+                    <th>MP</th>
+                    <th>Minutes</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="femaleFootballPlayerList"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- FEMALE FOOTBALL PLAYER CARD -->
+
+<div id="femaleFootballPlayerCard" class="football-player-card">
+
+    <div class="football-card-content">
+
+        <button
+            class="football-card-close"
+            onclick="closeFemaleFootballPlayerCard()">
+            &times;
+        </button>
+
+        <img
+            id="femaleFootballCardPhoto"
+            src="#"
+            alt="Player"
+            class="football-card-photo"
+        >
+
+        <h2 id="femaleFootballCardName">
+            Player Name
+        </h2>
+
+        <p id="femaleFootballCardClub">
+            Club
+        </p>
+
+
+        <div class="football-card-basic-info">
+
+            <span id="femaleFootballCardNumber">
+                Jersey: -
+            </span>
+
+            <span id="femaleFootballCardPosition">
+                Position: -
+            </span>
+
+        </div>
+
+
+        <div class="football-card-stats">
+
+            <div>
+                <strong id="femaleFootballCardRating">5.0</strong>
+                <small>Rating</small>
+            </div>
+
+            <div>
+                <strong id="femaleFootballCardMatches">0</strong>
+                <small>Matches</small>
+            </div>
+
+            <div>
+                <strong id="femaleFootballCardMinutes">0</strong>
+                <small>Minutes</small>
+            </div>
+
+            <div>
+                <strong id="femaleFootballCardGoals">0</strong>
+                <small>Goals</small>
+            </div>
+
+            <div>
+                <strong id="femaleFootballCardAssists">0</strong>
+                <small>Assists</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+<script src="aupl.js"></script>
+
+</body>
+
+</html>
