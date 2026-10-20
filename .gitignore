@@ -13,3 +13,5 @@ prisma/*.db-*
 /*.png
 prisma/backups/
 *.pid
+public/
+.vercel/

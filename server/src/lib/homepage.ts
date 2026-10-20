@@ -1,7 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
+import homepageCopy from "../../../aul sports/homepage-copy.json" with { type: "json" };
 // Shared field definitions keep the homepage and its admin editor in sync.
-export const homepageCopyFields = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), "aul sports/homepage-copy.json"), "utf8")) as Array<{ key: string; value: string; attribute?: string; legacy?: string }>;
+export const homepageCopyFields = homepageCopy as Array<{ key: string; value: string; attribute?: string; legacy?: string }>;
 export type HomepageContent = {
   copy: Record<string, string>;
   siteTitle: string;

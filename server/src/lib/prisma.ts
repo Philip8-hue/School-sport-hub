@@ -5,6 +5,9 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient as SupabaseClient } from "../../../generated/supabase/client.js";
 
 function createClient(): PrismaClient {
+  if (process.env.VERCEL === "1" && process.env.DATABASE_PROVIDER !== "supabase") {
+    throw new Error("Set DATABASE_PROVIDER=supabase and SUPABASE_DATABASE_URL in Vercel's environment settings");
+  }
   if (process.env.DATABASE_PROVIDER && !["sqlite", "supabase"].includes(process.env.DATABASE_PROVIDER)) {
     throw new Error("DATABASE_PROVIDER must be sqlite or supabase");
   }

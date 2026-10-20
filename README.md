@@ -2,6 +2,9 @@
 
 School Sports Hub is a static sports website served by a small Node.js/Express API. The API uses Prisma ORM with SQLite for local development or Supabase PostgreSQL for hosted data. See [SUPABASE.md](SUPABASE.md) for migration and deployment instructions.
 
+For Vercel hosting, follow [VERCEL.md](VERCEL.md). The deployment serves the
+frontend and Express API together, using your existing Supabase data.
+
 ## Requirements
 
 - Node.js 22 or newer

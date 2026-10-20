@@ -18,7 +18,8 @@
     "supabase:import": "node scripts/migrate-to-supabase.mjs",
     "supabase:verify": "node scripts/migrate-to-supabase.mjs --verify-only",
     "supabase:check": "node scripts/check-supabase.mjs",
-    "supabase:check-models": "npm run build && node scripts/check-supabase-models.mjs"
+    "supabase:check-models": "npm run build && node scripts/check-supabase-models.mjs",
+    "vercel-build": "npm run db:generate && npm run build && node scripts/build-public.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.1",
@@ -48,5 +49,8 @@
     "better-sqlite3@13.0.3": true,
     "@prisma/engines@7.10.1": true,
     "prisma@7.10.1": true
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
