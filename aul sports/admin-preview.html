@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><script src="theme.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Design Preview | Anchor University Sports Hub</title>
+    <link rel="stylesheet" href="admin-preview.css">
+<link rel="stylesheet" href="varsity.css">
+<link rel="stylesheet" href="icons.css"><script src="icons.js" defer></script>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <aside class="preview-sidebar">
+        <div class="brand"><span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#trophy"></use></svg></span><div><strong>Sports Hub</strong><small>Administration</small></div></div>
+        <nav><a class="active" href="#overview">Overview</a><a href="#clubs">Clubs</a><a href="#players">Players</a><a href="#fixtures">Fixtures</a><a href="#news">News</a><a href="#users">Users</a></nav>
+        <a class="site-link" href="index.html">View public site</a>
+    </aside>
+    <main class="preview-main">
+        <header class="topbar"><div><span class="breadcrumb">Administration / Overview</span><h1>Overview</h1></div><div class="account"><span class="avatar">P</span><span>Philip Admin</span><button>Log out</button></div></header>
+        <div class="content">
+            <section id="overview" class="intro"><h2>Good afternoon, Philip</h2><p>Here is what is happening across the sports hub.</p></section>
+            <section class="summary"><div><span>Registered users</span><strong>24</strong></div><div><span>Clubs</span><strong>12</strong></div><div><span>Upcoming fixtures</span><strong>8</strong></div><div><span>Draft articles</span><strong>3</strong></div></section>
+            <section id="players" class="two-column">
+                <div class="content-panel"><div class="panel-header"><div><span class="section-label">Directory</span><h2>Add a player</h2></div></div><form><div class="field"><label for="playerName">Player name</label><input id="playerName" placeholder="e.g. Philip James"></div><div class="field"><label for="sport">Sport</label><select id="sport"><option>Select sport</option><option>Football</option><option>Basketball</option><option>Volleyball</option></select></div><div class="field"><label for="position">Position</label><select id="position"><option>Select position</option><option>Setter</option><option>Libero</option><option>Opposite Hitter</option></select></div><div class="field"><label for="club">Club</label><select id="club"><option>Select club</option><option>Anchor Warriors</option><option>Golden Stars</option></select></div><div class="form-actions"><button class="primary">Save player</button><button class="secondary" type="button">Cancel</button></div></form></div>
+                <div class="content-panel"><div class="panel-header"><div><span class="section-label">Recently added</span><h2>Players</h2></div><a class="text-link" href="#players">View all</a></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Sport</th><th>Position</th><th>Club</th></tr></thead><tbody><tr><td><strong>Courage</strong></td><td>Volleyball</td><td>Libero</td><td>Golden Stars</td></tr><tr><td><strong>Philip</strong></td><td>Volleyball</td><td>Opposite Hitter</td><td>Anchor Warriors</td></tr><tr><td><strong>Daniel James</strong></td><td>Football</td><td>Midfielder</td><td>Spartans</td></tr></tbody></table></div></div>
+            </section>
+            <section id="fixtures" class="content-panel"><div class="panel-header"><div><span class="section-label">Schedule</span><h2>Upcoming fixtures</h2></div><button class="primary">Add fixture</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Sport</th><th>Home team</th><th>Away team</th><th>Venue</th><th>Status</th><th></th></tr></thead><tbody><tr><td>24 Oct 2026<br><small>14:00</small></td><td>Football</td><td>Anchor Warriors</td><td>Golden Stars</td><td>Main pitch</td><td><span class="status">Scheduled</span></td><td><button class="more" aria-label="More options">•••</button></td></tr><tr><td>26 Oct 2026<br><small>16:30</small></td><td>Volleyball</td><td>Spartans</td><td>Wolves</td><td>Sports hall</td><td><span class="status">Scheduled</span></td><td><button class="more" aria-label="More options">•••</button></td></tr></tbody></table></div></section>
+        </div>
+    </main>
+</body>
+</html>

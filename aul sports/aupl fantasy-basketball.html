@@ -1,34 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="theme.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fantasy Basketball - School Sports Hub</title>
     <link rel="stylesheet" href="aupl.css">
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="varsity.css">
+<link rel="stylesheet" href="icons.css"><script src="icons.js" defer></script>
+<link rel="stylesheet" href="theme.css">
 </head>
 
 <body>
 
-<header>
-    <h1>🏆 School Sports Hub</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="aupl live.html">Live</a>
-        <a href="news.html">News</a>
-        <a href="aupl-fixtures.html">Fixtures</a>
-        <a href="results.html">Results</a>
-        <a href="aupltables.html">Tables</a>
-        <a href="aupl clubs.html">Clubs</a>
-        <a href="players.html">Players</a>
-        <a href="aupl fantasy.html">Fantasy</a>
-    </nav>
-    <a href="login.html">
-        <button>Login</button>
-    </a>
-</header>
+<a class="skip-link" href="#main-content">Skip to content</a><header><a href="index.html" class="brand"><span class="brand-symbol" aria-hidden="true">A</span><span>SPORTS HUB<small>ANCHOR UNIVERSITY</small></span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button><nav id="site-navigation" aria-label="Main navigation"><a href="index.html">Home</a><a href="aupl live.html">Live</a><a href="news.html">News</a><a href="aupl-fixtures.html">Fixtures</a><a href="results.html">Results</a><a href="aupltables.html">Tables</a><a href="aupl clubs.html">Clubs</a><a href="players.html">Players</a><a href="aupl fantasy.html">Fantasy</a></nav><a class="button account-link" href="login.html">Sign in ↗</a></header>
 
-<main class="fantasy-football">
-    <h2>🏀 Fantasy Basketball</h2>
+<main id="main-content" class="fantasy-football">
+    <h2><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg> Fantasy Basketball</h2>
     <p class="gameweek">Gameweek 1 • Select 5 Starters & 3 Bench Players</p>
 
     <!-- BUDGET -->
@@ -54,11 +42,11 @@
             <!-- BACKCOURT: PG, SG -->
             <div class="position-row">
                 <div class="court-slot" data-position="PG">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>PG</small>
                 </div>
                 <div class="court-slot" data-position="SG">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>SG</small>
                 </div>
             </div>
@@ -66,15 +54,15 @@
             <!-- FRONTCOURT: SF, PF, C -->
             <div class="position-row">
                 <div class="court-slot" data-position="SF">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>SF</small>
                 </div>
                 <div class="court-slot" data-position="PF">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>PF</small>
                 </div>
                 <div class="court-slot" data-position="C">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>C</small>
                 </div>
             </div>
@@ -85,15 +73,15 @@
             <h3>Bench (3 Players)</h3>
             <div class="bench-slots">
                 <div class="bench-slot basket-bench-slot">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>BENCH</small>
                 </div>
                 <div class="bench-slot basket-bench-slot">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>BENCH</small>
                 </div>
                 <div class="bench-slot basket-bench-slot">
-                    🏀
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg>
                     <small>BENCH</small>
                 </div>
             </div>
@@ -103,13 +91,13 @@
     <!-- BUTTONS -->
     <div class="fantasy-actions">
         <button onclick="openBasketPlayerList()">
-            ➕ Pick Players
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#plus"></use></svg> Pick Players
         </button>
         <button onclick="autoPickBasketTeam()" style="background: #10b981;">
-            ⚡ Auto-Pick Team
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#bolt"></use></svg> Auto-Pick Team
         </button>
         <button onclick="resetBasketTeam()" style="background: #ef4444;">
-            🗑️ Reset Squad
+            <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#trash"></use></svg>️ Reset Squad
         </button>
     </div>
 
@@ -117,7 +105,7 @@
     <section id="basketPlayerSelection" class="player-selection">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3>Select Basketball Players</h3>
-            <button onclick="closeBasketPlayerList()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">✕ Close</button>
+            <button onclick="closeBasketPlayerList()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#close"></use></svg> Close</button>
         </div>
 
         <div class="fantasy-filters" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
@@ -142,7 +130,7 @@
 <section class="leaderboard">
     <div class="leaderboard-header">
         <div>
-            <h3>🏆 Fantasy Basketball Leaderboard</h3>
+            <h3><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#trophy"></use></svg> Fantasy Basketball Leaderboard</h3>
             <p>Gameweek 1</p>
         </div>
         <span class="live-badge">● LIVE</span>
@@ -151,31 +139,31 @@
     <div class="leaderboard-table">
         <div class="leaderboard-row top-player">
             <span class="rank">1</span>
-            <span class="manager">👑 Dunks & Dimes</span>
+            <span class="manager"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#crown"></use></svg> Dunks & Dimes</span>
             <strong>142 pts</strong>
         </div>
         <div class="leaderboard-row">
             <span class="rank">2</span>
-            <span class="manager">🏀 Sharks Elite</span>
+            <span class="manager"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg> Sharks Elite</span>
             <strong>136 pts</strong>
         </div>
         <div class="leaderboard-row">
             <span class="rank">3</span>
-            <span class="manager">🔥 Triple-Double FC</span>
+            <span class="manager"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#flame"></use></svg> Triple-Double FC</span>
             <strong>128 pts</strong>
         </div>
         <div class="leaderboard-row">
             <span class="rank">4</span>
-            <span class="manager">⭐ Ankle Breakers</span>
+            <span class="manager"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#star"></use></svg> Ankle Breakers</span>
             <strong>121 pts</strong>
         </div>
         <div class="leaderboard-row">
             <span class="rank">5</span>
-            <span class="manager">🦅 Warriors Hoops</span>
+            <span class="manager"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#wing"></use></svg> Warriors Hoops</span>
             <strong>115 pts</strong>
         </div>
     </div>
 </section>
 
-</body>
+<footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
 </html>

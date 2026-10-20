@@ -1,0 +1,763 @@
+[
+  {
+    "key": "copy001",
+    "group": "Header and navigation",
+    "label": "Search engine description",
+    "value": "Your home for Anchor University sport. Follow fixtures, results, clubs and the stories behind every game.",
+    "attribute": "content"
+  },
+  {
+    "key": "copy002",
+    "group": "Header and navigation",
+    "label": "Anchor University Sports Hub",
+    "value": "Anchor University Sports Hub",
+    "legacy": "siteTitle",
+    "selector": "#homeSiteTitle"
+  },
+  {
+    "key": "copy003",
+    "group": "Header and navigation",
+    "label": "Link destination (#main-content)",
+    "value": "#main-content",
+    "attribute": "href"
+  },
+  {
+    "key": "copy004",
+    "group": "Header and navigation",
+    "label": "Skip to content",
+    "value": "Skip to content"
+  },
+  {
+    "key": "copy005",
+    "group": "Header and navigation",
+    "label": "Link destination (index.html)",
+    "value": "index.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy006",
+    "group": "Header and navigation",
+    "label": "A",
+    "value": "A"
+  },
+  {
+    "key": "copy007",
+    "group": "Header and navigation",
+    "label": "SPORTS HUB",
+    "value": "SPORTS HUB"
+  },
+  {
+    "key": "copy008",
+    "group": "Header and navigation",
+    "label": "ANCHOR UNIVERSITY",
+    "value": "ANCHOR UNIVERSITY"
+  },
+  {
+    "key": "copy009",
+    "group": "Header and navigation",
+    "label": "Menu",
+    "value": "Menu"
+  },
+  {
+    "key": "copy010",
+    "group": "Header and navigation",
+    "label": "Link destination (index.html)",
+    "value": "index.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy011",
+    "group": "Header and navigation",
+    "label": "Home",
+    "value": "Home"
+  },
+  {
+    "key": "copy012",
+    "group": "Header and navigation",
+    "label": "Link destination (aupl live.html)",
+    "value": "aupl live.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy013",
+    "group": "Header and navigation",
+    "label": "Live",
+    "value": "Live"
+  },
+  {
+    "key": "copy014",
+    "group": "Header and navigation",
+    "label": "Link destination (news.html)",
+    "value": "news.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy015",
+    "group": "Header and navigation",
+    "label": "News",
+    "value": "News"
+  },
+  {
+    "key": "copy016",
+    "group": "Header and navigation",
+    "label": "Link destination (aupl-fixtures.html)",
+    "value": "aupl-fixtures.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy017",
+    "group": "Header and navigation",
+    "label": "Fixtures",
+    "value": "Fixtures"
+  },
+  {
+    "key": "copy018",
+    "group": "Header and navigation",
+    "label": "Link destination (results.html)",
+    "value": "results.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy019",
+    "group": "Header and navigation",
+    "label": "Results",
+    "value": "Results"
+  },
+  {
+    "key": "copy020",
+    "group": "Header and navigation",
+    "label": "Link destination (aupltables.html)",
+    "value": "aupltables.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy021",
+    "group": "Header and navigation",
+    "label": "Tables",
+    "value": "Tables"
+  },
+  {
+    "key": "copy022",
+    "group": "Header and navigation",
+    "label": "Link destination (aupl clubs.html)",
+    "value": "aupl clubs.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy023",
+    "group": "Header and navigation",
+    "label": "Clubs",
+    "value": "Clubs"
+  },
+  {
+    "key": "copy024",
+    "group": "Header and navigation",
+    "label": "Link destination (players.html)",
+    "value": "players.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy025",
+    "group": "Header and navigation",
+    "label": "Players",
+    "value": "Players"
+  },
+  {
+    "key": "copy026",
+    "group": "Header and navigation",
+    "label": "Link destination (aupl fantasy.html)",
+    "value": "aupl fantasy.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy027",
+    "group": "Header and navigation",
+    "label": "Fantasy",
+    "value": "Fantasy"
+  },
+  {
+    "key": "copy028",
+    "group": "Header and navigation",
+    "label": "Link destination (login.html)",
+    "value": "login.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy029",
+    "group": "Header and navigation",
+    "label": "Sign in ↗",
+    "value": "Sign in ↗"
+  },
+  {
+    "key": "copy030",
+    "group": "Hero and season",
+    "label": "Campus sport. One community.",
+    "value": "Campus sport. One community."
+  },
+  {
+    "key": "copy031",
+    "group": "Hero and season",
+    "label": "2026 / 27 season · Lagos, Nigeria",
+    "value": "2026 / 27 season · Lagos, Nigeria"
+  },
+  {
+    "key": "copy032",
+    "group": "Hero and season",
+    "label": "The home of Anchor University sport",
+    "value": "The home of Anchor University sport"
+  },
+  {
+    "key": "copy033",
+    "group": "Hero and season",
+    "label": "Every game. Every team. Our university.",
+    "value": "Every game. Every team. Our university.",
+    "legacy": "heroTitle"
+  },
+  {
+    "key": "copy034",
+    "group": "Hero and season",
+    "label": "The fixtures, the rivalries, the moments that bring us together. Stay close to every play.",
+    "value": "The fixtures, the rivalries, the moments that bring us together. Stay close to every play.",
+    "legacy": "heroDescription"
+  },
+  {
+    "key": "copy035",
+    "group": "Hero and season",
+    "label": "Link destination (aupl-fixtures.html)",
+    "value": "aupl-fixtures.html",
+    "attribute": "href",
+    "legacy": "primaryButtonUrl"
+  },
+  {
+    "key": "copy036",
+    "group": "Hero and season",
+    "label": "Explore the match centre",
+    "value": "Explore the match centre",
+    "legacy": "primaryButtonLabel"
+  },
+  {
+    "key": "copy037",
+    "group": "Hero and season",
+    "label": "Link destination (aupl fantasy.html)",
+    "value": "aupl fantasy.html",
+    "attribute": "href",
+    "legacy": "secondaryButtonUrl"
+  },
+  {
+    "key": "copy038",
+    "group": "Hero and season",
+    "label": "Build your fantasy team",
+    "value": "Build your fantasy team",
+    "legacy": "secondaryButtonLabel"
+  },
+  {
+    "key": "copy039",
+    "group": "Hero and season",
+    "label": "PASSION / PRIDE / PERFORMANCE",
+    "value": "PASSION / PRIDE / PERFORMANCE"
+  },
+  {
+    "key": "copy040",
+    "group": "Hero and season",
+    "label": "All sports",
+    "value": "All sports"
+  },
+  {
+    "key": "copy041",
+    "group": "Hero and season",
+    "label": "Football",
+    "value": "Football"
+  },
+  {
+    "key": "copy042",
+    "group": "Hero and season",
+    "label": "Basketball",
+    "value": "Basketball"
+  },
+  {
+    "key": "copy043",
+    "group": "Hero and season",
+    "label": "Volleyball",
+    "value": "Volleyball"
+  },
+  {
+    "key": "copy044",
+    "group": "Fixtures",
+    "label": "Next on the court & pitch",
+    "value": "Next on the court & pitch"
+  },
+  {
+    "key": "copy045",
+    "group": "Fixtures",
+    "label": "Link destination (aupl-fixtures.html)",
+    "value": "aupl-fixtures.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy046",
+    "group": "Fixtures",
+    "label": "View all ↗",
+    "value": "View all ↗"
+  },
+  {
+    "key": "copy047",
+    "group": "Fixtures",
+    "label": "Loading next on the court & pitch…",
+    "value": "Loading next on the court & pitch…"
+  },
+  {
+    "key": "copy048",
+    "group": "Results",
+    "label": "The final whistle",
+    "value": "The final whistle"
+  },
+  {
+    "key": "copy049",
+    "group": "Results",
+    "label": "Link destination (results.html)",
+    "value": "results.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy050",
+    "group": "Results",
+    "label": "View all ↗",
+    "value": "View all ↗"
+  },
+  {
+    "key": "copy051",
+    "group": "Results",
+    "label": "Loading the final whistle…",
+    "value": "Loading the final whistle…"
+  },
+  {
+    "key": "copy052",
+    "group": "Standings",
+    "label": "The standings",
+    "value": "The standings"
+  },
+  {
+    "key": "copy053",
+    "group": "Standings",
+    "label": "Link destination (aupltables.html)",
+    "value": "aupltables.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy054",
+    "group": "Standings",
+    "label": "View all ↗",
+    "value": "View all ↗"
+  },
+  {
+    "key": "copy055",
+    "group": "Standings",
+    "label": "Loading the standings…",
+    "value": "Loading the standings…"
+  },
+  {
+    "key": "copy056",
+    "group": "Fantasy",
+    "label": "Your squad. Your decisions.",
+    "value": "Your squad. Your decisions."
+  },
+  {
+    "key": "copy057",
+    "group": "Fantasy",
+    "label": "Think you know the game?",
+    "value": "Think you know the game?",
+    "legacy": "fantasyTitle"
+  },
+  {
+    "key": "copy058",
+    "group": "Fantasy",
+    "label": "Pick your players, build your dream team, and make every match count.",
+    "value": "Pick your players, build your dream team, and make every match count."
+  },
+  {
+    "key": "copy059",
+    "group": "Fantasy",
+    "label": "Link destination (aupl fantasy.html)",
+    "value": "aupl fantasy.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy060",
+    "group": "Fantasy",
+    "label": "Enter fantasy ↗",
+    "value": "Enter fantasy ↗"
+  },
+  {
+    "key": "copy061",
+    "group": "Clubs",
+    "label": "Meet the clubs",
+    "value": "Meet the clubs"
+  },
+  {
+    "key": "copy062",
+    "group": "Clubs",
+    "label": "Link destination (aupl clubs.html)",
+    "value": "aupl clubs.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy063",
+    "group": "Clubs",
+    "label": "View all ↗",
+    "value": "View all ↗"
+  },
+  {
+    "key": "copy064",
+    "group": "Clubs",
+    "label": "Loading meet the clubs…",
+    "value": "Loading meet the clubs…"
+  },
+  {
+    "key": "copy065",
+    "group": "Players to watch",
+    "label": "The ones to watch",
+    "value": "The ones to watch"
+  },
+  {
+    "key": "copy066",
+    "group": "Players to watch",
+    "label": "Link destination (players.html)",
+    "value": "players.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy067",
+    "group": "Players to watch",
+    "label": "View all ↗",
+    "value": "View all ↗"
+  },
+  {
+    "key": "copy068",
+    "group": "Players to watch",
+    "label": "Loading the ones to watch…",
+    "value": "Loading the ones to watch…"
+  },
+  {
+    "key": "copy069",
+    "group": "News",
+    "label": "Beyond the scoreboard",
+    "value": "Beyond the scoreboard",
+    "legacy": "newsTitle"
+  },
+  {
+    "key": "copy070",
+    "group": "News",
+    "label": "Link destination (news.html)",
+    "value": "news.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy071",
+    "group": "News",
+    "label": "All stories ↗",
+    "value": "All stories ↗"
+  },
+  {
+    "key": "copy072",
+    "group": "News",
+    "label": "Loading stories…",
+    "value": "Loading stories…"
+  },
+  {
+    "key": "copy073",
+    "group": "Community",
+    "label": "From the community",
+    "value": "From the community",
+    "legacy": "communityTitle"
+  },
+  {
+    "key": "copy074",
+    "group": "Community",
+    "label": "Your campus. Your voice.",
+    "value": "Your campus. Your voice."
+  },
+  {
+    "key": "copy075",
+    "group": "Community",
+    "label": "Share a matchday moment or a team update.",
+    "value": "Share a matchday moment or a team update.",
+    "legacy": "communityDescription"
+  },
+  {
+    "key": "copy076",
+    "group": "Community",
+    "label": "Title",
+    "value": "Title",
+    "legacy": "communityTitleLabel"
+  },
+  {
+    "key": "copy077",
+    "group": "Community",
+    "label": "Placeholder (What’s happening?)",
+    "value": "What’s happening?",
+    "attribute": "placeholder"
+  },
+  {
+    "key": "copy078",
+    "group": "Community",
+    "label": "Your update",
+    "value": "Your update",
+    "legacy": "communityDetailsLabel"
+  },
+  {
+    "key": "copy079",
+    "group": "Community",
+    "label": "Placeholder (Tell the community more…)",
+    "value": "Tell the community more…",
+    "attribute": "placeholder"
+  },
+  {
+    "key": "copy080",
+    "group": "Community",
+    "label": "Share an update ↗",
+    "value": "Share an update ↗",
+    "legacy": "communitySubmitLabel"
+  },
+  {
+    "key": "copy081",
+    "group": "Community",
+    "label": "Loading community updates…",
+    "value": "Loading community updates…"
+  },
+  {
+    "key": "copy082",
+    "group": "Footer",
+    "label": "ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.",
+    "value": "ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER."
+  },
+  {
+    "key": "copy083",
+    "group": "Footer",
+    "label": "Link destination (aupl-fixtures.html)",
+    "value": "aupl-fixtures.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy084",
+    "group": "Footer",
+    "label": "Match centre",
+    "value": "Match centre"
+  },
+  {
+    "key": "copy085",
+    "group": "Footer",
+    "label": "Link destination (admin-login.html)",
+    "value": "admin-login.html",
+    "attribute": "href"
+  },
+  {
+    "key": "copy086",
+    "group": "Footer",
+    "label": "Admin workspace ↗",
+    "value": "Admin workspace ↗"
+  },
+  {
+    "key": "emptyFixtures",
+    "group": "Data labels and messages",
+    "label": "empty Fixtures",
+    "value": "No upcoming fixtures. Check back for the next matchday."
+  },
+  {
+    "key": "emptyResults",
+    "group": "Data labels and messages",
+    "label": "empty Results",
+    "value": "Results will appear after the final whistle."
+  },
+  {
+    "key": "emptyTables",
+    "group": "Data labels and messages",
+    "label": "empty Tables",
+    "value": "Standings will appear when the competition begins."
+  },
+  {
+    "key": "emptyNews",
+    "group": "Data labels and messages",
+    "label": "empty News",
+    "value": "New stories are on the way."
+  },
+  {
+    "key": "emptyClubs",
+    "group": "Data labels and messages",
+    "label": "empty Clubs",
+    "value": "No clubs in this category yet."
+  },
+  {
+    "key": "emptyPlayers",
+    "group": "Data labels and messages",
+    "label": "empty Players",
+    "value": "No players in this category yet."
+  },
+  {
+    "key": "dataError",
+    "group": "Data labels and messages",
+    "label": "data Error",
+    "value": "Unable to load this section."
+  },
+  {
+    "key": "retryLabel",
+    "group": "Data labels and messages",
+    "label": "retry Label",
+    "value": "Try again"
+  },
+  {
+    "key": "tableCaption",
+    "group": "Data labels and messages",
+    "label": "table Caption",
+    "value": "League standings"
+  },
+  {
+    "key": "tableClub",
+    "group": "Data labels and messages",
+    "label": "table Club",
+    "value": "Club"
+  },
+  {
+    "key": "tablePlayed",
+    "group": "Data labels and messages",
+    "label": "table Played",
+    "value": "P"
+  },
+  {
+    "key": "tableWon",
+    "group": "Data labels and messages",
+    "label": "table Won",
+    "value": "W"
+  },
+  {
+    "key": "tablePoints",
+    "group": "Data labels and messages",
+    "label": "table Points",
+    "value": "Pts"
+  },
+  {
+    "key": "homeTeam",
+    "group": "Data labels and messages",
+    "label": "home Team",
+    "value": "Home"
+  },
+  {
+    "key": "awayTeam",
+    "group": "Data labels and messages",
+    "label": "away Team",
+    "value": "Away"
+  },
+  {
+    "key": "teamTbc",
+    "group": "Data labels and messages",
+    "label": "team Tbc",
+    "value": "TBC"
+  },
+  {
+    "key": "venueTbc",
+    "group": "Data labels and messages",
+    "label": "venue Tbc",
+    "value": "Venue TBC"
+  },
+  {
+    "key": "fullTime",
+    "group": "Data labels and messages",
+    "label": "full Time",
+    "value": "Full time"
+  },
+  {
+    "key": "newsCategory",
+    "group": "Data labels and messages",
+    "label": "news Category",
+    "value": "Campus stories"
+  },
+  {
+    "key": "clubDescription",
+    "group": "Data labels and messages",
+    "label": "club Description",
+    "value": "Anchor University competition"
+  },
+  {
+    "key": "ratingLabel",
+    "group": "Data labels and messages",
+    "label": "rating Label",
+    "value": "Rating"
+  },
+  {
+    "key": "appearancesLabel",
+    "group": "Data labels and messages",
+    "label": "appearances Label",
+    "value": "Appearances"
+  },
+  {
+    "key": "rankingNote",
+    "group": "Data labels and messages",
+    "label": "ranking Note",
+    "value": "Ranked by rating, then appearances."
+  },
+  {
+    "key": "emptyCommunity",
+    "group": "Community messages",
+    "label": "empty Community",
+    "value": "No posts yet. Be the first to share an update."
+  },
+  {
+    "key": "communityError",
+    "group": "Community messages",
+    "label": "community Error",
+    "value": "Posts are unavailable right now. Please try again later."
+  },
+  {
+    "key": "publishingMessage",
+    "group": "Community messages",
+    "label": "publishing Message",
+    "value": "Publishing…"
+  },
+  {
+    "key": "publishedMessage",
+    "group": "Community messages",
+    "label": "published Message",
+    "value": "Post published."
+  },
+  {
+    "key": "publishError",
+    "group": "Community messages",
+    "label": "publish Error",
+    "value": "Could not publish post"
+  },
+  {
+    "key": "postTitleError",
+    "group": "Data labels and messages",
+    "label": "post Title Error",
+    "value": "Could not load posts"
+  },
+  {
+    "key": "signedInLabel",
+    "group": "Data labels and messages",
+    "label": "signed In Label",
+    "value": "Signed in · Log out"
+  },
+  {
+    "key": "dashboardLabel",
+    "group": "Data labels and messages",
+    "label": "dashboard Label",
+    "value": "Dashboard ↗"
+  },
+  {
+    "key": "logoutRetryLabel",
+    "group": "Data labels and messages",
+    "label": "logout Retry Label",
+    "value": "Try logging out again"
+  },
+  {
+    "key": "versusLabel",
+    "group": "Data labels and messages",
+    "label": "Fixture versus label",
+    "value": "vs"
+  },
+  {
+    "key": "heroWatermark",
+    "group": "Hero and season",
+    "label": "Decorative hero lettering",
+    "value": "AUL"
+  }
+]

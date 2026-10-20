@@ -1,0 +1,69 @@
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;min-height:38px;padding:8px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+.theme-toggle svg{display:block;width:20px;height:20px}.theme-toggle:hover{background:var(--soft,#eaf0e9)}.theme-toggle-floating{position:absolute;right:22px;top:18px;z-index:55}.mobile-menu-icon{display:none;width:19px;height:19px}
+.hero{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:44px;align-items:center}.arena-illustration{width:100%;max-width:680px;justify-self:center;display:grid;place-items:center;padding:0;aspect-ratio:1.1}.arena-illustration svg{width:100%;height:100%;object-fit:contain;display:block}.hero-copy{min-width:0}.hero h2{font-size:clamp(44px,5vw,68px)}
+html[data-theme=dark]{color-scheme:dark;--paper:#17211d;--ink:#e0e9e2;--muted:#a6b8ad;--line:#36493f;--forest:#32634e;--green:#d4c390;--brass:#c6b17c;--soft:#2b3b31;--surface:#202e27;--raised:#293a30;--accent:#b3d5bd;--shadow:0 8px 26px #0000000d;background:var(--paper)}
+html[data-theme=dark] body{background:var(--paper);color:var(--ink)}
+html[data-theme=dark] :is(input,select,textarea){background:#1b2821;color:var(--ink);border-color:#43594a}
+html[data-theme=dark] :is(input,textarea)::placeholder{color:#9bad9f;opacity:1}
+html[data-theme=dark] :is(input,select,textarea):hover{border-color:#76917d}
+html[data-theme=dark] :is(input,select,textarea):focus{border-color:#b3d5bd}
+html[data-theme=dark] :focus-visible{outline-color:#c6b17c}
+html[data-theme=dark] body>header,html[data-theme=dark] .admin-header{background:#1c2a23;border-color:var(--line);color:var(--ink)}
+html[data-theme=dark] body>header nav a{color:var(--muted)}
+html[data-theme=dark] body>header nav a:hover,html[data-theme=dark] body>header nav a[aria-current]{color:var(--accent);border-color:var(--accent)}
+html[data-theme=dark] .brand-symbol{background:#345e49;color:#e8efdf}
+html[data-theme=dark] body>header .account-link{background:#293b2e;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(.hero .eyebrow,.section-heading>a,.directory-club-card>a,.sidebar-public-link,.editor-group summary,.player-statistics-fieldset legend){color:var(--accent)}
+html[data-theme=dark] .hero .button.secondary{background:#26372d;color:var(--ink);border-color:#526b57}
+html[data-theme=dark] .arena-illustration{background:#244b3c;box-shadow:10px 10px 0 #24372b}
+html[data-theme=dark] .arena-illustration svg>rect:first-of-type{fill:#244b3c}
+html[data-theme=dark] .sport-tabs button{background:transparent;color:var(--muted)}
+html[data-theme=dark] .sport-tabs button.active{background:#304535;border-color:#58735d;color:#e0e9e2}
+html[data-theme=dark] .sport-tabs button:hover{background:#293b2e}
+html[data-theme=dark] :is(.homepage-data-grid>.match,.home-cards>article,.item-form,.item-card,.directory-club-card,.club-profile-stats>div,.club-roster>article,.club-match-list>article,.fixture-card,.result-card,.player-category,.club-category,.news-card,.fantasy-card,.club-card,.player-slot,.player-card,.player-profile,.leaderboard,.login-section,.register-section,.account-card,.panel,.stat-card,.session-dialog){background:var(--surface);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(.homepage-data-empty,.empty-state){background:#24372b;color:#b4c8b8;border-color:var(--line)}
+html[data-theme=dark] :is(.homepage-table-wrap,table,.player-table,.player-table-container,.basketball-table-container){background:var(--surface);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] th{background:#293d2f;color:#c2d1c3;border-color:var(--line)}
+html[data-theme=dark] td{color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(tbody tr:hover,.player-table tbody tr:hover,.leaderboard-row:hover){background:#2c4032}
+html[data-theme=dark] :is(.match span,.fixture-card span,.fixture-card small,.result-card span,.player-category p,.player-category small,.news-card time,.news article p,.fantasy-card p,.item-card p,.profile-stats span,.budget span,.gameweek,.players-intro,.item-card time){color:var(--muted)}
+html[data-theme=dark] .home-cards>article{border-top-color:#718a69}
+html[data-theme=dark] :is(.club-sport-navigation>a,.button-secondary,.row-actions button,.quick-actions button){background:#25372b;border-color:#405646;color:var(--ink)}
+html[data-theme=dark] .club-sport-navigation>a:hover{background:#304535;border-color:#6f8973}
+html[data-theme=dark] .club-sport-navigation>a[aria-current]{background:#345c45;color:#e6eee4}
+html[data-theme=dark] .club-monogram{background:#314533;color:#d3e0c6;border-color:#4b6250}
+html[data-theme=dark] .club-profile-banner .club-monogram{background:#d4c390;color:#253b2b}
+html[data-theme=dark] .fantasy-banner{background:#2b4b38;color:var(--ink)}
+html[data-theme=dark] .fantasy-banner p{color:#c2d2c3}
+html[data-theme=dark] .fantasy-banner .button{background:#c9bc91;color:#24372b}
+html[data-theme=dark] .fantasy{background:#1b2b21}
+html[data-theme=dark] .football-pitch{background:#2a513b}
+html[data-theme=dark] :is(.profile-stats div,.budget div){background:#293a30;color:var(--ink)}
+html[data-theme=dark] :is(.captain-badge,.status-pill){background:#3c4e32;color:#d7e4bf}
+html[data-theme=dark] .status-pill.off{background:#344039;color:#b9c6bc}
+html[data-theme=dark] .directory-club-card .club-captain{color:var(--accent)}
+html[data-theme=dark] .admin-sidebar{background:#1d2c24;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(.sidebar-brand strong,.sidebar-mark){color:#c2dcc7}
+html[data-theme=dark] .admin-nav .nav-item{color:var(--muted)}
+html[data-theme=dark] .admin-nav .nav-item:hover{background:#2b3f30}
+html[data-theme=dark] .admin-nav .nav-item.active{background:#365c45;color:#ecf1e9}
+html[data-theme=dark] .section-intro{background:#293d2e;border-left-color:#a4966e;color:var(--ink)}
+html[data-theme=dark] :is(.search-field,.player-statistics-fieldset,.homepage-repeater){background:#1c2b22;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] .cancel-edit{background:transparent;color:var(--muted);border-color:var(--line)}
+html[data-theme=dark] .editor-actions{background:#202e27f5;border-color:var(--line)}
+html[data-theme=dark] .dashboard-message{background:#2b4430;border-color:#49644b;color:#d3e4ca}
+html[data-theme=dark] .dashboard-message[data-type=error]{background:#49332c;border-color:#76564a;color:#efcabe}
+html[data-theme=dark] :is(.danger-button,.row-actions .danger-button){background:#3c3029;border-color:#685044;color:#eac2b3}
+html[data-theme=dark] :is(.form-message,.register-message){color:#e9b9ac}
+html[data-theme=dark] .form-message[data-type=success]{color:#c2dcc1}
+html[data-theme=dark] .auth-layout{background:var(--surface);border-color:#3c5240;box-shadow:0 18px 60px #0002}
+html[data-theme=dark] .auth-brand-panel{background:#284a37}
+html[data-theme=dark] .auth-card{background:var(--surface);color:var(--ink)}
+html[data-theme=dark] .connection-status[data-state=ready]{color:#b6d4a8}
+html[data-theme=dark] .connection-status[data-state=error]{color:#eac2b3}
+html[data-theme=dark] .theme-toggle{background:#24372b;color:#d4dfd0;border-color:#4a604e}
+html[data-theme=dark] .theme-toggle:hover{background:#324a37}
+html[data-theme=dark] .fantasy-icon .ui-icon{color:#c1dcc7}
+@media(max-width:1050px){.hero{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px}.arena-illustration{aspect-ratio:1;max-width:620px}.hero h2{font-size:clamp(42px,5.5vw,60px)}}
+@media(max-width:650px){body>header{gap:8px}.hero{grid-template-columns:1fr;gap:25px}.hero h2{font-size:clamp(43px,10vw,57px)}.arena-illustration{width:100%;max-width:480px;max-height:none;aspect-ratio:1.15;justify-self:center}.theme-toggle{width:34px;height:36px;min-height:36px;padding:7px}.hero-caption{text-align:center}.header-actions{gap:10px}html[data-theme=dark] .arena-illustration{box-shadow:5px 5px 0 #24372b}}
+@media(max-width:420px){.nav-toggle{width:34px;min-height:36px;padding:7px;gap:0}.nav-toggle>span{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}.mobile-menu-icon{display:block}.nav-toggle{font-size:0}.nav-toggle svg{font-size:16px}body>header .account-link{padding:8px 9px;font-size:10px}body>header .brand{font-size:12px}body>header .brand small{font-size:7px;letter-spacing:.7px}.brand-symbol{width:27px;height:33px}}

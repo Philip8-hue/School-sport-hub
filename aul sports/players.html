@@ -1,43 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><script src="theme.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Players - School Sports Hub</title>
 
     <link rel="stylesheet" href="aupl.css">
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="varsity.css">
+<link rel="stylesheet" href="icons.css"><script src="icons.js" defer></script>
+<link rel="stylesheet" href="theme.css">
 </head>
 
 <body>
 
-<header>
-
-    <h1>🏆 School Sports Hub</h1>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="aupl live.html">Live</a>
-        <a href="news.html">News</a>
-        <a href="aupl-fixtures.html">Fixtures</a>
-        <a href="results.html">Results</a>
-        <a href="aupltables.html">Tables</a>
-        <a href="aupl clubs.html">Clubs</a>
-        <a href="players.html">Players</a>
-        <a href="aupl fantasy.html">Fantasy</a>
-    </nav>
-
-    <a href="login.html">
-        <button>Login</button>
-    </a>
-
-</header>
+<a class="skip-link" href="#main-content">Skip to content</a><header><a href="index.html" class="brand"><span class="brand-symbol" aria-hidden="true">A</span><span>SPORTS HUB<small>ANCHOR UNIVERSITY</small></span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button><nav id="site-navigation" aria-label="Main navigation"><a href="index.html">Home</a><a href="aupl live.html">Live</a><a href="news.html">News</a><a href="aupl-fixtures.html">Fixtures</a><a href="results.html">Results</a><a href="aupltables.html">Tables</a><a href="aupl clubs.html">Clubs</a><a href="players.html">Players</a><a href="aupl fantasy.html">Fantasy</a></nav><a class="button account-link" href="login.html">Sign in ↗</a></header>
 
 
-<main class="players-page">
+<main id="main-content" class="players-page">
 
-    <h2>👤 Players</h2>
+    <h2><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#user"></use></svg> Players</h2>
 
     <p class="players-intro">
         Choose a sport to view player rankings, ratings and statistics.
@@ -48,7 +32,7 @@
 
         <a href="male-football-players.html" class="player-category">
 
-            <span>⚽</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#football"></use></svg></span>
 
             <h3>Male Football</h3>
 
@@ -59,7 +43,7 @@
 
         <a href="female-football-players.html" class="player-category">
 
-            <span>⚽</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#football"></use></svg></span>
 
             <h3>Female Football</h3>
 
@@ -70,7 +54,7 @@
 
         <a href="male-basketball-players.html" class="player-category">
 
-            <span>🏀</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg></span>
 
             <h3>Male Basketball</h3>
 
@@ -81,7 +65,7 @@
 
         <a href="female-basketball-players.html" class="player-category">
 
-            <span>🏀</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg></span>
 
             <h3>Female Basketball</h3>
 
@@ -92,7 +76,7 @@
 
         <a href="volleyball-players.html" class="player-category">
 
-            <span>🏐</span>
+            <span><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#volleyball"></use></svg></span>
 
             <h3>Volleyball</h3>
 
@@ -102,11 +86,17 @@
 
     </div>
 
+    <section class="homepage-data-section">
+        <h2>Players managed by the admin</h2>
+        <div id="publicPlayersList" class="players-container"><p class="homepage-data-empty">Loading players...</p></div>
+    </section>
+
 </main>
 
 
 <script src="aupl.js"></script>
+<script src="player-stats.js"></script><script src="public-data.js"></script>
 
-</body>
+<footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
 
 </html>

@@ -1,0 +1,6 @@
+.ui-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.16em;flex:none;color:inherit;overflow:visible}
+.nav-icon{display:inline-flex;align-items:center;justify-content:center}.nav-icon .ui-icon{width:19px;height:19px}
+.menu-button .ui-icon{width:20px;height:20px}.brand-mark .ui-icon{width:48px;height:48px}.mobile-mark .ui-icon{width:23px;height:23px;margin-right:7px}
+.security-note .ui-icon{width:13px;height:13px;margin-right:5px}.fantasy-icon .ui-icon{width:48px;height:48px;color:var(--forest,#205246)}
+.account-icon .ui-icon{width:25px;height:25px}.player-slot .ui-icon{width:25px;height:25px}.position-row .ui-icon{color:var(--forest,#205246)}
+h1 .ui-icon,h2 .ui-icon,h3 .ui-icon{width:.8em;height:.8em;margin-right:.12em;vertical-align:-.05em}button .ui-icon{width:17px;height:17px}

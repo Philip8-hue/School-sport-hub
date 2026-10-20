@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String?
+  email        String   @unique
+  passwordHash String?
+  role         String   @default("USER")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  items        Item[]
+}
+
+model Item {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  Int?
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+}
+
+model Club {
+  id            Int           @id @default(autoincrement())
+  name          String
+  slug          String        @unique
+  sport         String
+  logoUrl       String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  players       Player[]
+  homeFixtures  Fixture[]     @relation("HomeClub")
+  awayFixtures  Fixture[]     @relation("AwayClub")
+  tableEntries  LeagueTable[]
+
+  @@unique([sport, name])
+  @@index([sport])
+}
+
+model Player {
+  id           Int      @id @default(autoincrement())
+  name         String
+  fullName     String?
+  captain      Boolean  @default(false)
+  sport        String
+  position     String?
+  jerseyNumber Int?
+  photoUrl     String?
+  price        Float?
+  rating       Float?
+  matches      Int      @default(0)
+  minutes      Int      @default(0)
+  goals        Int      @default(0)
+  assists      Int      @default(0)
+  aces         Int      @default(0)
+  blocks       Int      @default(0)
+  points       Int      @default(0)
+  rebounds     Int      @default(0)
+  steals       Int      @default(0)
+  turnovers    Int      @default(0)
+  fouls        Int      @default(0)
+  fieldGoalsMade Int    @default(0)
+  threePointersMade Int @default(0)
+  freeThrowsMade Int    @default(0)
+  kills        Int      @default(0)
+  digs         Int      @default(0)
+  receives     Int      @default(0)
+  setsPlayed   Int      @default(0)
+  serveErrors  Int      @default(0)
+  cleanSheets  Int      @default(0)
+  saves        Int      @default(0)
+  yellowCards  Int      @default(0)
+  redCards     Int      @default(0)
+  clubId       Int?
+  club         Club?    @relation(fields: [clubId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([sport])
+  @@index([clubId])
+}
+
+model Fixture {
+  id          Int       @id @default(autoincrement())
+  sport       String
+  startsAt    DateTime
+  venue       String?
+  status      String    @default("SCHEDULED")
+  homeClubId  Int?
+  awayClubId  Int?
+  homeClub    Club?     @relation("HomeClub", fields: [homeClubId], references: [id], onDelete: SetNull)
+  awayClub    Club?     @relation("AwayClub", fields: [awayClubId], references: [id], onDelete: SetNull)
+  result      Result?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([sport, startsAt])
+}
+
+model Result {
+  id        Int      @id @default(autoincrement())
+  fixtureId Int      @unique
+  homeScore Int
+  awayScore Int
+  playedAt  DateTime?
+  fixture   Fixture  @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LeagueTable {
+  id        Int      @id @default(autoincrement())
+  sport     String
+  clubId    Int
+  played    Int      @default(0)
+  won       Int      @default(0)
+  drawn     Int      @default(0)
+  lost      Int      @default(0)
+  points    Int      @default(0)
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sport, clubId])
+  @@index([sport, points])
+}
+
+model NewsArticle {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     String
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+model HomepageContent {
+  id        Int      @id @default(1)
+  content   String
+  updatedAt DateTime @updatedAt
+}

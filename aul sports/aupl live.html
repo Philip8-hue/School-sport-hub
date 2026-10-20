@@ -1,51 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><script src="theme.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Live Scores - School Sports Hub</title>
 
     <link rel="stylesheet" href="aupl.css">
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="varsity.css">
+<link rel="stylesheet" href="icons.css"><script src="icons.js" defer></script>
+<link rel="stylesheet" href="theme.css">
 </head>
 
 <body>
 
-<header>
-
-    <h1>🏆 School Sports Hub</h1>
-
-    <nav>
-        <a href="index.html">Home</a>
-
-        <a href="aupl live.html" class="active">
-            Live
-        </a>
-
-        <a href="news.html">News</a>
-
-        <a href="aupl-fixtures.html">Fixtures</a>
-
-        <a href="results.html">Results</a>
-
-        <a href="aupltables.html">Tables</a>
-
-        <a href="aupl clubs.html">Clubs</a>
-
-        <a href="players.html">Players</a>
-
-        <a href="aupl fantasy.html">Fantasy</a>
-    </nav>
-
-    <a href="login.html">
-        <button>Login</button>
-    </a>
-
-</header>
+<a class="skip-link" href="#main-content">Skip to content</a><header><a href="index.html" class="brand"><span class="brand-symbol" aria-hidden="true">A</span><span>SPORTS HUB<small>ANCHOR UNIVERSITY</small></span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button><nav id="site-navigation" aria-label="Main navigation"><a href="index.html">Home</a><a href="aupl live.html">Live</a><a href="news.html">News</a><a href="aupl-fixtures.html">Fixtures</a><a href="results.html">Results</a><a href="aupltables.html">Tables</a><a href="aupl clubs.html">Clubs</a><a href="players.html">Players</a><a href="aupl fantasy.html">Fantasy</a></nav><a class="button account-link" href="login.html">Sign in ↗</a></header>
 
 
-<main class="live-page">
+<main id="main-content" class="live-page">
 
     <!-- PAGE HEADER -->
 
@@ -53,7 +27,7 @@
 
         <p>LIVE SCORES</p>
 
-        <h2>🔴 Live Matches</h2>
+        <h2><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#activity"></use></svg> Live Matches</h2>
 
         <span>
             Follow the action happening right now
@@ -73,23 +47,23 @@
         <select id="liveSportSelect">
 
             <option value="maleFootball">
-                ⚽ Male Football
+                 Male Football
             </option>
 
             <option value="femaleFootball">
-                ⚽ Female Football
+                 Female Football
             </option>
 
             <option value="maleBasketball">
-                🏀 Male Basketball
+                 Male Basketball
             </option>
 
             <option value="femaleBasketball">
-                🏀 Female Basketball
+                 Female Basketball
             </option>
 
             <option value="volleyball">
-                🏐 Volleyball
+                 Volleyball
             </option>
 
         </select>
@@ -133,8 +107,8 @@
 </main>
 
 
-<script src="aupl.js"></script>
 
-</body>
+
+<footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script><script src="public-data.js"></script></body>
 
 </html>

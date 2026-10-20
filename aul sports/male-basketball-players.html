@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="theme.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,8 +8,12 @@
 
     <link rel="stylesheet" href="aupl.css">
 
-    
 
+
+<link rel="stylesheet" href="design.css">
+<link rel="stylesheet" href="varsity.css">
+<link rel="stylesheet" href="icons.css"><script src="icons.js" defer></script>
+<link rel="stylesheet" href="theme.css">
 </head>
 
 <body>
@@ -32,7 +36,7 @@
 
     <section class="basketball-players-page">
 
-        <h1>🏀 Male Basketball Players</h1>
+        <h1><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg> Male Basketball Players</h1>
         <p>Player statistics and rankings</p>
 
         <div class="basketball-filters">
@@ -44,7 +48,7 @@
         onkeyup="filterBasketballPlayers()"
     >
 
-    <select id="basketballClubFilter" onchange="filterBasketballPlayers()">
+    <select id="basketballClubFilter">
         <option value="all">All Clubs</option>
         <option value="Sharks">Sharks</option>
         <option value="Vinisio">Vinisio</option>
@@ -52,7 +56,7 @@
         <option value="Wolves">Wolves</option>
     </select>
 
-    <select id="basketballPositionFilter" onchange="filterBasketballPlayers()">
+    <select id="basketballPositionFilter">
         <option value="all">All Positions</option>
         <option value="PG">PG - Point Guard</option>
         <option value="SG">SG - Shooting Guard</option>
@@ -187,7 +191,9 @@
 
     </section>
 
-    <script src="aupl.js"></script>
+    
 
-</body>
+<script src="player-stats.js"></script><script src="public-data.js"></script>
+<footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
 </html>
+

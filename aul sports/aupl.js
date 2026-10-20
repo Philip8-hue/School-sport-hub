@@ -3,7 +3,7 @@ const players = [
     // ================================
     // ANCHOR
     // ================================
-    { id: 1, name: "Buffalo", club: "Anchor", number: 1, position: "GK", photo: "c:/Users/user/OneDrive/Pictures/zophci.jpg", price: 5.0, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
+    { id: 1, name: "Buffalo", club: "Anchor", number: 1, position: "GK", photo: "", price: 5.0, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
     { id: 2, name: "Enoch durowoju", club: "Anchor", number: 12, position: "GK", photo: "", price: 4.5, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
     { id: 3, name: "Mitchell &copy;", club: "Anchor", number: 2, position: "DEF", photo: "", price: 6.0, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
     { id: 4, name: "Legend", club: "Anchor", number: 3, position: "DEF", photo: "", price: 5.5, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
@@ -148,7 +148,7 @@ const players = [
     { id: 139, name: "Osuofia Elvis Ugochukwu", club: "Spartan", number: 15, position: "MID", photo: "", price: 6.5, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
     { id: 140, name: "Uzozie Uchechukwu", club: "Spartan", number: 16, position: "MID", photo: "", price: 6.0, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
     { id: 141, name: "Osho Daniel Olamide", club: "Spartan", number: 9, position: "FWD", photo: "", price: 10.0, rating: 5.0, matches: 0, minutes: 0, goals: 0, assists: 0 },
-    
+
 ];
 
 const maleBasketballPlayers = [
@@ -162,7 +162,7 @@ const maleBasketballPlayers = [
         number: 4,
         height: "6'2\"",
         position: "PG",
-        photo: "c:/Users/user/OneDrive/Pictures/15112334_screenshot20220313211134_jpeg1a3ffbccae711453d3d25558768c8f07.jpeg",
+        photo: "",
         rating: 5.0,
         games: 0,
         minutes: 0,
@@ -1089,7 +1089,7 @@ const femaleBasketballPlayers = [
         number: 4,
         height: "5'8",
         position: "PG",
-        photo: "c:/Users/user/OneDrive/Pictures/testing.jpeg",
+        photo: "",
         rating: 5.0,
         games: 0,
         minutes: 0,
@@ -1723,7 +1723,7 @@ const femaleFootballPlayers = [
         club: "Golden Stars",
         number: 1,
         position: "GK",
-        photo: "c:/Users/user/OneDrive/Pictures/zophci.jpg",
+        photo: "",
         rating: 5.0,
         matches: 0,
         minutes: 0,
@@ -3176,8 +3176,8 @@ function showPlayerActionModal(player, isBench) {
                     <div class="player-action-details">
                         <h4>${player.name}</h4>
                         <p>
-                            <span>${player.club}</span> • 
-                            <strong class="badge-${player.position}">${player.position}</strong> • 
+                            <span>${player.club}</span> •
+                            <strong class="badge-${player.position}">${player.position}</strong> •
                             <span>$${price}m</span>
                         </p>
                     </div>
@@ -3563,8 +3563,8 @@ function showBasketPlayerActionModal(player, isBench) {
                     <div class="player-action-details">
                         <h4>${player.name}</h4>
                         <p>
-                            <span>${player.club}</span> • 
-                            <strong class="badge-${player.position}">${player.position}</strong> • 
+                            <span>${player.club}</span> •
+                            <strong class="badge-${player.position}">${player.position}</strong> •
                             <span>$${price}m</span>
                         </p>
                     </div>
@@ -3862,13 +3862,13 @@ const sportsTables = {
 
         teams: [
 
-            ["team a", 0, 0, 0, 0, 0],
+            ["Pegasus", 0, 0, 0, 0, 0],
 
-            ["team b", 0, 0, 0, 0, 0],
+            ["Leo", 0, 0, 0, 0, 0],
 
-            ["team c", 0, 0, 0, 0, 0],
+            ["Trojans", 0, 0, 0, 0, 0],
 
-            ["team d", 0, 0, 0, 0, 0]
+            ["Orion", 0, 0, 0, 0, 0]
 
         ]
     }

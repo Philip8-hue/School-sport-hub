@@ -1,114 +1,26 @@
-// Get club details from dataset or page context
-const rawClubName = document.body.dataset.club || "";
-const rawPlayerType = (document.body.dataset.type || document.body.dataset.category || "").toLowerCase();
-const playersContainer = document.getElementById("clubPlayers");
-
-// Helper function to match club names flexibly (case-insensitive, trims, handling singular/plural like Spartan/Spartans)
-function matchesClub(playerClub, targetClub) {
-    if (!playerClub || !targetClub) return false;
-    const p = playerClub.trim().toLowerCase();
-    const t = targetClub.trim().toLowerCase();
-    if (p === t) return true;
-    if ((p === "spartan" && t === "spartans") || (p === "spartans" && t === "spartan")) return true;
-    return false;
-}
-
-// Detect category if not explicitly set
-function detectCategory() {
-    if (rawPlayerType) {
-        if (rawPlayerType.includes("female") && rawPlayerType.includes("football")) return "female-football";
-        if (rawPlayerType.includes("female") && rawPlayerType.includes("basketball")) return "female-basketball";
-        if (rawPlayerType.includes("basketball")) return "male-basketball";
-        if (rawPlayerType.includes("football")) return "male-football";
-        if (rawPlayerType === "femalefootballplayers") return "female-football";
-        if (rawPlayerType === "femalebasketballplayers") return "female-basketball";
-        if (rawPlayerType === "malebasketballplayers") return "male-basketball";
-        return rawPlayerType;
-    }
-
-    // Inspect header tags or text
-    const headerSpan = document.querySelector(".club-profile-header span, .club-header span");
-    const headerText = headerSpan ? headerSpan.textContent.toLowerCase() : "";
-    if (headerText.includes("female") && headerText.includes("football")) return "female-football";
-    if (headerText.includes("female") && headerText.includes("basketball")) return "female-basketball";
-    if (headerText.includes("basketball")) return "male-basketball";
-    if (headerText.includes("football")) return "male-football";
-
-    // Inspect URL / filename
-    const path = window.location.pathname.toLowerCase();
-    if (path.includes("girls-") || path.includes("female-football")) return "female-football";
-    if (path.includes("female-") || path.includes("female-basketball")) return "female-basketball";
-    if (path.includes("sharks") || path.includes("vinisio") || path.includes("warriors") || path.includes("wolves")) return "male-basketball";
-
-    return "male-football";
-}
-
-if (playersContainer && rawClubName) {
-    const category = detectCategory();
-    let clubPlayers = [];
-
-    // =====================================
-    // STRICT SPORT & GENDER FILTERING
-    // =====================================
-    if (category === "female-football") {
-        if (typeof femaleFootballPlayers !== "undefined") {
-            clubPlayers = femaleFootballPlayers.filter(p => matchesClub(p.club, rawClubName));
-        }
-    } else if (category === "female-basketball") {
-        if (typeof femaleBasketballPlayers !== "undefined") {
-            clubPlayers = femaleBasketballPlayers.filter(p => matchesClub(p.club, rawClubName));
-        }
-    } else if (category === "male-basketball") {
-        if (typeof maleBasketballPlayers !== "undefined") {
-            clubPlayers = maleBasketballPlayers.filter(p => matchesClub(p.club, rawClubName));
-        }
-    } else {
-        // Default to male-football
-        if (typeof players !== "undefined") {
-            clubPlayers = players.filter(p => matchesClub(p.club, rawClubName));
-        }
-    }
-
-    // =====================================
-    // DISPLAY PLAYERS
-    // =====================================
-    playersContainer.innerHTML = "";
-
-    clubPlayers.forEach(player => {
-        const playerCard = document.createElement("div");
-        playerCard.classList.add("club-player-card");
-
-        playerCard.innerHTML = `
-            <div class="player-photo">
-                <img 
-                    src="${
-                        player.photo && player.photo !== "#"
-                        ? player.photo
-                        : "images/players/default-player.png"
-                    }"
-                    alt="${player.name}"
-                    onerror="this.src='images/players/default-player.png'"
-                >
-            </div>
-
-            <h3>${player.name}</h3>
-
-            <p>Jersey #${player.number}</p>
-
-            <p>${player.position}</p>
-
-            ${player.height ? `<p>Height: ${player.height}</p>` : ""}
-
-            <p>Rating: ${typeof player.rating === "number" ? player.rating.toFixed(1) : player.rating}</p>
-        `;
-
-        playersContainer.appendChild(playerCard);
-    });
-
-    // If no players were found
-    if (clubPlayers.length === 0) {
-        playersContainer.innerHTML = `
-            <p>No players found for ${rawClubName}.</p>
-        `;
-    }
-}
+(() => {
+ const target=document.getElementById('clubProfile');if(!target)return;
+ const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const sports={'male-football':'Male Football','female-football':'Female Football','male-basketball':'Male Basketball','female-basketball':'Female Basketball'};
+ const normalize=value=>value.trim().toLowerCase().replace(/\s+fc$/,'').replace(/^spartans$/,'spartan');
+ const date=value=>new Date(value).toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'});
+ const get=async url=>{const response=await fetch(url);if(!response.ok)throw new Error();return response.json();};
+ const empty=text=>`<p class="homepage-data-empty">${text}</p>`;
+ async function load(){target.setAttribute('aria-busy','true');try{
+  const clubs=await get('/api/clubs');const id=new URLSearchParams(location.search).get('id');
+  const club=id?clubs.find(c=>String(c.id)===id):clubs.find(c=>normalize(c.name)===normalize(document.body.dataset.club||'')&&c.sport===sports[document.body.dataset.type]);
+  if(!club){target.innerHTML=empty('This club is no longer available. <a href="aupl clubs.html">Browse the club directory →</a>');return;}
+  document.title=`${club.name} · ${club.sport} | Sports Hub`;
+  const results=await Promise.allSettled([get('/api/players?clubId='+club.id),get('/api/fixtures?sport='+encodeURIComponent(club.sport)),get('/api/tables?sport='+encodeURIComponent(club.sport))]);
+  const [players,fixtures,tables]=results.map(result=>result.status==='fulfilled'?result.value:null);
+  const matches=fixtures?.filter(f=>f.homeClubId===club.id||f.awayClubId===club.id);
+  const upcoming=matches?.filter(f=>f.status==='SCHEDULED'||f.status==='LIVE').slice(0,5);
+  const completed=matches?.filter(f=>f.result).sort((a,b)=>new Date(b.startsAt)-new Date(a.startsAt)).slice(0,5);
+  const standing=tables?.find(row=>row.clubId===club.id);
+  const matchCard=f=>`<article><p>${escape(f.sport)} · ${escape(f.status)}</p><h3>${escape(f.homeClub?.name||'TBC')} ${f.result?`${f.result.homeScore} – ${f.result.awayScore}`:'vs'} ${escape(f.awayClub?.name||'TBC')}</h3><p>${date(f.startsAt)} · ${escape(f.venue||'Venue TBC')}</p></article>`;
+  const list=(rows,render,none)=>rows==null?empty('This section is temporarily unavailable. Please refresh to try again.'):rows.length?rows.map(render).join(''):empty(none);
+  target.innerHTML=`<section class="club-profile-banner"><span class="club-monogram" aria-hidden="true">${escape(club.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2))}</span><div><p>${escape(club.sport)} · Anchor University</p><h1>${escape(club.name)}</h1><p>${players?`${players.length} registered players`:'Club profile'}</p></div></section><div class="club-profile-stats" aria-label="League record">${[['Matches','played'],['Wins','won'],['Draws','drawn'],['Losses','lost'],['Points','points']].map(([label,key])=>`<div><span>${label}</span><strong>${standing?standing[key]:'—'}</strong></div>`).join('')}</div>${!standing?'<p class="muted">No league record has been published for this club yet.</p>':''}<div class="club-profile-content"><section aria-labelledby="squadTitle"><h2 id="squadTitle">The squad</h2><div class="club-roster">${list(players,p=>`<article><div><h3>${escape(p.fullName||p.name)}${p.captain?' <span class="captain-badge">Captain</span>':''}</h3><p>${escape(p.position||'Position to be confirmed')}</p></div><span class="squad-number" aria-label="Jersey number ${p.jerseyNumber??'unassigned'}">${p.jerseyNumber!=null?'#'+p.jerseyNumber:'—'}</span></article>`,'No players have been added to this squad yet.')}</div></section><div><section aria-labelledby="upcomingTitle"><h2 id="upcomingTitle">Next up</h2><div class="club-match-list">${list(upcoming,matchCard,'No upcoming fixtures for this club.')}</div></section><section aria-labelledby="recentTitle"><h2 id="recentTitle">Recent results</h2><div class="club-match-list">${list(completed,matchCard,'No results have been recorded for this club.')}</div></section></div></div>`;
+  if(club.logoUrl&&/^(https?:\/\/|\/?images\/)/i.test(club.logoUrl)){const badge=target.querySelector('.club-monogram');const fallback=badge.textContent;const image=document.createElement('img');image.alt='';image.addEventListener('error',()=>{badge.textContent=fallback;},{once:true});image.src=club.logoUrl;badge.replaceChildren(image);}
+ }catch{target.innerHTML=empty('We couldn’t load this club. <button type="button" id="retryClubProfile">Try again</button>');document.getElementById('retryClubProfile').addEventListener('click',load);}finally{target.setAttribute('aria-busy','false');}}
+ load();
+})();
