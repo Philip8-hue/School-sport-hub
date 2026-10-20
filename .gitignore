@@ -11,3 +11,5 @@ prisma/*.db-*
 .manus/
 .publish-checkout/
 /*.png
+prisma/backups/
+*.pid

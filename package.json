@@ -9,20 +9,27 @@
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node scripts/check.mjs",
     "start": "node dist/server/src/index.js",
-    "db:generate": "prisma generate",
+    "db:generate": "node scripts/generate-clients.mjs",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "admin:create": "tsx server/src/scripts/create-admin.ts",
-    "db:import-static-sports": "tsx server/src/scripts/import-static-sports.ts"
+    "db:import-static-sports": "tsx server/src/scripts/import-static-sports.ts",
+    "supabase:deploy": "prisma migrate deploy --config prisma.supabase.config.ts",
+    "supabase:import": "node scripts/migrate-to-supabase.mjs",
+    "supabase:verify": "node scripts/migrate-to-supabase.mjs --verify-only",
+    "supabase:check": "node scripts/check-supabase.mjs",
+    "supabase:check-models": "npm run build && node scripts/check-supabase-models.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.1",
+    "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^13.0.3",
     "dotenv": "^18.0.8",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {

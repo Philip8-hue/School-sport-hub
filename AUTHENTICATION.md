@@ -14,13 +14,15 @@ npm.cmd run db:generate
 npm.cmd run db:migrate
 ```
 
-Public registration is disabled by default. To enable it temporarily, set:
+Public registration is enabled for this site. New accounts always receive the
+`USER` role, including when a request submits an administrator role. Configure it with:
 
 ```env
 ALLOW_PUBLIC_REGISTRATION="true"
 ```
 
-For production, keep public registration disabled unless the product requires it.
+Set this same variable in your hosting environment to enable deployed sign-ups.
+Set it to `false` and restart the server if you later need to disable sign-ups.
 
 ## Create the first administrator
 

@@ -1,6 +1,6 @@
 # School Sports Hub
 
-School Sports Hub is a static sports website served by a small Node.js/Express API. The API uses Prisma ORM with a local SQLite database, so no external database service is required for development.
+School Sports Hub is a static sports website served by a small Node.js/Express API. The API uses Prisma ORM with SQLite for local development or Supabase PostgreSQL for hosted data. See [SUPABASE.md](SUPABASE.md) for migration and deployment instructions.
 
 ## Requirements
 

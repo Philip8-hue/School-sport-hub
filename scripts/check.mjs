@@ -12,7 +12,7 @@ for(const dir of fs.readdirSync('prisma/migrations').filter(x=>fs.existsSync(`pr
 db.prepare('INSERT INTO User (email,name,passwordHash,role,isActive,updatedAt) VALUES (?,?,?,?,?,?)').run('qa@example.test','QA Administrator',await bcrypt.hash('Testing-sports-123',4),'ADMIN',1,new Date().toISOString());
 db.prepare('INSERT INTO NewsArticle (title,slug,content,published,updatedAt) VALUES (?,?,?,?,?)').run('Private draft','draft','Not public',0,new Date().toISOString());db.close();
 const port=5127;const base=`http://127.0.0.1:${port}`;
-const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,PORT:String(port),DATABASE_URL:'file:'+dbfile,JWT_SECRET:'test-only-secret-12345678901234567890123456789',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
+const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',PORT:String(port),DATABASE_URL:'file:'+dbfile,JWT_SECRET:'test-only-secret-12345678901234567890123456789',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
 let cookie='';let checks=0;const request=async(url,options={})=>{const response=await fetch(base+url,{...options,headers:{'Content-Type':'application/json',Origin:`http://localhost:${port}`,...(cookie?{Cookie:cookie}:{}),...options.headers}});return response;};
 const status=async(url,expected,options)=>{const r=await request(url,options);assert.equal(r.status,expected,url+': '+await r.clone().text());checks++;return r;};
 try{
@@ -20,6 +20,7 @@ try{
  await status('/',200);await status('/admin.html',200);await status('/design.css',200);await status('/admin-design.css',200);await status('/api/health',200);await status('/api/news?all=true',401);await status('/api/admin/summary',401);await status('/api/missing',404);await status('/missing.html',404);
  assert.equal((await (await status('/api/news',200)).json()).length,0);
  await status('/api/items',400,{method:'POST',body:'{}'});await status('/api/items',400,{method:'POST',body:'null'});await status('/api/items',400,{method:'POST',body:'{'});await status('/api/items',403,{method:'POST',headers:{Origin:'https://untrusted.example'},body:'{}'});
+ const registration=await status('/api/auth/register',201,{method:'POST',body:JSON.stringify({email:'regular@example.test',password:'Regular-user-12345',name:'Regular User',role:'ADMIN'})});assert.equal((await registration.json()).user.role,'USER');cookie=registration.headers.get('set-cookie').split(';')[0];assert.equal((await (await status('/api/auth/me',200)).json()).user.role,'USER');await status('/api/admin/summary',403);await status('/api/auth/logout',204,{method:'POST'});cookie='';
  const login=await status('/api/auth/login',200,{method:'POST',body:JSON.stringify({email:'qa@example.test',password:'Testing-sports-123'})});cookie=login.headers.get('set-cookie').split(';')[0];assert.match(login.headers.get('set-cookie'),/Max-Age=\d{1,3};/);
  await status('/api/auth/me',200);await status('/api/admin/summary',200);assert.equal((await (await status('/api/news?all=true',200)).json()).length,1);
  const validCookie=cookie;
