@@ -22,7 +22,7 @@ from `aul sports` into the generated `public` directory. Local development and
    | Name | Value |
    | --- | --- |
    | `DATABASE_PROVIDER` | `supabase` |
-   | `SUPABASE_DATABASE_URL` | Your complete working PostgreSQL Session pooler URL from local `.env` |
+   | `SUPABASE_DATABASE_URL` | Supabase Transaction pooler URL, port `6543`, with your database password |
    | `ALLOW_PUBLIC_REGISTRATION` | `true` |
    | `JWT_SECRET` | The existing private secret from your local `.env` (at least 32 characters) |
    | `NODE_ENV` | `production` |
@@ -33,6 +33,10 @@ from `aul sports` into the generated `public` directory. Local development and
    For Preview deployments, use a separate test database and separate secret
    before enabling their environment values; Production-only settings are
    sufficient for the public deployment.
+   Vercel's serverless instances should use transaction pooling. Session pooling
+   on port `5432` can exhaust Supabase's session connection limit. Select
+   **Transaction pooler** in Supabase's Connect dialog and use its complete URL
+   for Vercel; keep a session/direct connection for Prisma migration commands.
 6. Click **Deploy**. No migration or data import runs during the build:
    the existing Supabase database already contains the migrated records.
 
