@@ -14,7 +14,7 @@
 <script src="player-stats.js" defer></script>
 <script src="player-profile.js" defer></script>
 <link rel="stylesheet" href="following.css"><script src="following.js" defer></script>
-</head>
+<link rel="stylesheet" href="fantasy-lobby.css"></head>
 
 <body>
 
@@ -22,88 +22,5 @@
     <a class="skip-link" href="#main-content">Skip to content</a><header><a href="index.html" class="brand"><span class="brand-symbol" aria-hidden="true">A</span><span>SPORTS HUB<small>ANCHOR UNIVERSITY</small></span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button><nav id="site-navigation" aria-label="Main navigation"><a href="index.html">Home</a><a href="aupl live.html">Live</a><a href="news.html">News</a><a href="aupl-fixtures.html">Fixtures</a><a href="results.html">Results</a><a href="aupltables.html">Tables</a><a href="aupl clubs.html">Clubs</a><a href="players.html">Players</a><a href="aupl fantasy.html">Fantasy</a></nav><a class="button account-link" href="login.html">Sign in ↗</a></header>
 
 
-    <!-- FANTASY -->
-    <main id="main-content" class="fantasy-page">
-
-        <h2><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#star"></use></svg> Fantasy Sports</h2>
-
-        <p class="fantasy-intro">
-            Build your team, choose your players and compete with other students.
-        </p>
-
-
-        <div class="fantasy-container">
-
-            <!-- FOOTBALL -->
-            <div class="fantasy-card">
-
-                <div class="fantasy-icon"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#football"></use></svg></div>
-
-                <h3>Fantasy Football</h3>
-
-                <p>
-                    Create your football team and earn points based on
-                    your players' real match performances.
-                </p>
-
-                <ul>
-                    <li>Choose your players</li>
-                    <li>Build your starting XI</li>
-                    <li>Earn points from matches</li>
-                    <li>Compete on the leaderboard</li>
-                </ul>
-
-                <a href="aupl fantasy-football.html">
-                    <button>Play Fantasy Football</button>
-                </a>
-
-            </div>
-
-
-            <!-- BASKETBALL -->
-            <div class="fantasy-card">
-
-                <div class="fantasy-icon"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#basketball"></use></svg></div>
-
-                <h3>Fantasy Basketball</h3>
-
-                <p>
-                    Build your basketball team and earn points from
-                    your players' real game statistics.
-                </p>
-
-                <ul>
-                    <li>Choose your players</li>
-                    <li>Build your team</li>
-                    <li>Earn points from games</li>
-                    <li>Compete on the leaderboard</li>
-                </ul>
-
-                <a href="aupl fantasy-basketball.html">
-                    <button>Play Fantasy Basketball</button>
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- LEADERBOARD -->
-        <section class="fantasy-leaderboard">
-
-            <h2><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="icons.svg#trophy"></use></svg> Fantasy Leaderboard</h2>
-
-            <div class="leaderboard">
-
-                <p><strong>1.</strong> Student A — 245 pts</p>
-                <p><strong>2.</strong> Student B — 221 pts</p>
-                <p><strong>3.</strong> Student C — 198 pts</p>
-
-            </div>
-
-        </section>
-
-    </main>
-
-<footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
+<main id="main-content" class="fantasy-lobby"><section class="fantasy-welcome"><div class="fantasy-welcome-copy"><p class="fantasy-location">Anchor University fantasy sports</p><h1>Make your picks.<br>Own the matchday.</h1><p>Build a squad from your university’s real players. Their performance earns your points. Your choices make the difference.</p><a class="fantasy-hero-link" href="#chooseSport">Choose your sport <span aria-hidden="true">↓</span></a></div><div class="fantasy-tactics" aria-hidden="true"><svg viewBox="0 0 320 300" fill="none"><rect x="35" y="15" width="250" height="270" rx="4" stroke="currentColor"/><path d="M35 150h250M107 15v43h106V15m-106 270v-43h106v43" stroke="currentColor"/><circle cx="160" cy="150" r="36" stroke="currentColor"/><path d="m83 211 54-48m-8 0 10-2-2 11m100 39-54-48m8 0-10-2 2 11M160 124V80m-6 8 6-10 6 10" stroke="currentColor" stroke-width="2" stroke-dasharray="5 6"/><g fill="#d8c48e" stroke="#243e31" stroke-width="5"><circle cx="83" cy="221" r="15"/><circle cx="237" cy="221" r="15"/><circle cx="160" cy="150" r="15"/><circle cx="160" cy="70" r="15"/></g></svg><span>Your team. Your call.</span></div></section><section id="chooseSport" class="fantasy-sport-section"><div class="fantasy-section-title"><div><h2>Choose your arena</h2><p>One account. Three ways to play.</p></div><a href="account.html">My account</a></div><div class="fantasy-choice-grid"><article class="fantasy-choice fantasy-choice-football"><div class="fantasy-court"><svg viewBox="0 0 240 160" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="20" y="15" width="200" height="130" rx="2"/><path d="M120 15v130M20 45h32v70H20m200-70h-32v70h32M20 63h12v34H20m200-34h-12v34h12"/><circle cx="120" cy="80" r="23"/><circle cx="120" cy="80" r="2" fill="currentColor"/></svg><span>Football</span></div><div class="fantasy-choice-body"><p class="fantasy-competition">Male & female competitions</p><h2>The pitch is yours.</h2><p class="fantasy-score-copy">Goals, assists, saves and clean sheets.</p><dl><div><dt>Squad</dt><dd>15 players</dd></div><div><dt>Starters</dt><dd>11 players</dd></div></dl><a href="aupl fantasy-football.html" class="fantasy-enter">Play football<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div></article><article class="fantasy-choice fantasy-choice-basketball"><div class="fantasy-court"><svg viewBox="0 0 240 160" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="20" y="15" width="200" height="130" rx="2"/><path d="M120 15v130M20 50h55v60H20m200-60h-55v60h55M20 28c90 0 90 104 0 104m200-104c-90 0-90 104 0 104"/><circle cx="120" cy="80" r="20"/><path d="M31 68v24m178-24v24"/></svg><span>Basketball</span></div><div class="fantasy-choice-body"><p class="fantasy-competition">Male & female competitions</p><h2>Build your starting five.</h2><p class="fantasy-score-copy">Points, rebounds, assists, steals and blocks.</p><dl><div><dt>Squad</dt><dd>8 players</dd></div><div><dt>Starters</dt><dd>5 players</dd></div></dl><a href="aupl fantasy-basketball.html" class="fantasy-enter">Play basketball<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div></article><article class="fantasy-choice fantasy-choice-volleyball"><div class="fantasy-court"><svg viewBox="0 0 240 160" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="20" y="15" width="200" height="130" rx="2"/><path d="M120 8v144M85 15v130m70-130v130M115 8h10m-10 144h10"/><path d="M119 20h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2m-2 12h2"/></svg><span>Volleyball</span></div><div class="fantasy-choice-body"><p class="fantasy-competition">Six starters, including libero options</p><h2>Find your winning rotation.</h2><p class="fantasy-score-copy">Kills, aces, blocks, digs and receives.</p><dl><div><dt>Squad</dt><dd>10 players</dd></div><div><dt>Starters</dt><dd>6 players</dd></div></dl><a href="aupl fantasy-volleyball.html" class="fantasy-enter">Play volleyball<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div></article></div></section><section class="fantasy-guide"><div><h2>New to fantasy?</h2><p>You pick the players.<br>The real matches do the rest.</p></div><ol><li><strong>Build your squad</strong><span>Choose a sport, find an open round and pick players within your credit budget.</span></li><li><strong>Make it official</strong><span>Select your starters and captain. Save your team before the deadline.</span></li><li><strong>Follow your points</strong><span>After checked match stats are published, see your points and round ranking.</span></li></ol></section><p class="fantasy-footnote">Free to play with imaginary credits. Teams are saved to your account. Each round has its own scoring rules and deadline.</p></main><footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
 </html>

@@ -1,6 +1,6 @@
 const message = document.getElementById("dashboardMessage");
 const state = { clubs: [], players: [], fixtures: [], results: [], tables: [], news: [], users: [], items: [] };
-const titles = { overview: "Overview", approvals: "Approvals", homepage: "Homepage", clubs: "Clubs", players: "Players", fixtures: "Fixtures", results: "Results", tables: "League tables", news: "News", community: "Community posts", users: "Users" };
+const titles = { fantasy: "Fantasy sports", overview: "Overview", approvals: "Approvals", homepage: "Homepage", clubs: "Clubs", players: "Players", fixtures: "Fixtures", results: "Results", tables: "League tables", news: "News", community: "Community posts", users: "Users" };
 
 async function api(url, options = {}, retried = false) {
   const headers = options.body ? { "Content-Type": "application/json", ...(options.headers || {}) } : options.headers;
@@ -20,7 +20,7 @@ function showSection(section) {
   document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("active", button.dataset.section === section));
   document.getElementById("pageTitle").textContent = titles[section] || "Admin workspace";
   document.getElementById("adminSidebar")?.classList.remove("open");
-  const loaders = { approvals: loadApprovals, homepage: loadHomepage, clubs: loadClubs, players: loadPlayers, fixtures: loadFixtures, results: loadResults, tables: loadTables, news: loadNews, community: loadItems, users: loadUsers };
+  const loaders = { fantasy: loadFantasy, approvals: loadApprovals, homepage: loadHomepage, clubs: loadClubs, players: loadPlayers, fixtures: loadFixtures, results: loadResults, tables: loadTables, news: loadNews, community: loadItems, users: loadUsers };
   if (section === "results") loadFixtures().catch(error => setMessage(error.message, "error"));
   loaders[section]?.().catch(error => setMessage(error.message, "error"));
   document.querySelectorAll(".nav-item").forEach(button => button.setAttribute("aria-current", button.dataset.section === section ? "page" : "false"));

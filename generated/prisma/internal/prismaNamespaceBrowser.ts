@@ -68,7 +68,10 @@ export const ModelName = {
   Result: 'Result',
   LeagueTable: 'LeagueTable',
   NewsArticle: 'NewsArticle',
-  HomepageContent: 'HomepageContent'
+  HomepageContent: 'HomepageContent',
+  FantasyRound: 'FantasyRound',
+  FantasyEntry: 'FantasyEntry',
+  FantasyMatchStat: 'FantasyMatchStat'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -346,6 +349,51 @@ export const HomepageContentScalarFieldEnum = {
 } as const
 
 export type HomepageContentScalarFieldEnum = (typeof HomepageContentScalarFieldEnum)[keyof typeof HomepageContentScalarFieldEnum]
+
+
+export const FantasyRoundScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sport: 'sport',
+  deadline: 'deadline',
+  budget: 'budget',
+  status: 'status',
+  rules: 'rules',
+  catalog: 'catalog',
+  fixtureIds: 'fixtureIds',
+  publishedAt: 'publishedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyRoundScalarFieldEnum = (typeof FantasyRoundScalarFieldEnum)[keyof typeof FantasyRoundScalarFieldEnum]
+
+
+export const FantasyEntryScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  userId: 'userId',
+  name: 'name',
+  squad: 'squad',
+  starters: 'starters',
+  captainId: 'captainId',
+  total: 'total',
+  breakdown: 'breakdown',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const FantasyMatchStatScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  fixtureId: 'fixtureId',
+  playerId: 'playerId',
+  stats: 'stats',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyMatchStatScalarFieldEnum = (typeof FantasyMatchStatScalarFieldEnum)[keyof typeof FantasyMatchStatScalarFieldEnum]
 
 
 export const SortOrder = {

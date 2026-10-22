@@ -414,7 +414,10 @@ export const ModelName = {
   Result: 'Result',
   LeagueTable: 'LeagueTable',
   NewsArticle: 'NewsArticle',
-  HomepageContent: 'HomepageContent'
+  HomepageContent: 'HomepageContent',
+  FantasyRound: 'FantasyRound',
+  FantasyEntry: 'FantasyEntry',
+  FantasyMatchStat: 'FantasyMatchStat'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -430,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent"
+    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "fantasyRound" | "fantasyEntry" | "fantasyMatchStat"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1766,6 +1769,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FantasyRound: {
+      payload: Prisma.$FantasyRoundPayload<ExtArgs>
+      fields: Prisma.FantasyRoundFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FantasyRoundFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FantasyRoundFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        findFirst: {
+          args: Prisma.FantasyRoundFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FantasyRoundFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        findMany: {
+          args: Prisma.FantasyRoundFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>[]
+        }
+        create: {
+          args: Prisma.FantasyRoundCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        createMany: {
+          args: Prisma.FantasyRoundCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FantasyRoundCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>[]
+        }
+        delete: {
+          args: Prisma.FantasyRoundDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        update: {
+          args: Prisma.FantasyRoundUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        deleteMany: {
+          args: Prisma.FantasyRoundDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FantasyRoundUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FantasyRoundUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>[]
+        }
+        upsert: {
+          args: Prisma.FantasyRoundUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyRoundPayload>
+        }
+        aggregate: {
+          args: Prisma.FantasyRoundAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFantasyRound>
+        }
+        groupBy: {
+          args: Prisma.FantasyRoundGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyRoundGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FantasyRoundCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyRoundCountAggregateOutputType> | number
+        }
+      }
+    }
+    FantasyEntry: {
+      payload: Prisma.$FantasyEntryPayload<ExtArgs>
+      fields: Prisma.FantasyEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FantasyEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FantasyEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.FantasyEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FantasyEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        findMany: {
+          args: Prisma.FantasyEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>[]
+        }
+        create: {
+          args: Prisma.FantasyEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        createMany: {
+          args: Prisma.FantasyEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FantasyEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.FantasyEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        update: {
+          args: Prisma.FantasyEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.FantasyEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FantasyEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FantasyEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.FantasyEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.FantasyEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFantasyEntry>
+        }
+        groupBy: {
+          args: Prisma.FantasyEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FantasyEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    FantasyMatchStat: {
+      payload: Prisma.$FantasyMatchStatPayload<ExtArgs>
+      fields: Prisma.FantasyMatchStatFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FantasyMatchStatFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FantasyMatchStatFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        findFirst: {
+          args: Prisma.FantasyMatchStatFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FantasyMatchStatFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        findMany: {
+          args: Prisma.FantasyMatchStatFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>[]
+        }
+        create: {
+          args: Prisma.FantasyMatchStatCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        createMany: {
+          args: Prisma.FantasyMatchStatCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FantasyMatchStatCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>[]
+        }
+        delete: {
+          args: Prisma.FantasyMatchStatDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        update: {
+          args: Prisma.FantasyMatchStatUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        deleteMany: {
+          args: Prisma.FantasyMatchStatDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FantasyMatchStatUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FantasyMatchStatUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>[]
+        }
+        upsert: {
+          args: Prisma.FantasyMatchStatUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FantasyMatchStatPayload>
+        }
+        aggregate: {
+          args: Prisma.FantasyMatchStatAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFantasyMatchStat>
+        }
+        groupBy: {
+          args: Prisma.FantasyMatchStatGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyMatchStatGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FantasyMatchStatCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FantasyMatchStatCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2069,6 +2294,51 @@ export const HomepageContentScalarFieldEnum = {
 export type HomepageContentScalarFieldEnum = (typeof HomepageContentScalarFieldEnum)[keyof typeof HomepageContentScalarFieldEnum]
 
 
+export const FantasyRoundScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sport: 'sport',
+  deadline: 'deadline',
+  budget: 'budget',
+  status: 'status',
+  rules: 'rules',
+  catalog: 'catalog',
+  fixtureIds: 'fixtureIds',
+  publishedAt: 'publishedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyRoundScalarFieldEnum = (typeof FantasyRoundScalarFieldEnum)[keyof typeof FantasyRoundScalarFieldEnum]
+
+
+export const FantasyEntryScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  userId: 'userId',
+  name: 'name',
+  squad: 'squad',
+  starters: 'starters',
+  captainId: 'captainId',
+  total: 'total',
+  breakdown: 'breakdown',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const FantasyMatchStatScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  fixtureId: 'fixtureId',
+  playerId: 'playerId',
+  stats: 'stats',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FantasyMatchStatScalarFieldEnum = (typeof FantasyMatchStatScalarFieldEnum)[keyof typeof FantasyMatchStatScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2330,6 +2600,9 @@ export type GlobalOmitConfig = {
   leagueTable?: Prisma.LeagueTableOmit
   newsArticle?: Prisma.NewsArticleOmit
   homepageContent?: Prisma.HomepageContentOmit
+  fantasyRound?: Prisma.FantasyRoundOmit
+  fantasyEntry?: Prisma.FantasyEntryOmit
+  fantasyMatchStat?: Prisma.FantasyMatchStatOmit
 }
 
 /* Types for Logging */

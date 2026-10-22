@@ -1,3 +1,4 @@
+import { fantasyRouter, fantasyAdminRouter } from './routes/fantasy.js';
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import path from "node:path";
@@ -42,6 +43,8 @@ app.use("/api/auth", createAuthRouter({ prisma }));
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/approvals", approvalRouter);
 app.use("/api/member", memberRouter);
+app.use("/api/fantasy", fantasyRouter);
+app.use("/api/admin/fantasy", fantasyAdminRouter);
 app.use("/api", sportsRouter);
 app.use("/api/homepage", homepageRouter);
 

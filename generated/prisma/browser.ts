@@ -107,3 +107,18 @@ export type NewsArticle = Prisma.NewsArticleModel
  * 
  */
 export type HomepageContent = Prisma.HomepageContentModel
+/**
+ * Model FantasyRound
+ * 
+ */
+export type FantasyRound = Prisma.FantasyRoundModel
+/**
+ * Model FantasyEntry
+ * 
+ */
+export type FantasyEntry = Prisma.FantasyEntryModel
+/**
+ * Model FantasyMatchStat
+ * 
+ */
+export type FantasyMatchStat = Prisma.FantasyMatchStatModel

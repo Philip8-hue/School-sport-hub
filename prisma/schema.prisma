@@ -17,6 +17,7 @@ model User {
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  fantasyEntries FantasyEntry[]
   items        Item[]
   accessRequests AccessRequest[]
   playerLinks PlayerOwnership[]
@@ -282,4 +283,45 @@ model HomepageContent {
   id        Int      @id @default(1)
   content   String
   updatedAt DateTime @updatedAt
+}
+
+model FantasyRound {
+  id Int @id @default(autoincrement())
+  name String
+  sport String
+  deadline DateTime
+  budget Int @default(100)
+  status String @default("OPEN")
+  rules String
+  catalog String
+  fixtureIds String
+  publishedAt DateTime?
+  updatedAt DateTime @updatedAt
+  entries FantasyEntry[]
+  stats FantasyMatchStat[]
+}
+model FantasyEntry {
+  id Int @id @default(autoincrement())
+  roundId Int
+  round FantasyRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name String
+  squad String
+  starters String
+  captainId Int
+  total Int @default(0)
+  breakdown String @default("[]")
+  updatedAt DateTime @updatedAt
+  @@unique([roundId, userId])
+}
+model FantasyMatchStat {
+  id Int @id @default(autoincrement())
+  roundId Int
+  round FantasyRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  fixtureId Int
+  playerId Int
+  stats String
+  updatedAt DateTime @updatedAt
+  @@unique([roundId, fixtureId, playerId])
 }

@@ -248,6 +248,7 @@ export type UserWhereInput = {
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  fantasyEntries?: Prisma.FantasyEntryListRelationFilter
   items?: Prisma.ItemListRelationFilter
   accessRequests?: Prisma.AccessRequestListRelationFilter
   playerLinks?: Prisma.PlayerOwnershipListRelationFilter
@@ -268,6 +269,7 @@ export type UserOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  fantasyEntries?: Prisma.FantasyEntryOrderByRelationAggregateInput
   items?: Prisma.ItemOrderByRelationAggregateInput
   accessRequests?: Prisma.AccessRequestOrderByRelationAggregateInput
   playerLinks?: Prisma.PlayerOwnershipOrderByRelationAggregateInput
@@ -291,6 +293,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  fantasyEntries?: Prisma.FantasyEntryListRelationFilter
   items?: Prisma.ItemListRelationFilter
   accessRequests?: Prisma.AccessRequestListRelationFilter
   playerLinks?: Prisma.PlayerOwnershipListRelationFilter
@@ -342,6 +345,7 @@ export type UserCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -362,6 +366,7 @@ export type UserUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -381,6 +386,7 @@ export type UserUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -401,6 +407,7 @@ export type UserUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -638,6 +645,20 @@ export type UserUpdateOneRequiredWithoutLineupsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLineupsInput, Prisma.UserUpdateWithoutLineupsInput>, Prisma.UserUncheckedUpdateWithoutLineupsInput>
 }
 
+export type UserCreateNestedOneWithoutFantasyEntriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFantasyEntriesInput, Prisma.UserUncheckedCreateWithoutFantasyEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFantasyEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFantasyEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFantasyEntriesInput, Prisma.UserUncheckedCreateWithoutFantasyEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFantasyEntriesInput
+  upsert?: Prisma.UserUpsertWithoutFantasyEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFantasyEntriesInput, Prisma.UserUpdateWithoutFantasyEntriesInput>, Prisma.UserUncheckedUpdateWithoutFantasyEntriesInput>
+}
+
 export type UserCreateWithoutItemsInput = {
   name?: string | null
   email: string
@@ -647,6 +668,7 @@ export type UserCreateWithoutItemsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
@@ -666,6 +688,7 @@ export type UserUncheckedCreateWithoutItemsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
@@ -700,6 +723,7 @@ export type UserUpdateWithoutItemsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
@@ -719,6 +743,7 @@ export type UserUncheckedUpdateWithoutItemsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
@@ -737,6 +762,7 @@ export type UserCreateWithoutAccessRequestsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
@@ -756,6 +782,7 @@ export type UserUncheckedCreateWithoutAccessRequestsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
@@ -790,6 +817,7 @@ export type UserUpdateWithoutAccessRequestsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
@@ -809,6 +837,7 @@ export type UserUncheckedUpdateWithoutAccessRequestsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
@@ -827,6 +856,7 @@ export type UserCreateWithoutPlayerLinksInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
@@ -846,6 +876,7 @@ export type UserUncheckedCreateWithoutPlayerLinksInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
@@ -880,6 +911,7 @@ export type UserUpdateWithoutPlayerLinksInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
@@ -899,6 +931,7 @@ export type UserUncheckedUpdateWithoutPlayerLinksInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
@@ -917,6 +950,7 @@ export type UserCreateWithoutCoachLinksInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -936,6 +970,7 @@ export type UserUncheckedCreateWithoutCoachLinksInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -970,6 +1005,7 @@ export type UserUpdateWithoutCoachLinksInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -989,6 +1025,7 @@ export type UserUncheckedUpdateWithoutCoachLinksInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1007,6 +1044,7 @@ export type UserCreateWithoutFavoritesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -1026,6 +1064,7 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -1060,6 +1099,7 @@ export type UserUpdateWithoutFavoritesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -1079,6 +1119,7 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1097,6 +1138,7 @@ export type UserCreateWithoutSubmissionsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -1116,6 +1158,7 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -1150,6 +1193,7 @@ export type UserUpdateWithoutSubmissionsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -1169,6 +1213,7 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1187,6 +1232,7 @@ export type UserCreateWithoutAnnouncementsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -1206,6 +1252,7 @@ export type UserUncheckedCreateWithoutAnnouncementsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -1240,6 +1287,7 @@ export type UserUpdateWithoutAnnouncementsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -1259,6 +1307,7 @@ export type UserUncheckedUpdateWithoutAnnouncementsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1277,6 +1326,7 @@ export type UserCreateWithoutLineupsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -1296,6 +1346,7 @@ export type UserUncheckedCreateWithoutLineupsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -1330,6 +1381,7 @@ export type UserUpdateWithoutLineupsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -1349,6 +1401,7 @@ export type UserUncheckedUpdateWithoutLineupsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1358,12 +1411,107 @@ export type UserUncheckedUpdateWithoutLineupsInput = {
   announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
+export type UserCreateWithoutFantasyEntriesInput = {
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutFantasyEntriesInput = {
+  id?: number
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionUncheckedCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutFantasyEntriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFantasyEntriesInput, Prisma.UserUncheckedCreateWithoutFantasyEntriesInput>
+}
+
+export type UserUpsertWithoutFantasyEntriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFantasyEntriesInput, Prisma.UserUncheckedUpdateWithoutFantasyEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFantasyEntriesInput, Prisma.UserUncheckedCreateWithoutFantasyEntriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFantasyEntriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFantasyEntriesInput, Prisma.UserUncheckedUpdateWithoutFantasyEntriesInput>
+}
+
+export type UserUpdateWithoutFantasyEntriesInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFantasyEntriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
 
 /**
  * Count Type UserCountOutputType
  */
 
 export type UserCountOutputType = {
+  fantasyEntries: number
   items: number
   accessRequests: number
   playerLinks: number
@@ -1375,6 +1523,7 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  fantasyEntries?: boolean | UserCountOutputTypeCountFantasyEntriesArgs
   items?: boolean | UserCountOutputTypeCountItemsArgs
   accessRequests?: boolean | UserCountOutputTypeCountAccessRequestsArgs
   playerLinks?: boolean | UserCountOutputTypeCountPlayerLinksArgs
@@ -1393,6 +1542,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFantasyEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FantasyEntryWhereInput
 }
 
 /**
@@ -1462,6 +1618,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  fantasyEntries?: boolean | Prisma.User$fantasyEntriesArgs<ExtArgs>
   items?: boolean | Prisma.User$itemsArgs<ExtArgs>
   accessRequests?: boolean | Prisma.User$accessRequestsArgs<ExtArgs>
   playerLinks?: boolean | Prisma.User$playerLinksArgs<ExtArgs>
@@ -1511,6 +1668,7 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "accountType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  fantasyEntries?: boolean | Prisma.User$fantasyEntriesArgs<ExtArgs>
   items?: boolean | Prisma.User$itemsArgs<ExtArgs>
   accessRequests?: boolean | Prisma.User$accessRequestsArgs<ExtArgs>
   playerLinks?: boolean | Prisma.User$playerLinksArgs<ExtArgs>
@@ -1527,6 +1685,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    fantasyEntries: Prisma.$FantasyEntryPayload<ExtArgs>[]
     items: Prisma.$ItemPayload<ExtArgs>[]
     accessRequests: Prisma.$AccessRequestPayload<ExtArgs>[]
     playerLinks: Prisma.$PlayerOwnershipPayload<ExtArgs>[]
@@ -1940,6 +2099,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  fantasyEntries<T extends Prisma.User$fantasyEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fantasyEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FantasyEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   items<T extends Prisma.User$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accessRequests<T extends Prisma.User$accessRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accessRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccessRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   playerLinks<T extends Prisma.User$playerLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$playerLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlayerOwnershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2374,6 +2534,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.fantasyEntries
+ */
+export type User$fantasyEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FantasyEntry
+   */
+  select?: Prisma.FantasyEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FantasyEntry
+   */
+  omit?: Prisma.FantasyEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FantasyEntryInclude<ExtArgs> | null
+  where?: Prisma.FantasyEntryWhereInput
+  orderBy?: Prisma.FantasyEntryOrderByWithRelationInput | Prisma.FantasyEntryOrderByWithRelationInput[]
+  cursor?: Prisma.FantasyEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FantasyEntryScalarFieldEnum | Prisma.FantasyEntryScalarFieldEnum[]
 }
 
 /**
