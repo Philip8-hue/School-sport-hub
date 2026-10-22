@@ -45,7 +45,7 @@ form?.addEventListener("submit", async (event) => {
   loginButton.innerHTML = '<span>Signing in…</span><span aria-hidden="true">→</span>';
 
   try {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/api/auth/admin-login", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       credentials: "same-origin",

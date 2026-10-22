@@ -12,7 +12,7 @@ window.adminSession = (() => {
       dialog.querySelector('[data-cancel]').addEventListener('click', () => close(new Error('Your changes are still in the form. Sign in when you are ready to save.')));
       form.addEventListener('submit', async event => {
         event.preventDefault(); const submit = form.querySelector('[type=submit]'); submit.disabled = true;
-        try { const response = await fetch('/api/auth/login', { method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:form.elements.email.value,password:form.elements.password.value}) }); const data = await response.json();
+        try { const response = await fetch('/api/auth/admin-login', { method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:form.elements.email.value,password:form.elements.password.value}) }); const data = await response.json();
           if (!response.ok) throw new Error(data.error || 'Unable to sign in');
           if (data.user?.role !== 'ADMIN') throw new Error('This account does not have administrator access.');
           close();

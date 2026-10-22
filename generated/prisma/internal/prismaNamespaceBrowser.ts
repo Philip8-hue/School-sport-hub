@@ -56,6 +56,15 @@ export const ModelName = {
   Club: 'Club',
   Player: 'Player',
   Fixture: 'Fixture',
+  AccessRequest: 'AccessRequest',
+  PlayerOwnership: 'PlayerOwnership',
+  CoachAssignment: 'CoachAssignment',
+  Favorite: 'Favorite',
+  ReviewSubmission: 'ReviewSubmission',
+  TeamAnnouncement: 'TeamAnnouncement',
+  MatchAvailability: 'MatchAvailability',
+  TeamLineup: 'TeamLineup',
+  PlayerSnapshot: 'PlayerSnapshot',
   Result: 'Result',
   LeagueTable: 'LeagueTable',
   NewsArticle: 'NewsArticle',
@@ -81,6 +90,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
+  accountType: 'accountType',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -169,6 +179,120 @@ export const FixtureScalarFieldEnum = {
 } as const
 
 export type FixtureScalarFieldEnum = (typeof FixtureScalarFieldEnum)[keyof typeof FixtureScalarFieldEnum]
+
+
+export const AccessRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  kind: 'kind',
+  targetId: 'targetId',
+  message: 'message',
+  status: 'status',
+  reviewNote: 'reviewNote',
+  reviewerId: 'reviewerId',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccessRequestScalarFieldEnum = (typeof AccessRequestScalarFieldEnum)[keyof typeof AccessRequestScalarFieldEnum]
+
+
+export const PlayerOwnershipScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  playerId: 'playerId',
+  bio: 'bio',
+  createdAt: 'createdAt'
+} as const
+
+export type PlayerOwnershipScalarFieldEnum = (typeof PlayerOwnershipScalarFieldEnum)[keyof typeof PlayerOwnershipScalarFieldEnum]
+
+
+export const CoachAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  clubId: 'clubId',
+  createdAt: 'createdAt'
+} as const
+
+export type CoachAssignmentScalarFieldEnum = (typeof CoachAssignmentScalarFieldEnum)[keyof typeof CoachAssignmentScalarFieldEnum]
+
+
+export const FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  kind: 'kind',
+  targetId: 'targetId',
+  createdAt: 'createdAt'
+} as const
+
+export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const ReviewSubmissionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  kind: 'kind',
+  playerId: 'playerId',
+  clubId: 'clubId',
+  fixtureId: 'fixtureId',
+  details: 'details',
+  status: 'status',
+  reviewNote: 'reviewNote',
+  reviewerId: 'reviewerId',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ReviewSubmissionScalarFieldEnum = (typeof ReviewSubmissionScalarFieldEnum)[keyof typeof ReviewSubmissionScalarFieldEnum]
+
+
+export const TeamAnnouncementScalarFieldEnum = {
+  id: 'id',
+  clubId: 'clubId',
+  authorId: 'authorId',
+  title: 'title',
+  body: 'body',
+  createdAt: 'createdAt'
+} as const
+
+export type TeamAnnouncementScalarFieldEnum = (typeof TeamAnnouncementScalarFieldEnum)[keyof typeof TeamAnnouncementScalarFieldEnum]
+
+
+export const MatchAvailabilityScalarFieldEnum = {
+  id: 'id',
+  playerId: 'playerId',
+  fixtureId: 'fixtureId',
+  status: 'status',
+  note: 'note',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MatchAvailabilityScalarFieldEnum = (typeof MatchAvailabilityScalarFieldEnum)[keyof typeof MatchAvailabilityScalarFieldEnum]
+
+
+export const TeamLineupScalarFieldEnum = {
+  id: 'id',
+  clubId: 'clubId',
+  fixtureId: 'fixtureId',
+  authorId: 'authorId',
+  playerIds: 'playerIds',
+  note: 'note',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TeamLineupScalarFieldEnum = (typeof TeamLineupScalarFieldEnum)[keyof typeof TeamLineupScalarFieldEnum]
+
+
+export const PlayerSnapshotScalarFieldEnum = {
+  id: 'id',
+  playerId: 'playerId',
+  stats: 'stats',
+  capturedAt: 'capturedAt'
+} as const
+
+export type PlayerSnapshotScalarFieldEnum = (typeof PlayerSnapshotScalarFieldEnum)[keyof typeof PlayerSnapshotScalarFieldEnum]
 
 
 export const ResultScalarFieldEnum = {

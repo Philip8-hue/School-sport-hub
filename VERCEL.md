@@ -6,6 +6,10 @@ generates both Prisma clients, compiles the backend, and copies frontend assets
 from `aul sports` into the generated `public` directory. Local development and
 `npm start` still use the usual local server.
 
+Admin workspace HTML is deliberately excluded from `public`. The Express
+function serves it only after checking administrator access. The function's
+`includeFiles` setting packages these protected HTML files for that purpose.
+
 ## Import the project
 
 1. Push the prepared repository changes to `Philip8-hue/School-sport-hub`.

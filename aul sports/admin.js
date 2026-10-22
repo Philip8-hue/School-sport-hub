@@ -1,12 +1,13 @@
 const message = document.getElementById("dashboardMessage");
 const state = { clubs: [], players: [], fixtures: [], results: [], tables: [], news: [], users: [], items: [] };
-const titles = { overview: "Overview", homepage: "Homepage", clubs: "Clubs", players: "Players", fixtures: "Fixtures", results: "Results", tables: "League tables", news: "News", community: "Community posts", users: "Users" };
+const titles = { overview: "Overview", approvals: "Approvals", homepage: "Homepage", clubs: "Clubs", players: "Players", fixtures: "Fixtures", results: "Results", tables: "League tables", news: "News", community: "Community posts", users: "Users" };
 
 async function api(url, options = {}, retried = false) {
   const headers = options.body ? { "Content-Type": "application/json", ...(options.headers || {}) } : options.headers;
   const response = await fetch(url, { ...options, credentials: "same-origin", headers });
   const data = await response.json().catch(() => ({}));
   if (response.status === 401 && !retried) { await window.adminSession.signIn(); return api(url, options, true); }
+  if(response.status===403&&data.error==="Insufficient permissions"){location.replace("account.html?notice=admin-only");throw new Error("Administrator access required.");}
   if (!response.ok) { const details = Object.values(data.details?.fieldErrors || {}).flat().join(" "); throw new Error([data.error || `Request failed (${response.status})`, details].filter(Boolean).join(": ")); }
   return data;
 }
@@ -19,7 +20,7 @@ function showSection(section) {
   document.querySelectorAll(".nav-item").forEach((button) => button.classList.toggle("active", button.dataset.section === section));
   document.getElementById("pageTitle").textContent = titles[section] || "Admin workspace";
   document.getElementById("adminSidebar")?.classList.remove("open");
-  const loaders = { homepage: loadHomepage, clubs: loadClubs, players: loadPlayers, fixtures: loadFixtures, results: loadResults, tables: loadTables, news: loadNews, community: loadItems, users: loadUsers };
+  const loaders = { approvals: loadApprovals, homepage: loadHomepage, clubs: loadClubs, players: loadPlayers, fixtures: loadFixtures, results: loadResults, tables: loadTables, news: loadNews, community: loadItems, users: loadUsers };
   if (section === "results") loadFixtures().catch(error => setMessage(error.message, "error"));
   loaders[section]?.().catch(error => setMessage(error.message, "error"));
   document.querySelectorAll(".nav-item").forEach(button => button.setAttribute("aria-current", button.dataset.section === section ? "page" : "false"));
@@ -77,10 +78,12 @@ document.getElementById("logoutButton")?.addEventListener("click", async () => {
 document.addEventListener("click", (event) => { const edit = event.target.closest("[data-edit-type]"); if (edit) beginEdit(edit.dataset.editType, edit.dataset.editId); });
 document.getElementById("playerSportFilter")?.addEventListener("change", () => { const sport = document.getElementById("playerSportFilter").value; const visible = sport ? state.players.filter((player) => player.sport === sport) : state.players; renderList("playersList", visible.map((p) => `<article class="data-row"><div><h4>${escapeHtml(p.name)}</h4><p>${escapeHtml(p.sport)}${p.position ? ` · ${escapeHtml(p.position)}` : ""}${p.club ? ` · ${escapeHtml(p.club.name)}` : ""}</p><small>${escapeHtml(window.playerStatSummary(p))}</small></div><div class="row-actions"><button data-edit-type="player" data-edit-id="${p.id}">Edit</button><button class="danger-button" data-delete="/api/players/${p.id}" data-refresh="players">Delete</button></div></article>`).join(""), "No players in this sport yet."); });
 
-(async function init() { try { const me = await api("/api/auth/me"); document.getElementById("adminIdentity").textContent = `${me.user.name || me.user.email} · ${me.user.role}`; await loadOverview(); await loadClubs(); } catch (error) { setMessage(error.message, "error"); } })();
+(async function init() { try { const me = await api("/api/auth/me"); if(me.user.role!=="ADMIN"){location.replace("account.html?notice=admin-only");return;} document.getElementById("adminIdentity").textContent = `${me.user.name || me.user.email} · ${me.user.role}`; await loadOverview(); await loadClubs(); } catch (error) { setMessage(error.message, "error"); } })();
 
 // Search directories, cancel edits, and dismiss mobile navigation with Escape.
 for (const list of document.querySelectorAll('.data-list')) { const search=document.createElement('input'); search.type='search'; search.className='search-field'; search.placeholder='Search this list…'; search.setAttribute('aria-label','Search '+list.id.replace('List','')); list.before(search); search.addEventListener('input',()=>{ for(const row of list.querySelectorAll('.data-row')) row.hidden=!row.textContent.toLowerCase().includes(search.value.toLowerCase()); }); new MutationObserver(()=>search.dispatchEvent(new Event('input'))).observe(list,{childList:true}); }
 for(const id of ['clubForm','playerForm','fixtureForm','newsForm']){ const form=document.getElementById(id); const cancel=document.createElement('button');cancel.type='button';cancel.className='cancel-edit';cancel.textContent='Clear / cancel edit';cancel.addEventListener('click',()=>{form.reset();form.elements.id.value='';form.querySelector('h3').textContent= id==='fixtureForm'?'Schedule fixture':'Add '+id.replace('Form','');form.querySelector('[type=submit]').textContent=id==='newsForm'?'Save article':id==='fixtureForm'?'Schedule fixture':'Create '+id.replace('Form','');});form.append(cancel); }
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){document.getElementById('adminSidebar').classList.remove('open');document.getElementById('menuButton').setAttribute('aria-expanded','false');}});
 document.getElementById('menuButton').addEventListener('click',()=>document.getElementById('menuButton').setAttribute('aria-expanded',String(document.getElementById('adminSidebar').classList.contains('open'))));
+
+window.addEventListener("focus",()=>fetch("/api/auth/me").then(r=>r.ok?r.json():null).then(d=>{if(d&&d.user.role!=="ADMIN")location.replace("account.html?notice=admin-only");}).catch(()=>{}));

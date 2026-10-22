@@ -2,6 +2,27 @@
 
 The API now supports password authentication with role-based access control.
 
+Public accounts can choose a Player, Coach, or Fan experience. This is stored
+as `accountType`, separately from the authorization `role`. Every public signup
+is still `USER`; choosing Player or Coach never grants administrator or team
+editing permissions. The login choice can update this preference after the
+credentials are verified. Each experience opens its own welcome page at
+`account.html`. Existing users default to Fan until they choose another view.
+
+Player-profile ownership and coaching assignments require a request under
+`My account` and approval under **Admin → Approvals**. Approved players get
+personal statistics and private team tools; approved coaches get tools for
+their assigned teams. Fans can save favourite clubs and players. One account
+can hold several verified assignments and switch dashboards. See
+[MEMBERSHIPS.md](MEMBERSHIPS.md) for permissions, review and revocation.
+Official statistics remain admin-managed. Public player cards are visible
+without logging in and have intentionally blank photo spaces.
+
+The server checks the current database role before serving admin workspace
+HTML. Guests go to admin sign-in; regular users go to their own dashboard.
+The dedicated `/api/auth/admin-login` rejects regular accounts before setting
+any login cookie. Admin HTML is excluded from Vercel's public CDN files.
+
 ## Setup
 
 1. Copy `.env.example` to `.env`.

@@ -3,5 +3,6 @@
   "framework": "express",
   "installCommand": "npm ci --include=dev",
   "buildCommand": "npm run vercel-build",
-  "cleanUrls": false
+  "cleanUrls": false,
+  "functions": { "app.ts": { "includeFiles": "aul sports/admin*.html" } }
 }

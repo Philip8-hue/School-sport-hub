@@ -13,10 +13,18 @@ model User {
   email        String   @unique
   passwordHash String?
   role         String   @default("USER")
+  accountType  String   @default("FAN")
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   items        Item[]
+  accessRequests AccessRequest[]
+  playerLinks PlayerOwnership[]
+  coachLinks CoachAssignment[]
+  favorites Favorite[]
+  submissions ReviewSubmission[]
+  announcements TeamAnnouncement[]
+  lineups TeamLineup[]
 }
 
 model Item {
@@ -43,6 +51,9 @@ model Club {
   homeFixtures  Fixture[]     @relation("HomeClub")
   awayFixtures  Fixture[]     @relation("AwayClub")
   tableEntries  LeagueTable[]
+  coaches CoachAssignment[]
+  announcements TeamAnnouncement[]
+  lineups TeamLineup[]
 
   @@unique([sport, name])
   @@index([sport])
@@ -89,6 +100,9 @@ model Player {
 
   @@index([sport])
   @@index([clubId])
+  ownership PlayerOwnership?
+  availability MatchAvailability[]
+  snapshots PlayerSnapshot[]
 }
 
 model Fixture {
@@ -106,6 +120,120 @@ model Fixture {
   updatedAt   DateTime  @updatedAt
 
   @@index([sport, startsAt])
+  availability MatchAvailability[]
+  lineups TeamLineup[]
+}
+
+model AccessRequest {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind String
+  targetId Int
+  message String
+  status String @default("PENDING")
+  reviewNote String @default("")
+  reviewerId Int?
+  reviewedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([userId, kind, targetId])
+  @@index([status])
+}
+
+model PlayerOwnership {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playerId Int @unique
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  bio String @default("")
+  createdAt DateTime @default(now())
+  @@index([userId])
+}
+
+model CoachAssignment {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clubId Int
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@unique([userId, clubId])
+}
+
+model Favorite {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind String
+  targetId Int
+  createdAt DateTime @default(now())
+  @@unique([userId, kind, targetId])
+}
+
+model ReviewSubmission {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind String
+  playerId Int?
+  clubId Int?
+  fixtureId Int?
+  details String
+  status String @default("PENDING")
+  reviewNote String @default("")
+  reviewerId Int?
+  reviewedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([status])
+}
+
+model TeamAnnouncement {
+  id Int @id @default(autoincrement())
+  clubId Int
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  authorId Int
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  title String
+  body String
+  createdAt DateTime @default(now())
+  @@index([clubId, createdAt])
+}
+
+model MatchAvailability {
+  id Int @id @default(autoincrement())
+  playerId Int
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  fixtureId Int
+  fixture Fixture @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
+  status String
+  note String @default("")
+  updatedAt DateTime @updatedAt
+  @@unique([playerId, fixtureId])
+}
+
+model TeamLineup {
+  id Int @id @default(autoincrement())
+  clubId Int
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  fixtureId Int
+  fixture Fixture @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
+  authorId Int
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  playerIds String
+  note String @default("")
+  updatedAt DateTime @updatedAt
+  @@unique([clubId, fixtureId])
+}
+
+model PlayerSnapshot {
+  id Int @id @default(autoincrement())
+  playerId Int
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  stats String
+  capturedAt DateTime @default(now())
+  @@index([playerId, capturedAt])
 }
 
 model Result {

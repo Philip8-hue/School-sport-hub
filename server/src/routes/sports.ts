@@ -2,6 +2,7 @@ import { Router, type RequestHandler } from "express";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
+import { updatePlayerWithHistory } from "../lib/player-history.js";
 
 export const sportsRouter = Router();
 const adminOnly: RequestHandler[] = [requireAuth, requireRole("ADMIN")];
@@ -43,7 +44,7 @@ sportsRouter.post("/players", ...adminOnly, async (request, response, next) => {
 });
 sportsRouter.patch("/players/:id", ...adminOnly, async (request, response, next) => {
   const playerId = id(request.params.id); const parsed = playerSchema.partial().safeParse(request.body); if (!playerId || !parsed.success) { response.status(400).json({ error: "Invalid player update" }); return; }
-  try { response.json(await prisma.player.update({ where: { id: playerId }, data: parsed.data, include: { club: true } })); } catch (error) { if (handleNotFound(error)) { response.status(404).json({ error: "Player not found" }); return; } next(error); }
+  try { response.json(await prisma.$transaction(tx => updatePlayerWithHistory(tx, playerId, parsed.data))); } catch (error) { if (handleNotFound(error)) { response.status(404).json({ error: "Player not found" }); return; } next(error); }
 });
 sportsRouter.delete("/players/:id", ...adminOnly, async (request, response, next) => {
   const playerId = id(request.params.id); if (!playerId) { response.status(400).json({ error: "Invalid player id" }); return; }

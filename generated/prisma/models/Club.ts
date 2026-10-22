@@ -236,6 +236,9 @@ export type ClubWhereInput = {
   homeFixtures?: Prisma.FixtureListRelationFilter
   awayFixtures?: Prisma.FixtureListRelationFilter
   tableEntries?: Prisma.LeagueTableListRelationFilter
+  coaches?: Prisma.CoachAssignmentListRelationFilter
+  announcements?: Prisma.TeamAnnouncementListRelationFilter
+  lineups?: Prisma.TeamLineupListRelationFilter
 }
 
 export type ClubOrderByWithRelationInput = {
@@ -250,6 +253,9 @@ export type ClubOrderByWithRelationInput = {
   homeFixtures?: Prisma.FixtureOrderByRelationAggregateInput
   awayFixtures?: Prisma.FixtureOrderByRelationAggregateInput
   tableEntries?: Prisma.LeagueTableOrderByRelationAggregateInput
+  coaches?: Prisma.CoachAssignmentOrderByRelationAggregateInput
+  announcements?: Prisma.TeamAnnouncementOrderByRelationAggregateInput
+  lineups?: Prisma.TeamLineupOrderByRelationAggregateInput
 }
 
 export type ClubWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +274,9 @@ export type ClubWhereUniqueInput = Prisma.AtLeast<{
   homeFixtures?: Prisma.FixtureListRelationFilter
   awayFixtures?: Prisma.FixtureListRelationFilter
   tableEntries?: Prisma.LeagueTableListRelationFilter
+  coaches?: Prisma.CoachAssignmentListRelationFilter
+  announcements?: Prisma.TeamAnnouncementListRelationFilter
+  lineups?: Prisma.TeamLineupListRelationFilter
 }, "id" | "slug" | "sport_name">
 
 export type ClubOrderByWithAggregationInput = {
@@ -309,6 +318,9 @@ export type ClubCreateInput = {
   homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
 }
 
 export type ClubUncheckedCreateInput = {
@@ -323,6 +335,9 @@ export type ClubUncheckedCreateInput = {
   homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
 }
 
 export type ClubUpdateInput = {
@@ -336,6 +351,9 @@ export type ClubUpdateInput = {
   homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUncheckedUpdateInput = {
@@ -350,6 +368,9 @@ export type ClubUncheckedUpdateInput = {
   homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateManyInput = {
@@ -482,6 +503,48 @@ export type ClubUpdateOneWithoutAwayFixturesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClubUpdateToOneWithWhereWithoutAwayFixturesInput, Prisma.ClubUpdateWithoutAwayFixturesInput>, Prisma.ClubUncheckedUpdateWithoutAwayFixturesInput>
 }
 
+export type ClubCreateNestedOneWithoutCoachesInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutCoachesInput, Prisma.ClubUncheckedCreateWithoutCoachesInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutCoachesInput
+  connect?: Prisma.ClubWhereUniqueInput
+}
+
+export type ClubUpdateOneRequiredWithoutCoachesNestedInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutCoachesInput, Prisma.ClubUncheckedCreateWithoutCoachesInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutCoachesInput
+  upsert?: Prisma.ClubUpsertWithoutCoachesInput
+  connect?: Prisma.ClubWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClubUpdateToOneWithWhereWithoutCoachesInput, Prisma.ClubUpdateWithoutCoachesInput>, Prisma.ClubUncheckedUpdateWithoutCoachesInput>
+}
+
+export type ClubCreateNestedOneWithoutAnnouncementsInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutAnnouncementsInput, Prisma.ClubUncheckedCreateWithoutAnnouncementsInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutAnnouncementsInput
+  connect?: Prisma.ClubWhereUniqueInput
+}
+
+export type ClubUpdateOneRequiredWithoutAnnouncementsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutAnnouncementsInput, Prisma.ClubUncheckedCreateWithoutAnnouncementsInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutAnnouncementsInput
+  upsert?: Prisma.ClubUpsertWithoutAnnouncementsInput
+  connect?: Prisma.ClubWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClubUpdateToOneWithWhereWithoutAnnouncementsInput, Prisma.ClubUpdateWithoutAnnouncementsInput>, Prisma.ClubUncheckedUpdateWithoutAnnouncementsInput>
+}
+
+export type ClubCreateNestedOneWithoutLineupsInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutLineupsInput, Prisma.ClubUncheckedCreateWithoutLineupsInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutLineupsInput
+  connect?: Prisma.ClubWhereUniqueInput
+}
+
+export type ClubUpdateOneRequiredWithoutLineupsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClubCreateWithoutLineupsInput, Prisma.ClubUncheckedCreateWithoutLineupsInput>
+  connectOrCreate?: Prisma.ClubCreateOrConnectWithoutLineupsInput
+  upsert?: Prisma.ClubUpsertWithoutLineupsInput
+  connect?: Prisma.ClubWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClubUpdateToOneWithWhereWithoutLineupsInput, Prisma.ClubUpdateWithoutLineupsInput>, Prisma.ClubUncheckedUpdateWithoutLineupsInput>
+}
+
 export type ClubCreateNestedOneWithoutTableEntriesInput = {
   create?: Prisma.XOR<Prisma.ClubCreateWithoutTableEntriesInput, Prisma.ClubUncheckedCreateWithoutTableEntriesInput>
   connectOrCreate?: Prisma.ClubCreateOrConnectWithoutTableEntriesInput
@@ -506,6 +569,9 @@ export type ClubCreateWithoutPlayersInput = {
   homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
 }
 
 export type ClubUncheckedCreateWithoutPlayersInput = {
@@ -519,6 +585,9 @@ export type ClubUncheckedCreateWithoutPlayersInput = {
   homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
 }
 
 export type ClubCreateOrConnectWithoutPlayersInput = {
@@ -547,6 +616,9 @@ export type ClubUpdateWithoutPlayersInput = {
   homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUncheckedUpdateWithoutPlayersInput = {
@@ -560,6 +632,9 @@ export type ClubUncheckedUpdateWithoutPlayersInput = {
   homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateWithoutHomeFixturesInput = {
@@ -572,6 +647,9 @@ export type ClubCreateWithoutHomeFixturesInput = {
   players?: Prisma.PlayerCreateNestedManyWithoutClubInput
   awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
 }
 
 export type ClubUncheckedCreateWithoutHomeFixturesInput = {
@@ -585,6 +663,9 @@ export type ClubUncheckedCreateWithoutHomeFixturesInput = {
   players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
   awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
   tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
 }
 
 export type ClubCreateOrConnectWithoutHomeFixturesInput = {
@@ -602,6 +683,9 @@ export type ClubCreateWithoutAwayFixturesInput = {
   players?: Prisma.PlayerCreateNestedManyWithoutClubInput
   homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
   tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
 }
 
 export type ClubUncheckedCreateWithoutAwayFixturesInput = {
@@ -615,6 +699,9 @@ export type ClubUncheckedCreateWithoutAwayFixturesInput = {
   players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
   homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
   tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
 }
 
 export type ClubCreateOrConnectWithoutAwayFixturesInput = {
@@ -643,6 +730,9 @@ export type ClubUpdateWithoutHomeFixturesInput = {
   players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
   awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUncheckedUpdateWithoutHomeFixturesInput = {
@@ -656,6 +746,9 @@ export type ClubUncheckedUpdateWithoutHomeFixturesInput = {
   players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
   awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
   tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUpsertWithoutAwayFixturesInput = {
@@ -679,6 +772,9 @@ export type ClubUpdateWithoutAwayFixturesInput = {
   players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
   homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
   tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUncheckedUpdateWithoutAwayFixturesInput = {
@@ -692,6 +788,243 @@ export type ClubUncheckedUpdateWithoutAwayFixturesInput = {
   players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
   homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
   tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
+}
+
+export type ClubCreateWithoutCoachesInput = {
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
+}
+
+export type ClubUncheckedCreateWithoutCoachesInput = {
+  id?: number
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
+}
+
+export type ClubCreateOrConnectWithoutCoachesInput = {
+  where: Prisma.ClubWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClubCreateWithoutCoachesInput, Prisma.ClubUncheckedCreateWithoutCoachesInput>
+}
+
+export type ClubUpsertWithoutCoachesInput = {
+  update: Prisma.XOR<Prisma.ClubUpdateWithoutCoachesInput, Prisma.ClubUncheckedUpdateWithoutCoachesInput>
+  create: Prisma.XOR<Prisma.ClubCreateWithoutCoachesInput, Prisma.ClubUncheckedCreateWithoutCoachesInput>
+  where?: Prisma.ClubWhereInput
+}
+
+export type ClubUpdateToOneWithWhereWithoutCoachesInput = {
+  where?: Prisma.ClubWhereInput
+  data: Prisma.XOR<Prisma.ClubUpdateWithoutCoachesInput, Prisma.ClubUncheckedUpdateWithoutCoachesInput>
+}
+
+export type ClubUpdateWithoutCoachesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
+}
+
+export type ClubUncheckedUpdateWithoutCoachesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
+}
+
+export type ClubCreateWithoutAnnouncementsInput = {
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
+}
+
+export type ClubUncheckedCreateWithoutAnnouncementsInput = {
+  id?: number
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
+}
+
+export type ClubCreateOrConnectWithoutAnnouncementsInput = {
+  where: Prisma.ClubWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClubCreateWithoutAnnouncementsInput, Prisma.ClubUncheckedCreateWithoutAnnouncementsInput>
+}
+
+export type ClubUpsertWithoutAnnouncementsInput = {
+  update: Prisma.XOR<Prisma.ClubUpdateWithoutAnnouncementsInput, Prisma.ClubUncheckedUpdateWithoutAnnouncementsInput>
+  create: Prisma.XOR<Prisma.ClubCreateWithoutAnnouncementsInput, Prisma.ClubUncheckedCreateWithoutAnnouncementsInput>
+  where?: Prisma.ClubWhereInput
+}
+
+export type ClubUpdateToOneWithWhereWithoutAnnouncementsInput = {
+  where?: Prisma.ClubWhereInput
+  data: Prisma.XOR<Prisma.ClubUpdateWithoutAnnouncementsInput, Prisma.ClubUncheckedUpdateWithoutAnnouncementsInput>
+}
+
+export type ClubUpdateWithoutAnnouncementsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
+}
+
+export type ClubUncheckedUpdateWithoutAnnouncementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
+}
+
+export type ClubCreateWithoutLineupsInput = {
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+}
+
+export type ClubUncheckedCreateWithoutLineupsInput = {
+  id?: number
+  name: string
+  slug: string
+  sport: string
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
+  homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
+  awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
+  tableEntries?: Prisma.LeagueTableUncheckedCreateNestedManyWithoutClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+}
+
+export type ClubCreateOrConnectWithoutLineupsInput = {
+  where: Prisma.ClubWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClubCreateWithoutLineupsInput, Prisma.ClubUncheckedCreateWithoutLineupsInput>
+}
+
+export type ClubUpsertWithoutLineupsInput = {
+  update: Prisma.XOR<Prisma.ClubUpdateWithoutLineupsInput, Prisma.ClubUncheckedUpdateWithoutLineupsInput>
+  create: Prisma.XOR<Prisma.ClubCreateWithoutLineupsInput, Prisma.ClubUncheckedCreateWithoutLineupsInput>
+  where?: Prisma.ClubWhereInput
+}
+
+export type ClubUpdateToOneWithWhereWithoutLineupsInput = {
+  where?: Prisma.ClubWhereInput
+  data: Prisma.XOR<Prisma.ClubUpdateWithoutLineupsInput, Prisma.ClubUncheckedUpdateWithoutLineupsInput>
+}
+
+export type ClubUpdateWithoutLineupsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+}
+
+export type ClubUncheckedUpdateWithoutLineupsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
+  homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
+  awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
+  tableEntries?: Prisma.LeagueTableUncheckedUpdateManyWithoutClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
 }
 
 export type ClubCreateWithoutTableEntriesInput = {
@@ -704,6 +1037,9 @@ export type ClubCreateWithoutTableEntriesInput = {
   players?: Prisma.PlayerCreateNestedManyWithoutClubInput
   homeFixtures?: Prisma.FixtureCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureCreateNestedManyWithoutAwayClubInput
+  coaches?: Prisma.CoachAssignmentCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutClubInput
 }
 
 export type ClubUncheckedCreateWithoutTableEntriesInput = {
@@ -717,6 +1053,9 @@ export type ClubUncheckedCreateWithoutTableEntriesInput = {
   players?: Prisma.PlayerUncheckedCreateNestedManyWithoutClubInput
   homeFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutHomeClubInput
   awayFixtures?: Prisma.FixtureUncheckedCreateNestedManyWithoutAwayClubInput
+  coaches?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutClubInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutClubInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutClubInput
 }
 
 export type ClubCreateOrConnectWithoutTableEntriesInput = {
@@ -745,6 +1084,9 @@ export type ClubUpdateWithoutTableEntriesInput = {
   players?: Prisma.PlayerUpdateManyWithoutClubNestedInput
   homeFixtures?: Prisma.FixtureUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUpdateManyWithoutAwayClubNestedInput
+  coaches?: Prisma.CoachAssignmentUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutClubNestedInput
 }
 
 export type ClubUncheckedUpdateWithoutTableEntriesInput = {
@@ -758,6 +1100,9 @@ export type ClubUncheckedUpdateWithoutTableEntriesInput = {
   players?: Prisma.PlayerUncheckedUpdateManyWithoutClubNestedInput
   homeFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutHomeClubNestedInput
   awayFixtures?: Prisma.FixtureUncheckedUpdateManyWithoutAwayClubNestedInput
+  coaches?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutClubNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutClubNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutClubNestedInput
 }
 
 
@@ -770,6 +1115,9 @@ export type ClubCountOutputType = {
   homeFixtures: number
   awayFixtures: number
   tableEntries: number
+  coaches: number
+  announcements: number
+  lineups: number
 }
 
 export type ClubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -777,6 +1125,9 @@ export type ClubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   homeFixtures?: boolean | ClubCountOutputTypeCountHomeFixturesArgs
   awayFixtures?: boolean | ClubCountOutputTypeCountAwayFixturesArgs
   tableEntries?: boolean | ClubCountOutputTypeCountTableEntriesArgs
+  coaches?: boolean | ClubCountOutputTypeCountCoachesArgs
+  announcements?: boolean | ClubCountOutputTypeCountAnnouncementsArgs
+  lineups?: boolean | ClubCountOutputTypeCountLineupsArgs
 }
 
 /**
@@ -817,6 +1168,27 @@ export type ClubCountOutputTypeCountTableEntriesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.LeagueTableWhereInput
 }
 
+/**
+ * ClubCountOutputType without action
+ */
+export type ClubCountOutputTypeCountCoachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CoachAssignmentWhereInput
+}
+
+/**
+ * ClubCountOutputType without action
+ */
+export type ClubCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamAnnouncementWhereInput
+}
+
+/**
+ * ClubCountOutputType without action
+ */
+export type ClubCountOutputTypeCountLineupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamLineupWhereInput
+}
+
 
 export type ClubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -830,6 +1202,9 @@ export type ClubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   homeFixtures?: boolean | Prisma.Club$homeFixturesArgs<ExtArgs>
   awayFixtures?: boolean | Prisma.Club$awayFixturesArgs<ExtArgs>
   tableEntries?: boolean | Prisma.Club$tableEntriesArgs<ExtArgs>
+  coaches?: boolean | Prisma.Club$coachesArgs<ExtArgs>
+  announcements?: boolean | Prisma.Club$announcementsArgs<ExtArgs>
+  lineups?: boolean | Prisma.Club$lineupsArgs<ExtArgs>
   _count?: boolean | Prisma.ClubCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["club"]>
 
@@ -869,6 +1244,9 @@ export type ClubInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   homeFixtures?: boolean | Prisma.Club$homeFixturesArgs<ExtArgs>
   awayFixtures?: boolean | Prisma.Club$awayFixturesArgs<ExtArgs>
   tableEntries?: boolean | Prisma.Club$tableEntriesArgs<ExtArgs>
+  coaches?: boolean | Prisma.Club$coachesArgs<ExtArgs>
+  announcements?: boolean | Prisma.Club$announcementsArgs<ExtArgs>
+  lineups?: boolean | Prisma.Club$lineupsArgs<ExtArgs>
   _count?: boolean | Prisma.ClubCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClubIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -881,6 +1259,9 @@ export type $ClubPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     homeFixtures: Prisma.$FixturePayload<ExtArgs>[]
     awayFixtures: Prisma.$FixturePayload<ExtArgs>[]
     tableEntries: Prisma.$LeagueTablePayload<ExtArgs>[]
+    coaches: Prisma.$CoachAssignmentPayload<ExtArgs>[]
+    announcements: Prisma.$TeamAnnouncementPayload<ExtArgs>[]
+    lineups: Prisma.$TeamLineupPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1288,6 +1669,9 @@ export interface Prisma__ClubClient<T, Null = never, ExtArgs extends runtime.Typ
   homeFixtures<T extends Prisma.Club$homeFixturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$homeFixturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FixturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   awayFixtures<T extends Prisma.Club$awayFixturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$awayFixturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FixturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tableEntries<T extends Prisma.Club$tableEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$tableEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeagueTablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  coaches<T extends Prisma.Club$coachesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$coachesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoachAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  announcements<T extends Prisma.Club$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lineups<T extends Prisma.Club$lineupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Club$lineupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1808,6 +2192,78 @@ export type Club$tableEntriesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.LeagueTableScalarFieldEnum | Prisma.LeagueTableScalarFieldEnum[]
+}
+
+/**
+ * Club.coaches
+ */
+export type Club$coachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CoachAssignment
+   */
+  select?: Prisma.CoachAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CoachAssignment
+   */
+  omit?: Prisma.CoachAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CoachAssignmentInclude<ExtArgs> | null
+  where?: Prisma.CoachAssignmentWhereInput
+  orderBy?: Prisma.CoachAssignmentOrderByWithRelationInput | Prisma.CoachAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.CoachAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CoachAssignmentScalarFieldEnum | Prisma.CoachAssignmentScalarFieldEnum[]
+}
+
+/**
+ * Club.announcements
+ */
+export type Club$announcementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamAnnouncement
+   */
+  select?: Prisma.TeamAnnouncementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamAnnouncement
+   */
+  omit?: Prisma.TeamAnnouncementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamAnnouncementInclude<ExtArgs> | null
+  where?: Prisma.TeamAnnouncementWhereInput
+  orderBy?: Prisma.TeamAnnouncementOrderByWithRelationInput | Prisma.TeamAnnouncementOrderByWithRelationInput[]
+  cursor?: Prisma.TeamAnnouncementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamAnnouncementScalarFieldEnum | Prisma.TeamAnnouncementScalarFieldEnum[]
+}
+
+/**
+ * Club.lineups
+ */
+export type Club$lineupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamLineup
+   */
+  select?: Prisma.TeamLineupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamLineup
+   */
+  omit?: Prisma.TeamLineupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamLineupInclude<ExtArgs> | null
+  where?: Prisma.TeamLineupWhereInput
+  orderBy?: Prisma.TeamLineupOrderByWithRelationInput | Prisma.TeamLineupOrderByWithRelationInput[]
+  cursor?: Prisma.TeamLineupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamLineupScalarFieldEnum | Prisma.TeamLineupScalarFieldEnum[]
 }
 
 /**

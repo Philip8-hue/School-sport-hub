@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type RequestHandler } from "express";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import type { PrismaClient } from "../../../generated/prisma/client.js";
@@ -20,10 +20,14 @@ const credentialsSchema = z.object({
 
 const registerSchema = credentialsSchema.extend({
   name: z.string().trim().min(1).max(80).optional(),
+  accountType: z.enum(["PLAYER", "COACH", "FAN"]).default("FAN"),
+});
+const loginSchema = credentialsSchema.extend({
+  accountType: z.enum(["PLAYER", "COACH", "FAN"]).optional(),
 });
 
-function publicUser(user: { id: number; email: string; name: string | null; role: string }) {
-  return { id: user.id, email: user.email, name: user.name, role: user.role };
+function publicUser(user: { id: number; email: string; name: string | null; role: string; accountType: string }) {
+  return { id: user.id, email: user.email, name: user.name, role: user.role, accountType: user.accountType };
 }
 
 export function createAuthRouter({ prisma }: AuthRouterOptions): Router {
@@ -54,9 +58,10 @@ export function createAuthRouter({ prisma }: AuthRouterOptions): Router {
           name: parsed.data.name || null,
           passwordHash: await bcrypt.hash(parsed.data.password, 12),
           role: "USER",
+          accountType: parsed.data.accountType,
           isActive: true,
         },
-        select: { id: true, email: true, name: true, role: true },
+        select: { id: true, email: true, name: true, role: true, accountType: true },
       });
 
       setAuthCookie(response, createAccessToken(publicUser(user)));
@@ -66,8 +71,8 @@ export function createAuthRouter({ prisma }: AuthRouterOptions): Router {
     }
   });
 
-  router.post("/login", async (request, response, next) => {
-    const parsed = credentialsSchema.safeParse(request.body);
+  const signIn = (adminOnly = false): RequestHandler => async (request, response, next) => {
+    const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) {
       response.status(400).json({ error: "Invalid email or password" });
       return;
@@ -84,14 +89,24 @@ export function createAuthRouter({ prisma }: AuthRouterOptions): Router {
         return;
       }
 
+      if (adminOnly && user.role !== 'ADMIN') {
+        response.status(403).json({ error: 'This account does not have administrator access. Use the regular sign-in page.' });
+        return;
+      }
+      if (user.role !== "ADMIN" && parsed.data.accountType && parsed.data.accountType !== user.accountType) {
+        user.accountType = parsed.data.accountType;
+        await prisma.user.update({ where: { id: user.id }, data: { accountType: user.accountType } });
+      }
       const safeUser = publicUser(user);
       setAuthCookie(response, createAccessToken(safeUser));
       response.status(200).json({ user: safeUser });
     } catch (error) {
       next(error);
     }
-  });
+  };
 
+  router.post('/admin-login', signIn(true));
+  router.post('/login', signIn());
   router.get("/me", requireAuth, (request, response) => {
     response.status(200).json({ user: request.user });
   });

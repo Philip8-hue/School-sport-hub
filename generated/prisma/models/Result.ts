@@ -447,10 +447,6 @@ export type ResultUncheckedUpdateOneWithoutFixtureNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ResultUpdateToOneWithWhereWithoutFixtureInput, Prisma.ResultUpdateWithoutFixtureInput>, Prisma.ResultUncheckedUpdateWithoutFixtureInput>
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type ResultCreateWithoutFixtureInput = {
   homeScore: number
   awayScore: number

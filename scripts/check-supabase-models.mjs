@@ -24,7 +24,20 @@ try {
     await tx.leagueTable.create({ data: { sport: 'Volleyball', clubId: home.id, played: 1, won: 1, points: 3 } });
     await tx.item.create({ data: { title: 'Migration check' } });
     await tx.newsArticle.create({ data: { title: 'Migration check', slug: 'migration-check-' + suffix, content: 'Temporary test', published: false } });
-    await tx.user.count();
+    const user = await tx.user.create({ data: { name: 'Temporary membership check', email: suffix + '@example.invalid', role: 'USER', accountType: 'PLAYER' } });
+    await tx.accessRequest.create({ data: { userId: user.id, kind: 'PLAYER', targetId: player.id, message: 'Transaction-only verification', status: 'APPROVED', reviewerId: user.id, reviewedAt: new Date() } });
+    await tx.playerOwnership.create({ data: { userId: user.id, playerId: player.id, bio: 'Temporary bio' } });
+    await tx.coachAssignment.create({ data: { userId: user.id, clubId: home.id } });
+    await tx.favorite.create({ data: { userId: user.id, kind: 'CLUB', targetId: home.id } });
+    await tx.reviewSubmission.create({ data: { userId: user.id, kind: 'PROFILE_CORRECTION', playerId: player.id, details: 'Temporary submission' } });
+    await tx.teamAnnouncement.create({ data: { clubId: home.id, authorId: user.id, title: 'Temporary announcement', body: 'Not persisted' } });
+    await tx.matchAvailability.create({ data: { playerId: player.id, fixtureId: fixture.id, status: 'AVAILABLE' } });
+    await tx.teamLineup.create({ data: { clubId: home.id, fixtureId: fixture.id, authorId: user.id, playerIds: JSON.stringify([player.id]) } });
+    await tx.playerSnapshot.create({ data: { playerId: player.id, stats: JSON.stringify({ aces: 3 }) } });
+    const linked = await tx.user.findUniqueOrThrow({ where: { id: user.id }, include: { playerLinks: true, coachLinks: true, favorites: true } });
+    assert.equal(linked.playerLinks[0].playerId, player.id);
+    assert.equal(linked.coachLinks[0].clubId, home.id);
+    assert.equal(linked.favorites.length, 1);
     await tx.homepageContent.findMany();
     throw rollback;
   }, { timeout: 30000 });
@@ -33,7 +46,7 @@ try {
     console.error('Supabase model check failed. Code: ' + (error.code ?? 'unknown'));
     process.exitCode = 1;
   } else {
-    console.log('Supabase Prisma CRUD, relationships, booleans, statistics and UTC timestamps verified. All test records rolled back.');
+    console.log('Supabase Prisma CRUD, memberships, team data, relationships, statistics and UTC timestamps verified. All test records rolled back.');
   }
 } finally {
   await prisma.$disconnect();

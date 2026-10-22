@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsx watch server/src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node scripts/check.mjs",
+    "test": "npm run build && node scripts/check.mjs && node scripts/check-memberships.mjs",
     "start": "node dist/server/src/index.js",
     "db:generate": "node scripts/generate-clients.mjs",
     "db:migrate": "prisma migrate dev",
@@ -19,7 +19,8 @@
     "supabase:verify": "node scripts/migrate-to-supabase.mjs --verify-only",
     "supabase:check": "node scripts/check-supabase.mjs",
     "supabase:check-models": "npm run build && node scripts/check-supabase-models.mjs",
-    "vercel-build": "npm run db:generate && npm run build && node scripts/build-public.mjs"
+    "vercel-build": "npm run db:generate && npm run build && node scripts/build-public.mjs",
+    "test:memberships": "npm run build && node scripts/check-memberships.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.1",

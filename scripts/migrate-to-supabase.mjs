@@ -8,9 +8,9 @@ import { createHash } from 'node:crypto';
 // Prisma's timestamp columns contain UTC without a timezone suffix.
 pg.types.setTypeParser(1114, value => new Date(value.replace(' ', 'T') + 'Z'));
 
-const tables = ['User', 'Item', 'Club', 'Player', 'Fixture', 'Result', 'LeagueTable', 'NewsArticle', 'HomepageContent'];
+const tables = ['User', 'Item', 'Club', 'Player', 'Fixture', 'Result', 'LeagueTable', 'NewsArticle', 'HomepageContent', 'AccessRequest', 'PlayerOwnership', 'CoachAssignment', 'Favorite', 'ReviewSubmission', 'TeamAnnouncement', 'MatchAvailability', 'TeamLineup', 'PlayerSnapshot'];
 const booleanFields = new Set(['isActive', 'captain', 'published']);
-const dateFields = new Set(['createdAt', 'updatedAt', 'startsAt', 'playedAt', 'publishedAt']);
+const dateFields = new Set(['createdAt', 'updatedAt', 'startsAt', 'playedAt', 'publishedAt', 'reviewedAt', 'capturedAt']);
 const quote = name => '"' + name.replaceAll('"', '""') + '"';
 const normalize = row => Object.fromEntries(Object.entries(row).map(([key, value]) => [key,
   value == null ? null : booleanFields.has(key) ? Boolean(value)

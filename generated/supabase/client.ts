@@ -67,6 +67,51 @@ export type Player = Prisma.PlayerModel
  */
 export type Fixture = Prisma.FixtureModel
 /**
+ * Model AccessRequest
+ * 
+ */
+export type AccessRequest = Prisma.AccessRequestModel
+/**
+ * Model PlayerOwnership
+ * 
+ */
+export type PlayerOwnership = Prisma.PlayerOwnershipModel
+/**
+ * Model CoachAssignment
+ * 
+ */
+export type CoachAssignment = Prisma.CoachAssignmentModel
+/**
+ * Model Favorite
+ * 
+ */
+export type Favorite = Prisma.FavoriteModel
+/**
+ * Model ReviewSubmission
+ * 
+ */
+export type ReviewSubmission = Prisma.ReviewSubmissionModel
+/**
+ * Model TeamAnnouncement
+ * 
+ */
+export type TeamAnnouncement = Prisma.TeamAnnouncementModel
+/**
+ * Model MatchAvailability
+ * 
+ */
+export type MatchAvailability = Prisma.MatchAvailabilityModel
+/**
+ * Model TeamLineup
+ * 
+ */
+export type TeamLineup = Prisma.TeamLineupModel
+/**
+ * Model PlayerSnapshot
+ * 
+ */
+export type PlayerSnapshot = Prisma.PlayerSnapshotModel
+/**
  * Model Result
  * 
  */

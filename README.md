@@ -5,6 +5,10 @@ School Sports Hub is a static sports website served by a small Node.js/Express A
 For Vercel hosting, follow [VERCEL.md](VERCEL.md). The deployment serves the
 frontend and Express API together, using your existing Supabase data.
 
+Players and coaches request verified profile/team links in **My account**;
+admins review them in **Approvals**. See [MEMBERSHIPS.md](MEMBERSHIPS.md) for the
+player, coach and fan dashboards and their permissions.
+
 ## Requirements
 
 - Node.js 22 or newer

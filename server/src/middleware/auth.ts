@@ -11,6 +11,7 @@ export type AuthUser = {
   email: string;
   name: string | null;
   role: string;
+  accountType?: string;
 };
 
 declare global {
@@ -83,7 +84,7 @@ export const requireAuth: RequestHandler = async (request, response, next) => {
 
     const user = await prisma.user.findUnique({
       where: { id: Number(payload.sub) },
-      select: { id: true, email: true, name: true, role: true, isActive: true },
+      select: { id: true, email: true, name: true, role: true, accountType: true, isActive: true },
     });
 
     if (!user || !user.isActive) {
@@ -96,6 +97,7 @@ export const requireAuth: RequestHandler = async (request, response, next) => {
       email: user.email,
       name: user.name,
       role: user.role,
+      accountType: user.accountType,
     };
     // Renew a valid session while the user is actively using the workspace.
     setAuthCookie(response, createAccessToken(request.user));
@@ -105,6 +107,23 @@ export const requireAuth: RequestHandler = async (request, response, next) => {
       response.status(401).json({ error: "Invalid authentication token" });
       return;
     }
+    next(error);
+  }
+};
+
+export const requireAdminPage: RequestHandler = async (request, response, next) => {
+  response.setHeader("Cache-Control", "private, no-store");
+  try {
+    const token = readCookie(request, AUTH_COOKIE);
+    if (!token) { response.redirect(303, "/admin-login.html"); return; }
+    const payload = jwt.verify(token, getJwtSecret());
+    if (typeof payload !== "object" || typeof payload.sub !== "string") { response.redirect(303, "/admin-login.html"); return; }
+    const user = await prisma.user.findUnique({ where: { id: Number(payload.sub) }, select: { role: true, isActive: true } });
+    if (!user?.isActive) { response.redirect(303, "/admin-login.html"); return; }
+    if (user.role !== "ADMIN") { response.redirect(303, "/account.html?notice=admin-only"); return; }
+    next();
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) { response.redirect(303, "/admin-login.html"); return; }
     next(error);
   }
 };

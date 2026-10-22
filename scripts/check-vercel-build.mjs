@@ -22,7 +22,8 @@ function check(directory) {
   }
 }
 check('public');
-for (const file of ['index.html', 'admin.html', 'register.html', 'design.css', 'homepage-copy.json']) assert.ok(fs.existsSync(path.join('public', file)));
+for (const file of ['index.html', 'register.html', 'design.css', 'homepage-copy.json']) assert.ok(fs.existsSync(path.join('public', file)));
+for (const file of ['admin.html', 'admin-preview.html']) assert.ok(!fs.existsSync(path.join('public', file)), 'Admin HTML must never be served directly by the CDN');
 process.env.VERCEL = '1';
 process.env.DATABASE_PROVIDER = 'supabase';
 process.env.SUPABASE_DATABASE_URL = 'postgresql://localhost:5432/build_check';

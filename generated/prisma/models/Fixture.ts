@@ -259,6 +259,8 @@ export type FixtureWhereInput = {
   homeClub?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   awayClub?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   result?: Prisma.XOR<Prisma.ResultNullableScalarRelationFilter, Prisma.ResultWhereInput> | null
+  availability?: Prisma.MatchAvailabilityListRelationFilter
+  lineups?: Prisma.TeamLineupListRelationFilter
 }
 
 export type FixtureOrderByWithRelationInput = {
@@ -274,6 +276,8 @@ export type FixtureOrderByWithRelationInput = {
   homeClub?: Prisma.ClubOrderByWithRelationInput
   awayClub?: Prisma.ClubOrderByWithRelationInput
   result?: Prisma.ResultOrderByWithRelationInput
+  availability?: Prisma.MatchAvailabilityOrderByRelationAggregateInput
+  lineups?: Prisma.TeamLineupOrderByRelationAggregateInput
 }
 
 export type FixtureWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +296,8 @@ export type FixtureWhereUniqueInput = Prisma.AtLeast<{
   homeClub?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   awayClub?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   result?: Prisma.XOR<Prisma.ResultNullableScalarRelationFilter, Prisma.ResultWhereInput> | null
+  availability?: Prisma.MatchAvailabilityListRelationFilter
+  lineups?: Prisma.TeamLineupListRelationFilter
 }, "id">
 
 export type FixtureOrderByWithAggregationInput = {
@@ -336,6 +342,8 @@ export type FixtureCreateInput = {
   homeClub?: Prisma.ClubCreateNestedOneWithoutHomeFixturesInput
   awayClub?: Prisma.ClubCreateNestedOneWithoutAwayFixturesInput
   result?: Prisma.ResultCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureUncheckedCreateInput = {
@@ -349,6 +357,8 @@ export type FixtureUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   result?: Prisma.ResultUncheckedCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureUpdateInput = {
@@ -361,6 +371,8 @@ export type FixtureUpdateInput = {
   homeClub?: Prisma.ClubUpdateOneWithoutHomeFixturesNestedInput
   awayClub?: Prisma.ClubUpdateOneWithoutAwayFixturesNestedInput
   result?: Prisma.ResultUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateInput = {
@@ -374,6 +386,8 @@ export type FixtureUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   result?: Prisma.ResultUncheckedUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureCreateManyInput = {
@@ -556,6 +570,34 @@ export type FixtureUncheckedUpdateManyWithoutAwayClubNestedInput = {
   deleteMany?: Prisma.FixtureScalarWhereInput | Prisma.FixtureScalarWhereInput[]
 }
 
+export type FixtureCreateNestedOneWithoutAvailabilityInput = {
+  create?: Prisma.XOR<Prisma.FixtureCreateWithoutAvailabilityInput, Prisma.FixtureUncheckedCreateWithoutAvailabilityInput>
+  connectOrCreate?: Prisma.FixtureCreateOrConnectWithoutAvailabilityInput
+  connect?: Prisma.FixtureWhereUniqueInput
+}
+
+export type FixtureUpdateOneRequiredWithoutAvailabilityNestedInput = {
+  create?: Prisma.XOR<Prisma.FixtureCreateWithoutAvailabilityInput, Prisma.FixtureUncheckedCreateWithoutAvailabilityInput>
+  connectOrCreate?: Prisma.FixtureCreateOrConnectWithoutAvailabilityInput
+  upsert?: Prisma.FixtureUpsertWithoutAvailabilityInput
+  connect?: Prisma.FixtureWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FixtureUpdateToOneWithWhereWithoutAvailabilityInput, Prisma.FixtureUpdateWithoutAvailabilityInput>, Prisma.FixtureUncheckedUpdateWithoutAvailabilityInput>
+}
+
+export type FixtureCreateNestedOneWithoutLineupsInput = {
+  create?: Prisma.XOR<Prisma.FixtureCreateWithoutLineupsInput, Prisma.FixtureUncheckedCreateWithoutLineupsInput>
+  connectOrCreate?: Prisma.FixtureCreateOrConnectWithoutLineupsInput
+  connect?: Prisma.FixtureWhereUniqueInput
+}
+
+export type FixtureUpdateOneRequiredWithoutLineupsNestedInput = {
+  create?: Prisma.XOR<Prisma.FixtureCreateWithoutLineupsInput, Prisma.FixtureUncheckedCreateWithoutLineupsInput>
+  connectOrCreate?: Prisma.FixtureCreateOrConnectWithoutLineupsInput
+  upsert?: Prisma.FixtureUpsertWithoutLineupsInput
+  connect?: Prisma.FixtureWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FixtureUpdateToOneWithWhereWithoutLineupsInput, Prisma.FixtureUpdateWithoutLineupsInput>, Prisma.FixtureUncheckedUpdateWithoutLineupsInput>
+}
+
 export type FixtureCreateNestedOneWithoutResultInput = {
   create?: Prisma.XOR<Prisma.FixtureCreateWithoutResultInput, Prisma.FixtureUncheckedCreateWithoutResultInput>
   connectOrCreate?: Prisma.FixtureCreateOrConnectWithoutResultInput
@@ -579,6 +621,8 @@ export type FixtureCreateWithoutHomeClubInput = {
   updatedAt?: Date | string
   awayClub?: Prisma.ClubCreateNestedOneWithoutAwayFixturesInput
   result?: Prisma.ResultCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureUncheckedCreateWithoutHomeClubInput = {
@@ -591,6 +635,8 @@ export type FixtureUncheckedCreateWithoutHomeClubInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   result?: Prisma.ResultUncheckedCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureCreateOrConnectWithoutHomeClubInput = {
@@ -611,6 +657,8 @@ export type FixtureCreateWithoutAwayClubInput = {
   updatedAt?: Date | string
   homeClub?: Prisma.ClubCreateNestedOneWithoutHomeFixturesInput
   result?: Prisma.ResultCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureUncheckedCreateWithoutAwayClubInput = {
@@ -623,6 +671,8 @@ export type FixtureUncheckedCreateWithoutAwayClubInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   result?: Prisma.ResultUncheckedCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureCreateOrConnectWithoutAwayClubInput = {
@@ -681,6 +731,146 @@ export type FixtureUpdateManyWithWhereWithoutAwayClubInput = {
   data: Prisma.XOR<Prisma.FixtureUpdateManyMutationInput, Prisma.FixtureUncheckedUpdateManyWithoutAwayClubInput>
 }
 
+export type FixtureCreateWithoutAvailabilityInput = {
+  sport: string
+  startsAt: Date | string
+  venue?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  homeClub?: Prisma.ClubCreateNestedOneWithoutHomeFixturesInput
+  awayClub?: Prisma.ClubCreateNestedOneWithoutAwayFixturesInput
+  result?: Prisma.ResultCreateNestedOneWithoutFixtureInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutFixtureInput
+}
+
+export type FixtureUncheckedCreateWithoutAvailabilityInput = {
+  id?: number
+  sport: string
+  startsAt: Date | string
+  venue?: string | null
+  status?: string
+  homeClubId?: number | null
+  awayClubId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  result?: Prisma.ResultUncheckedCreateNestedOneWithoutFixtureInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutFixtureInput
+}
+
+export type FixtureCreateOrConnectWithoutAvailabilityInput = {
+  where: Prisma.FixtureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FixtureCreateWithoutAvailabilityInput, Prisma.FixtureUncheckedCreateWithoutAvailabilityInput>
+}
+
+export type FixtureUpsertWithoutAvailabilityInput = {
+  update: Prisma.XOR<Prisma.FixtureUpdateWithoutAvailabilityInput, Prisma.FixtureUncheckedUpdateWithoutAvailabilityInput>
+  create: Prisma.XOR<Prisma.FixtureCreateWithoutAvailabilityInput, Prisma.FixtureUncheckedCreateWithoutAvailabilityInput>
+  where?: Prisma.FixtureWhereInput
+}
+
+export type FixtureUpdateToOneWithWhereWithoutAvailabilityInput = {
+  where?: Prisma.FixtureWhereInput
+  data: Prisma.XOR<Prisma.FixtureUpdateWithoutAvailabilityInput, Prisma.FixtureUncheckedUpdateWithoutAvailabilityInput>
+}
+
+export type FixtureUpdateWithoutAvailabilityInput = {
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  venue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  homeClub?: Prisma.ClubUpdateOneWithoutHomeFixturesNestedInput
+  awayClub?: Prisma.ClubUpdateOneWithoutAwayFixturesNestedInput
+  result?: Prisma.ResultUpdateOneWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutFixtureNestedInput
+}
+
+export type FixtureUncheckedUpdateWithoutAvailabilityInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  venue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  homeClubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  awayClubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  result?: Prisma.ResultUncheckedUpdateOneWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutFixtureNestedInput
+}
+
+export type FixtureCreateWithoutLineupsInput = {
+  sport: string
+  startsAt: Date | string
+  venue?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  homeClub?: Prisma.ClubCreateNestedOneWithoutHomeFixturesInput
+  awayClub?: Prisma.ClubCreateNestedOneWithoutAwayFixturesInput
+  result?: Prisma.ResultCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutFixtureInput
+}
+
+export type FixtureUncheckedCreateWithoutLineupsInput = {
+  id?: number
+  sport: string
+  startsAt: Date | string
+  venue?: string | null
+  status?: string
+  homeClubId?: number | null
+  awayClubId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  result?: Prisma.ResultUncheckedCreateNestedOneWithoutFixtureInput
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutFixtureInput
+}
+
+export type FixtureCreateOrConnectWithoutLineupsInput = {
+  where: Prisma.FixtureWhereUniqueInput
+  create: Prisma.XOR<Prisma.FixtureCreateWithoutLineupsInput, Prisma.FixtureUncheckedCreateWithoutLineupsInput>
+}
+
+export type FixtureUpsertWithoutLineupsInput = {
+  update: Prisma.XOR<Prisma.FixtureUpdateWithoutLineupsInput, Prisma.FixtureUncheckedUpdateWithoutLineupsInput>
+  create: Prisma.XOR<Prisma.FixtureCreateWithoutLineupsInput, Prisma.FixtureUncheckedCreateWithoutLineupsInput>
+  where?: Prisma.FixtureWhereInput
+}
+
+export type FixtureUpdateToOneWithWhereWithoutLineupsInput = {
+  where?: Prisma.FixtureWhereInput
+  data: Prisma.XOR<Prisma.FixtureUpdateWithoutLineupsInput, Prisma.FixtureUncheckedUpdateWithoutLineupsInput>
+}
+
+export type FixtureUpdateWithoutLineupsInput = {
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  venue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  homeClub?: Prisma.ClubUpdateOneWithoutHomeFixturesNestedInput
+  awayClub?: Prisma.ClubUpdateOneWithoutAwayFixturesNestedInput
+  result?: Prisma.ResultUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutFixtureNestedInput
+}
+
+export type FixtureUncheckedUpdateWithoutLineupsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  venue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  homeClubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  awayClubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  result?: Prisma.ResultUncheckedUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutFixtureNestedInput
+}
+
 export type FixtureCreateWithoutResultInput = {
   sport: string
   startsAt: Date | string
@@ -690,6 +880,8 @@ export type FixtureCreateWithoutResultInput = {
   updatedAt?: Date | string
   homeClub?: Prisma.ClubCreateNestedOneWithoutHomeFixturesInput
   awayClub?: Prisma.ClubCreateNestedOneWithoutAwayFixturesInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureUncheckedCreateWithoutResultInput = {
@@ -702,6 +894,8 @@ export type FixtureUncheckedCreateWithoutResultInput = {
   awayClubId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutFixtureInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutFixtureInput
 }
 
 export type FixtureCreateOrConnectWithoutResultInput = {
@@ -729,6 +923,8 @@ export type FixtureUpdateWithoutResultInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   homeClub?: Prisma.ClubUpdateOneWithoutHomeFixturesNestedInput
   awayClub?: Prisma.ClubUpdateOneWithoutAwayFixturesNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateWithoutResultInput = {
@@ -741,6 +937,8 @@ export type FixtureUncheckedUpdateWithoutResultInput = {
   awayClubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureCreateManyHomeClubInput = {
@@ -774,6 +972,8 @@ export type FixtureUpdateWithoutHomeClubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   awayClub?: Prisma.ClubUpdateOneWithoutAwayFixturesNestedInput
   result?: Prisma.ResultUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateWithoutHomeClubInput = {
@@ -786,6 +986,8 @@ export type FixtureUncheckedUpdateWithoutHomeClubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   result?: Prisma.ResultUncheckedUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateManyWithoutHomeClubInput = {
@@ -808,6 +1010,8 @@ export type FixtureUpdateWithoutAwayClubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   homeClub?: Prisma.ClubUpdateOneWithoutHomeFixturesNestedInput
   result?: Prisma.ResultUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateWithoutAwayClubInput = {
@@ -820,6 +1024,8 @@ export type FixtureUncheckedUpdateWithoutAwayClubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   result?: Prisma.ResultUncheckedUpdateOneWithoutFixtureNestedInput
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutFixtureNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutFixtureNestedInput
 }
 
 export type FixtureUncheckedUpdateManyWithoutAwayClubInput = {
@@ -833,6 +1039,44 @@ export type FixtureUncheckedUpdateManyWithoutAwayClubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type FixtureCountOutputType
+ */
+
+export type FixtureCountOutputType = {
+  availability: number
+  lineups: number
+}
+
+export type FixtureCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  availability?: boolean | FixtureCountOutputTypeCountAvailabilityArgs
+  lineups?: boolean | FixtureCountOutputTypeCountLineupsArgs
+}
+
+/**
+ * FixtureCountOutputType without action
+ */
+export type FixtureCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FixtureCountOutputType
+   */
+  select?: Prisma.FixtureCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FixtureCountOutputType without action
+ */
+export type FixtureCountOutputTypeCountAvailabilityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchAvailabilityWhereInput
+}
+
+/**
+ * FixtureCountOutputType without action
+ */
+export type FixtureCountOutputTypeCountLineupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamLineupWhereInput
+}
 
 
 export type FixtureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -848,6 +1092,9 @@ export type FixtureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   homeClub?: boolean | Prisma.Fixture$homeClubArgs<ExtArgs>
   awayClub?: boolean | Prisma.Fixture$awayClubArgs<ExtArgs>
   result?: boolean | Prisma.Fixture$resultArgs<ExtArgs>
+  availability?: boolean | Prisma.Fixture$availabilityArgs<ExtArgs>
+  lineups?: boolean | Prisma.Fixture$lineupsArgs<ExtArgs>
+  _count?: boolean | Prisma.FixtureCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fixture"]>
 
 export type FixtureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -895,6 +1142,9 @@ export type FixtureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   homeClub?: boolean | Prisma.Fixture$homeClubArgs<ExtArgs>
   awayClub?: boolean | Prisma.Fixture$awayClubArgs<ExtArgs>
   result?: boolean | Prisma.Fixture$resultArgs<ExtArgs>
+  availability?: boolean | Prisma.Fixture$availabilityArgs<ExtArgs>
+  lineups?: boolean | Prisma.Fixture$lineupsArgs<ExtArgs>
+  _count?: boolean | Prisma.FixtureCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FixtureIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   homeClub?: boolean | Prisma.Fixture$homeClubArgs<ExtArgs>
@@ -911,6 +1161,8 @@ export type $FixturePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     homeClub: Prisma.$ClubPayload<ExtArgs> | null
     awayClub: Prisma.$ClubPayload<ExtArgs> | null
     result: Prisma.$ResultPayload<ExtArgs> | null
+    availability: Prisma.$MatchAvailabilityPayload<ExtArgs>[]
+    lineups: Prisma.$TeamLineupPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1319,6 +1571,8 @@ export interface Prisma__FixtureClient<T, Null = never, ExtArgs extends runtime.
   homeClub<T extends Prisma.Fixture$homeClubArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fixture$homeClubArgs<ExtArgs>>): Prisma.Prisma__ClubClient<runtime.Types.Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   awayClub<T extends Prisma.Fixture$awayClubArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fixture$awayClubArgs<ExtArgs>>): Prisma.Prisma__ClubClient<runtime.Types.Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   result<T extends Prisma.Fixture$resultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fixture$resultArgs<ExtArgs>>): Prisma.Prisma__ResultClient<runtime.Types.Result.GetResult<Prisma.$ResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  availability<T extends Prisma.Fixture$availabilityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fixture$availabilityArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lineups<T extends Prisma.Fixture$lineupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Fixture$lineupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLineupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1810,6 +2064,54 @@ export type Fixture$resultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ResultInclude<ExtArgs> | null
   where?: Prisma.ResultWhereInput
+}
+
+/**
+ * Fixture.availability
+ */
+export type Fixture$availabilityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchAvailability
+   */
+  select?: Prisma.MatchAvailabilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MatchAvailability
+   */
+  omit?: Prisma.MatchAvailabilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchAvailabilityInclude<ExtArgs> | null
+  where?: Prisma.MatchAvailabilityWhereInput
+  orderBy?: Prisma.MatchAvailabilityOrderByWithRelationInput | Prisma.MatchAvailabilityOrderByWithRelationInput[]
+  cursor?: Prisma.MatchAvailabilityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchAvailabilityScalarFieldEnum | Prisma.MatchAvailabilityScalarFieldEnum[]
+}
+
+/**
+ * Fixture.lineups
+ */
+export type Fixture$lineupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamLineup
+   */
+  select?: Prisma.TeamLineupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamLineup
+   */
+  omit?: Prisma.TeamLineupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamLineupInclude<ExtArgs> | null
+  where?: Prisma.TeamLineupWhereInput
+  orderBy?: Prisma.TeamLineupOrderByWithRelationInput | Prisma.TeamLineupOrderByWithRelationInput[]
+  cursor?: Prisma.TeamLineupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamLineupScalarFieldEnum | Prisma.TeamLineupScalarFieldEnum[]
 }
 
 /**

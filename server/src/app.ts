@@ -6,6 +6,8 @@ import { createAuthRouter } from "./routes/auth.js";
 import { adminRouter } from "./routes/admin.js";
 import { sportsRouter } from "./routes/sports.js";
 import { homepageRouter } from "./routes/homepage.js";
+import { memberRouter, approvalRouter } from "./routes/member.js";
+import { requireAdminPage } from "./middleware/auth.js";
 
 import { rateLimit } from "./middleware/rate-limit.js";
 import { sameOrigin } from "./middleware/same-origin.js";
@@ -15,6 +17,17 @@ app.disable("x-powered-by");
 app.use((_request, response, next) => { response.setHeader("X-Content-Type-Options", "nosniff"); response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin"); response.setHeader("X-Frame-Options", "SAMEORIGIN"); next(); });
 app.use("/api", sameOrigin);
 const frontendDirectory = path.resolve(process.cwd(), "aul sports");
+// Admin HTML is excluded from Vercel's public assets and served only here.
+app.use((request, response, next) => {
+  let pathname: string;
+  try { pathname = path.posix.normalize(decodeURIComponent(request.path).replace(/\\/g, '/')).replace(/\/$/, '').toLowerCase(); }
+  catch { next(); return; }
+  if (!["/admin", "/admin.html", "/admin-preview.html"].includes(pathname)) { next(); return; }
+  requireAdminPage(request, response, error => {
+    if (error) { next(error); return; }
+    response.sendFile(path.join(frontendDirectory, pathname === '/admin-preview.html' ? 'admin-preview.html' : 'admin.html'));
+  });
+});
 
 app.use(express.json({ limit: "100kb" }));
 
@@ -23,9 +36,12 @@ app.get("/api/health", (_request: Request, response: Response) => {
 });
 
 app.use("/api/auth/login", rateLimit(30, 15 * 60 * 1000));
+app.use("/api/auth/admin-login", rateLimit(30, 15 * 60 * 1000));
 app.use("/api/auth/register", rateLimit(10, 60 * 60 * 1000));
 app.use("/api/auth", createAuthRouter({ prisma }));
 app.use("/api/admin", adminRouter);
+app.use("/api/admin/approvals", approvalRouter);
+app.use("/api/member", memberRouter);
 app.use("/api", sportsRouter);
 app.use("/api/homepage", homepageRouter);
 
