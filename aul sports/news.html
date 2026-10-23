@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>News - School Sports Hub</title>
+    <link rel="stylesheet" href="news-hub.css">
 
     <link rel="stylesheet" href="aupl.css">
 <link rel="stylesheet" href="design.css">
@@ -17,7 +18,7 @@
 <script src="player-stats.js" defer></script>
 <script src="player-profile.js" defer></script>
 <link rel="stylesheet" href="following.css"><script src="following.js" defer></script>
-</head>
+<link rel="stylesheet" href="security.css"><script src="security-links.js" defer></script><link rel="stylesheet" href="followers.css"><script src="followers.js" defer></script></head>
 
 <body>
 
@@ -30,17 +31,17 @@
 
         <p>SCHOOL SPORTS HUB</p>
 
-        <h2>Latest News</h2>
+        <h1>The game, here and everywhere.</h1>
 
         <span>
-            Stay updated with everything happening
-            in the school league.
+            Campus stories and international coverage. Your sports, in one place.
         </span>
 
     </section>
 
 
-    <section class="news-section">
+    <div class="news-switch" role="group" aria-label="News coverage"><button type="button" data-coverage="school" aria-pressed="true">School news &amp; matches</button><button type="button" data-coverage="international" aria-pressed="false">International news</button></div>
+    <section id="schoolCoverage" class="news-section" aria-label="School coverage">
 
         <div class="news-title">
 
@@ -59,6 +60,17 @@
 
         </div>
 
+        <div class="news-title"><div><p>ON CAMPUS</p><h3>School matches</h3></div><a href="aupl-fixtures.html">All fixtures →</a></div>
+        <label class="news-sport-label">Sport <select id="schoolNewsSport"><option value="football">Football</option><option value="basketball">Basketball</option><option value="volleyball">Volleyball</option></select></label>
+        <div id="schoolNewsMatches" class="news-match-grid" aria-live="polite"></div>
+    </section>
+    <section id="internationalCoverage" class="news-section" aria-label="International coverage" hidden>
+      <div class="news-title"><div><p>BEYOND CAMPUS</p><h2>Across the sporting world</h2></div></div>
+      <p class="world-news-note">Headlines and match coverage from international publishers. These are news articles, not live scores.</p>
+      <div class="news-switch news-sports" role="group" aria-label="International sport"><button type="button" data-news-sport="football" aria-pressed="true">Football</button><button type="button" data-news-sport="basketball" aria-pressed="false">Basketball</button><button type="button" data-news-sport="volleyball" aria-pressed="false">Volleyball</button></div>
+      <p id="worldNewsStatus" role="status"></p><div id="worldNewsList" class="news-list"></div>
+      <button id="worldNewsRetry" type="button" hidden>Try again</button>
+      <button id="worldNewsOlder" type="button" hidden>Load older news</button>
     </section>
 
 </main>
@@ -66,6 +78,7 @@
 
 
 <script src="public-data.js"></script>
+<script src="news-hub.js" defer></script>
 
 <footer class="site-footer"><span>ANCHOR UNIVERSITY · SPORT BRINGS US TOGETHER.</span><span><a href="aupl-fixtures.html">Match centre</a><a href="admin-login.html">Admin workspace ↗</a></span></footer><script src="site.js"></script></body>
 

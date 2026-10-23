@@ -1,3 +1,5 @@
+import {followersRouter} from './routes/followers.js';
+import { internationalNewsRouter } from './routes/international-news.js';
 import { fantasyRouter, fantasyAdminRouter } from './routes/fantasy.js';
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
@@ -36,16 +38,15 @@ app.get("/api/health", (_request: Request, response: Response) => {
   response.status(200).json({ status: "ok" });
 });
 
-app.use("/api/auth/login", rateLimit(30, 15 * 60 * 1000));
-app.use("/api/auth/admin-login", rateLimit(30, 15 * 60 * 1000));
-app.use("/api/auth/register", rateLimit(10, 60 * 60 * 1000));
 app.use("/api/auth", createAuthRouter({ prisma }));
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/approvals", approvalRouter);
 app.use("/api/member", memberRouter);
+app.use("/api/followers", followersRouter);
 app.use("/api/fantasy", fantasyRouter);
 app.use("/api/admin/fantasy", fantasyAdminRouter);
 app.use("/api", sportsRouter);
+app.use("/api/news/international", internationalNewsRouter);
 app.use("/api/homepage", homepageRouter);
 
 app.get("/api/items", async (_request: Request, response: Response) => {
@@ -75,7 +76,7 @@ app.post("/api/items", rateLimit(10, 60 * 1000), async (request: Request, respon
 
 app.use((error: unknown, _request: Request, response: Response, _next: NextFunction) => {
   const prismaCode = error && typeof error === "object" && "code" in error ? String(error.code) : "";
-  console.error("API request failed", error);
+  console.error("API request failed", { code: prismaCode || "INTERNAL_ERROR" });
   const status = error && typeof error === "object" && "status" in error ? Number(error.status) : 500;
   if (status === 400 || status === 413) { response.status(status).json({ error: status === 413 ? "Request body is too large" : "Invalid JSON request body" }); return; }
   if (prismaCode === "P2003") { response.status(400).json({ error: "The selected related record does not exist" }); return; }

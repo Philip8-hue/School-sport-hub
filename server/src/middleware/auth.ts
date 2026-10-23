@@ -1,143 +1,23 @@
-import type { NextFunction, Request, RequestHandler, Response } from "express";
-import jwt from "jsonwebtoken";
-import { prisma } from "../lib/prisma.js";
-
-const AUTH_COOKIE = "school_sport_hub_auth";
-const JWT_SECRET = process.env.JWT_SECRET;
-const TOKEN_EXPIRES_IN = (process.env.JWT_EXPIRES_IN ?? "15m") as jwt.SignOptions["expiresIn"];
-
-export type AuthUser = {
-  id: number;
-  email: string;
-  name: string | null;
-  role: string;
-  accountType?: string;
-};
-
-declare global {
-  namespace Express {
-    interface Request {
-      user?: AuthUser;
-    }
-  }
-}
-
-function getJwtSecret(): string {
-  if (!JWT_SECRET || JWT_SECRET.length < 32) {
-    throw new Error("JWT_SECRET must be configured with at least 32 characters");
-  }
-  return JWT_SECRET;
-}
-
-export function createAccessToken(user: AuthUser): string {
-  return jwt.sign(
-    { sub: String(user.id), email: user.email, role: user.role },
-    getJwtSecret(),
-    { expiresIn: TOKEN_EXPIRES_IN },
-  );
-}
-
-function readCookie(request: Request, name: string): string | undefined {
-  const header = request.headers.cookie;
-  if (!header) return undefined;
-
-  const value = header
-    .split(";")
-    .map((part) => part.trim())
-    .find((part) => part.startsWith(`${name}=`));
-
-  return value ? decodeURIComponent(value.slice(name.length + 1)) : undefined;
-}
-
-export function setAuthCookie(response: Response, token: string): void {
-  const days = Number(process.env.AUTH_COOKIE_DAYS ?? 7);
-  const maxAge = Number.isFinite(days) && days > 0 ? Math.floor(days * 24 * 60 * 60) : 604800;
-  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  const decoded = jwt.decode(token);
-  const tokenAge = decoded && typeof decoded === "object" && decoded.exp ? Math.max(0, decoded.exp - Math.floor(Date.now() / 1000)) : maxAge;
-  response.setHeader(
-    "Set-Cookie",
-    `${AUTH_COOKIE}=${encodeURIComponent(token)}; Max-Age=${Math.min(maxAge, tokenAge)}; Path=/; HttpOnly; SameSite=Lax${secure}`,
-  );
-}
-
-export function clearAuthCookie(response: Response): void {
-  response.setHeader(
-    "Set-Cookie",
-    `${AUTH_COOKIE}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax`,
-  );
-}
-
-export const requireAuth: RequestHandler = async (request, response, next) => {
-  try {
-    const token = readCookie(request, AUTH_COOKIE);
-    if (!token) {
-      response.status(401).json({ error: "Authentication required" });
-      return;
-    }
-
-    const payload = jwt.verify(token, getJwtSecret());
-    if (typeof payload !== "object" || typeof payload.sub !== "string") {
-      response.status(401).json({ error: "Invalid authentication token" });
-      return;
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: Number(payload.sub) },
-      select: { id: true, email: true, name: true, role: true, accountType: true, isActive: true },
-    });
-
-    if (!user || !user.isActive) {
-      response.status(401).json({ error: "Account is inactive or unavailable" });
-      return;
-    }
-
-    request.user = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      accountType: user.accountType,
-    };
-    // Renew a valid session while the user is actively using the workspace.
-    setAuthCookie(response, createAccessToken(request.user));
-    next();
-  } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError || error instanceof Error && error.message.includes("JWT_SECRET")) {
-      response.status(401).json({ error: "Invalid authentication token" });
-      return;
-    }
-    next(error);
-  }
-};
-
-export const requireAdminPage: RequestHandler = async (request, response, next) => {
-  response.setHeader("Cache-Control", "private, no-store");
-  try {
-    const token = readCookie(request, AUTH_COOKIE);
-    if (!token) { response.redirect(303, "/admin-login.html"); return; }
-    const payload = jwt.verify(token, getJwtSecret());
-    if (typeof payload !== "object" || typeof payload.sub !== "string") { response.redirect(303, "/admin-login.html"); return; }
-    const user = await prisma.user.findUnique({ where: { id: Number(payload.sub) }, select: { role: true, isActive: true } });
-    if (!user?.isActive) { response.redirect(303, "/admin-login.html"); return; }
-    if (user.role !== "ADMIN") { response.redirect(303, "/account.html?notice=admin-only"); return; }
-    next();
-  } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) { response.redirect(303, "/admin-login.html"); return; }
-    next(error);
-  }
-};
-
-export function requireRole(...roles: string[]): RequestHandler {
-  return (request, response, next) => {
-    if (!request.user) {
-      response.status(401).json({ error: "Authentication required" });
-      return;
-    }
-    if (!roles.includes(request.user.role)) {
-      response.status(403).json({ error: "Insufficient permissions" });
-      return;
-    }
-    next();
-  };
-}
+import {requiresEmailVerification} from '../lib/auth-policy.js';
+import type {Request,RequestHandler,Response} from 'express';
+import jwt from 'jsonwebtoken';
+import {prisma} from '../lib/prisma.js';
+import {atomic,audit,hashToken,randomToken} from '../lib/auth-security.js';
+const AUTH_COOKIE='school_sport_hub_auth';
+export type AuthUser={id:number;email:string;name:string|null;role:string;accountType?:string;emailVerifiedAt?:Date|null;emailVerificationRequired?:boolean;mfaEnabledAt?:Date|null;mfaRequiredAfter?:Date|null;sessionId?:string;sessionVersion?:number;mfaVerified?:boolean};
+declare global{namespace Express{interface Request{user?:AuthUser;}}}
+function jwtSecret(){const key=process.env.JWT_SECRET;if(!key||key.length<32)throw new Error('JWT_SECRET must contain at least 32 characters');return key;}
+export function createAccessToken(user:AuthUser,sid?:string){return jwt.sign({sub:String(user.id),sid,v:user.sessionVersion??0},jwtSecret(),{expiresIn:(process.env.JWT_EXPIRES_IN??'15m') as jwt.SignOptions['expiresIn']});}
+export function readAuthCookie(r:Request){try{const value=r.headers.cookie?.split(';').map(p=>p.trim()).find(p=>p.startsWith(AUTH_COOKIE+'='));return value?decodeURIComponent(value.slice(AUTH_COOKIE.length+1)):undefined;}catch{return undefined;}}
+export function setAuthCookie(s:Response,token:string){const decoded=jwt.decode(token) as {exp?:number}|null;const seconds=Math.max(0,(decoded?.exp||0)-Math.floor(Date.now()/1000));s.setHeader('Set-Cookie',`${AUTH_COOKIE}=${encodeURIComponent(token)}; Max-Age=${seconds}; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'||process.env.VERCEL==='1'?'; Secure':''}`);}
+export function clearAuthCookie(s:Response){s.setHeader('Set-Cookie',`${AUTH_COOKIE}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'||process.env.VERCEL==='1'?'; Secure':''}`);}
+export async function issueSession(s:Response,user:any,mfaVerified=false){const session=await prisma.authSession.create({data:{id:randomToken(),userId:user.id,version:user.sessionVersion,mfaVerified,expiresAt:new Date(Date.now()+7*86400000)}});setAuthCookie(s,createAccessToken(user,session.id));return session;}
+export function needsMfaSetup(user:AuthUser){return user.role==='ADMIN'&&!user.mfaEnabledAt&&!!user.mfaRequiredAfter&&new Date(user.mfaRequiredAfter).getTime()<=Date.now();}
+async function authenticated(r:Request,s:Response){const token=readAuthCookie(r);if(!token)return null;let payload;try{payload=jwt.verify(token,jwtSecret(),{algorithms:['HS256']});}catch{return null;}if(typeof payload!=='object'||typeof payload.sub!=='string'||!Number.isSafeInteger(Number(payload.sub)))return null;const user=await prisma.user.findUnique({where:{id:Number(payload.sub)}});if(!user?.isActive||(payload.v??0)!==user.sessionVersion)return null;
+ let session=typeof payload.sid==='string'?await prisma.authSession.findUnique({where:{id:payload.sid}}):null;
+ if(!payload.sid){if(user.sessionVersion!==0||!user.legacySessionsUntil||user.legacySessionsUntil.getTime()<=Date.now()||user.mfaEnabledAt)return null;const legacyTokenHash=hashToken(token);session=await atomic(async tx=>tx.authSession.upsert({where:{legacyTokenHash},create:{id:randomToken(),userId:user.id,version:0,legacyTokenHash,expiresAt:user.legacySessionsUntil!},update:{}}));}
+ if(!session||session.userId!==user.id||session.version!==user.sessionVersion||session.revokedAt||session.expiresAt.getTime()<=Date.now())return null;
+ const safe:AuthUser={id:user.id,email:user.email,name:user.name,role:user.role,accountType:user.accountType,emailVerifiedAt:user.emailVerifiedAt,emailVerificationRequired:requiresEmailVerification(user),mfaEnabledAt:user.mfaEnabledAt,mfaRequiredAfter:user.mfaRequiredAfter,sessionVersion:user.sessionVersion,sessionId:session.id,mfaVerified:session.mfaVerified};setAuthCookie(s,createAccessToken(safe,session.id));return safe;}
+export const requireAuth:RequestHandler=async(r,s,n)=>{try{const user=await authenticated(r,s);if(!user){s.status(401).json({error:'Please sign in to continue.',code:'SESSION_EXPIRED'});return;}r.user=user;if(!['GET','HEAD','OPTIONS'].includes(r.method)&&!r.originalUrl.startsWith('/api/auth/')&&user.emailVerificationRequired&&!user.emailVerifiedAt){s.status(403).json({error:'Verify your email before saving changes. Open Account security to resend your verification email.',code:'EMAIL_VERIFICATION_REQUIRED'});return;}n();}catch(e){n(e);}};
+export const requireAdminPage:RequestHandler=async(r,s,n)=>{s.setHeader('Cache-Control','private, no-store');try{const user=await authenticated(r,s);if(!user){s.redirect(303,'/admin-login.html');return;}if(user.role!=='ADMIN'){s.redirect(303,'/account.html?notice=admin-only');return;}if(needsMfaSetup(user)||(user.mfaEnabledAt&&!user.mfaVerified)){s.redirect(303,'/security.html');return;}r.user=user;n();}catch(e){n(e);}};
+export function requireRole(...roles:string[]):RequestHandler{return async(r,s,n)=>{try{if(!r.user){s.status(401).json({error:'Authentication required'});return;}if(!roles.includes(r.user.role)){s.status(403).json({error:'Insufficient permissions'});return;}if(roles.includes('ADMIN')&&(needsMfaSetup(r.user)||(r.user.mfaEnabledAt&&!r.user.mfaVerified))){s.status(403).json({error:'Complete administrator two-step verification in Account security.',code:'MFA_SETUP_REQUIRED'});return;}if(r.user.role==='ADMIN'&&!['GET','HEAD','OPTIONS'].includes(r.method)){const resource=r.originalUrl.split('?')[0].replace(/[^a-zA-Z0-9/_-]/g,'').slice(0,160);await audit(r,'ADMIN_'+r.method+'_ATTEMPT',r.user.id,resource);}n();}catch(e){n(e);}};}

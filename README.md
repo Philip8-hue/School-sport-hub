@@ -70,3 +70,7 @@ The sun/moon control switches between light and dark themes on public and admin 
 Player forms and public statistics use sport-specific season totals. Football includes goals, assists, minutes, saves, clean sheets and cards. Basketball includes points, rebounds, assists, steals, blocks, turnovers, fouls and shooting totals. Volleyball includes aces, blocks, kills, digs, receives, assists, sets played and service errors.
 
 Live matches come from fixtures with `LIVE` status. Standings are maintained explicitly in the admin workspace; saving a result marks the fixture completed but does not calculate league points automatically. Fantasy squads remain stored locally in each browser.
+
+## Account security
+
+See [SECURITY-SETUP.md](SECURITY-SETUP.md) for admin authenticator setup, recovery codes, verified email, password recovery, revocable sessions, shared login limits and the Resend/Vercel rollout steps. Real email requires a verified sender and server-side configuration. Existing accounts and sports data are preserved.

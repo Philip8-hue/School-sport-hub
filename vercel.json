@@ -4,5 +4,6 @@
   "installCommand": "npm ci --include=dev",
   "buildCommand": "npm run vercel-build",
   "cleanUrls": false,
+  "crons": [{ "path": "/api/news/international/cleanup", "schedule": "0 3 * * *" }],
   "functions": { "app.ts": { "includeFiles": "aul sports/admin*.html" } }
 }

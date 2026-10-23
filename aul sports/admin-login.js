@@ -51,15 +51,16 @@ form?.addEventListener("submit", async (event) => {
       credentials: "same-origin",
       body: JSON.stringify({ email, password }),
     });
-    const data = await response.json().catch(() => ({}));
+    let data = await response.json().catch(() => ({}));
     if (!response.ok) {
       throw new Error(data.error || `Sign-in failed (${response.status})`);
     }
+    data=await window.authSecurity.finishLogin(data);
     if (data.user?.role !== "ADMIN") {
       throw new Error("This account is valid but does not have admin access.");
     }
     setMessage("Signed in. Opening dashboard…", "success");
-    window.location.assign("admin.html");
+    window.location.assign(data.mfaSetupRequired ? "security.html" : "admin.html");
   } catch (error) {
     const messageText = error instanceof TypeError
       ? "Cannot reach the server. Start npm.cmd run dev and open this page from localhost."

@@ -91,7 +91,7 @@ adminRouter.patch("/users/:id", ...adminOnly, async (request, response, next) =>
   }
   if (userId === request.user?.id && (role === "USER" || isActive === false)) { response.status(400).json({ error: "You cannot remove your own administrator access" }); return; }
   try {
-    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role } : {}), ...(isActive !== undefined ? { isActive } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
+    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role, sessionVersion: { increment: 1 }, legacySessionsUntil: null, ...(role === "ADMIN" ? { mfaRequiredAfter: new Date(Date.now()+14*86400000) } : {}) } : {}), ...(isActive !== undefined ? { isActive, ...(role ? {} : { sessionVersion: { increment: 1 }, legacySessionsUntil: null }) } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
   } catch (error) {
     next(error);
   }

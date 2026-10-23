@@ -15,6 +15,17 @@ model User {
   role         String   @default("USER")
   accountType  String   @default("FAN")
   isActive     Boolean  @default(true)
+  emailVerifiedAt DateTime?
+  emailVerificationRequired Boolean @default(false)
+  sessionVersion Int @default(0)
+  legacySessionsUntil DateTime?
+  mfaSecret String?
+  mfaEnabledAt DateTime?
+  mfaLastStep Int @default(-1)
+  mfaRequiredAfter DateTime?
+  authSessions AuthSession[]
+  authTokens AuthToken[]
+  recoveryCodes RecoveryCode[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   fantasyEntries FantasyEntry[]
@@ -285,6 +296,53 @@ model HomepageContent {
   updatedAt DateTime @updatedAt
 }
 
+model AuthSession {
+  id String @id
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  version Int
+  mfaVerified Boolean @default(false)
+  legacyTokenHash String? @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([userId, expiresAt])
+}
+model AuthToken {
+  hash String @id
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose String
+  payload String?
+  version Int
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([userId, purpose])
+}
+model RecoveryCode {
+  hash String @id
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  usedAt DateTime?
+  @@index([userId])
+}
+model AuthLimit {
+  key String @id
+  count Int @default(0)
+  resetsAt DateTime
+}
+model SecurityEvent {
+  id Int @id @default(autoincrement())
+  userId Int?
+  event String
+  ipHash String
+  resource String?
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
 model FantasyRound {
   id Int @id @default(autoincrement())
   name String
@@ -314,6 +372,22 @@ model FantasyEntry {
   breakdown String @default("[]")
   updatedAt DateTime @updatedAt
   @@unique([roundId, userId])
+}
+model InternationalNews {
+  id Int @id @default(autoincrement())
+  sport String
+  linkHash String
+  title String
+  url String
+  source String
+  publishedAt DateTime
+  @@unique([sport, linkHash])
+  @@index([sport, publishedAt, id])
+}
+model NewsRefresh {
+  id String @id
+  nextAt DateTime
+  fetchedAt DateTime?
 }
 model FantasyMatchStat {
   id Int @id @default(autoincrement())

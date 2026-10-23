@@ -28,10 +28,14 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   id: number | null
+  sessionVersion: number | null
+  mfaLastStep: number | null
 }
 
 export type UserSumAggregateOutputType = {
   id: number | null
+  sessionVersion: number | null
+  mfaLastStep: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -42,6 +46,14 @@ export type UserMinAggregateOutputType = {
   role: string | null
   accountType: string | null
   isActive: boolean | null
+  emailVerifiedAt: Date | null
+  emailVerificationRequired: boolean | null
+  sessionVersion: number | null
+  legacySessionsUntil: Date | null
+  mfaSecret: string | null
+  mfaEnabledAt: Date | null
+  mfaLastStep: number | null
+  mfaRequiredAfter: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +66,14 @@ export type UserMaxAggregateOutputType = {
   role: string | null
   accountType: string | null
   isActive: boolean | null
+  emailVerifiedAt: Date | null
+  emailVerificationRequired: boolean | null
+  sessionVersion: number | null
+  legacySessionsUntil: Date | null
+  mfaSecret: string | null
+  mfaEnabledAt: Date | null
+  mfaLastStep: number | null
+  mfaRequiredAfter: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +86,14 @@ export type UserCountAggregateOutputType = {
   role: number
   accountType: number
   isActive: number
+  emailVerifiedAt: number
+  emailVerificationRequired: number
+  sessionVersion: number
+  legacySessionsUntil: number
+  mfaSecret: number
+  mfaEnabledAt: number
+  mfaLastStep: number
+  mfaRequiredAfter: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -74,10 +102,14 @@ export type UserCountAggregateOutputType = {
 
 export type UserAvgAggregateInputType = {
   id?: true
+  sessionVersion?: true
+  mfaLastStep?: true
 }
 
 export type UserSumAggregateInputType = {
   id?: true
+  sessionVersion?: true
+  mfaLastStep?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -88,6 +120,14 @@ export type UserMinAggregateInputType = {
   role?: true
   accountType?: true
   isActive?: true
+  emailVerifiedAt?: true
+  emailVerificationRequired?: true
+  sessionVersion?: true
+  legacySessionsUntil?: true
+  mfaSecret?: true
+  mfaEnabledAt?: true
+  mfaLastStep?: true
+  mfaRequiredAfter?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +140,14 @@ export type UserMaxAggregateInputType = {
   role?: true
   accountType?: true
   isActive?: true
+  emailVerifiedAt?: true
+  emailVerificationRequired?: true
+  sessionVersion?: true
+  legacySessionsUntil?: true
+  mfaSecret?: true
+  mfaEnabledAt?: true
+  mfaLastStep?: true
+  mfaRequiredAfter?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +160,14 @@ export type UserCountAggregateInputType = {
   role?: true
   accountType?: true
   isActive?: true
+  emailVerifiedAt?: true
+  emailVerificationRequired?: true
+  sessionVersion?: true
+  legacySessionsUntil?: true
+  mfaSecret?: true
+  mfaEnabledAt?: true
+  mfaLastStep?: true
+  mfaRequiredAfter?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -211,6 +267,14 @@ export type UserGroupByOutputType = {
   role: string
   accountType: string
   isActive: boolean
+  emailVerifiedAt: Date | null
+  emailVerificationRequired: boolean
+  sessionVersion: number
+  legacySessionsUntil: Date | null
+  mfaSecret: string | null
+  mfaEnabledAt: Date | null
+  mfaLastStep: number
+  mfaRequiredAfter: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -246,8 +310,19 @@ export type UserWhereInput = {
   role?: Prisma.StringFilter<"User"> | string
   accountType?: Prisma.StringFilter<"User"> | string
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFilter<"User"> | boolean
+  sessionVersion?: Prisma.IntFilter<"User"> | number
+  legacySessionsUntil?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  mfaSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  mfaEnabledAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  mfaLastStep?: Prisma.IntFilter<"User"> | number
+  mfaRequiredAfter?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  authTokens?: Prisma.AuthTokenListRelationFilter
+  recoveryCodes?: Prisma.RecoveryCodeListRelationFilter
   fantasyEntries?: Prisma.FantasyEntryListRelationFilter
   items?: Prisma.ItemListRelationFilter
   accessRequests?: Prisma.AccessRequestListRelationFilter
@@ -267,8 +342,19 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   accountType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationRequired?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  legacySessionsUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaEnabledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
+  mfaRequiredAfter?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
+  authTokens?: Prisma.AuthTokenOrderByRelationAggregateInput
+  recoveryCodes?: Prisma.RecoveryCodeOrderByRelationAggregateInput
   fantasyEntries?: Prisma.FantasyEntryOrderByRelationAggregateInput
   items?: Prisma.ItemOrderByRelationAggregateInput
   accessRequests?: Prisma.AccessRequestOrderByRelationAggregateInput
@@ -291,8 +377,19 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.StringFilter<"User"> | string
   accountType?: Prisma.StringFilter<"User"> | string
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFilter<"User"> | boolean
+  sessionVersion?: Prisma.IntFilter<"User"> | number
+  legacySessionsUntil?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  mfaSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  mfaEnabledAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  mfaLastStep?: Prisma.IntFilter<"User"> | number
+  mfaRequiredAfter?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  authSessions?: Prisma.AuthSessionListRelationFilter
+  authTokens?: Prisma.AuthTokenListRelationFilter
+  recoveryCodes?: Prisma.RecoveryCodeListRelationFilter
   fantasyEntries?: Prisma.FantasyEntryListRelationFilter
   items?: Prisma.ItemListRelationFilter
   accessRequests?: Prisma.AccessRequestListRelationFilter
@@ -312,6 +409,14 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   accountType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationRequired?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  legacySessionsUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaEnabledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
+  mfaRequiredAfter?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -332,6 +437,14 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
   accountType?: Prisma.StringWithAggregatesFilter<"User"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  emailVerificationRequired?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  sessionVersion?: Prisma.IntWithAggregatesFilter<"User"> | number
+  legacySessionsUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  mfaSecret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  mfaEnabledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  mfaLastStep?: Prisma.IntWithAggregatesFilter<"User"> | number
+  mfaRequiredAfter?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -343,8 +456,19 @@ export type UserCreateInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -364,8 +488,19 @@ export type UserUncheckedCreateInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -384,8 +519,19 @@ export type UserUpdateInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -405,8 +551,19 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -426,6 +583,14 @@ export type UserCreateManyInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -437,6 +602,14 @@ export type UserUpdateManyMutationInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -449,6 +622,14 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -461,12 +642,22 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   accountType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  emailVerificationRequired?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  legacySessionsUntil?: Prisma.SortOrder
+  mfaSecret?: Prisma.SortOrder
+  mfaEnabledAt?: Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
+  mfaRequiredAfter?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -477,6 +668,14 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   accountType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  emailVerificationRequired?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  legacySessionsUntil?: Prisma.SortOrder
+  mfaSecret?: Prisma.SortOrder
+  mfaEnabledAt?: Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
+  mfaRequiredAfter?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -489,12 +688,22 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   accountType?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+  emailVerificationRequired?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  legacySessionsUntil?: Prisma.SortOrder
+  mfaSecret?: Prisma.SortOrder
+  mfaEnabledAt?: Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
+  mfaRequiredAfter?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sessionVersion?: Prisma.SortOrder
+  mfaLastStep?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -519,8 +728,8 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -529,6 +738,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type UserCreateNestedOneWithoutItemsInput = {
@@ -645,6 +858,48 @@ export type UserUpdateOneRequiredWithoutLineupsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLineupsInput, Prisma.UserUpdateWithoutLineupsInput>, Prisma.UserUncheckedUpdateWithoutLineupsInput>
 }
 
+export type UserCreateNestedOneWithoutAuthSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuthSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthSessionsInput
+  upsert?: Prisma.UserUpsertWithoutAuthSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthSessionsInput, Prisma.UserUpdateWithoutAuthSessionsInput>, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutAuthTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthTokensInput, Prisma.UserUncheckedCreateWithoutAuthTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuthTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthTokensInput, Prisma.UserUncheckedCreateWithoutAuthTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthTokensInput
+  upsert?: Prisma.UserUpsertWithoutAuthTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthTokensInput, Prisma.UserUpdateWithoutAuthTokensInput>, Prisma.UserUncheckedUpdateWithoutAuthTokensInput>
+}
+
+export type UserCreateNestedOneWithoutRecoveryCodesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecoveryCodesInput, Prisma.UserUncheckedCreateWithoutRecoveryCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecoveryCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRecoveryCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecoveryCodesInput, Prisma.UserUncheckedCreateWithoutRecoveryCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecoveryCodesInput
+  upsert?: Prisma.UserUpsertWithoutRecoveryCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecoveryCodesInput, Prisma.UserUpdateWithoutRecoveryCodesInput>, Prisma.UserUncheckedUpdateWithoutRecoveryCodesInput>
+}
+
 export type UserCreateNestedOneWithoutFantasyEntriesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutFantasyEntriesInput, Prisma.UserUncheckedCreateWithoutFantasyEntriesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutFantasyEntriesInput
@@ -666,8 +921,19 @@ export type UserCreateWithoutItemsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -686,8 +952,19 @@ export type UserUncheckedCreateWithoutItemsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -721,8 +998,19 @@ export type UserUpdateWithoutItemsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -741,8 +1029,19 @@ export type UserUncheckedUpdateWithoutItemsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -760,8 +1059,19 @@ export type UserCreateWithoutAccessRequestsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -780,8 +1090,19 @@ export type UserUncheckedCreateWithoutAccessRequestsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -815,8 +1136,19 @@ export type UserUpdateWithoutAccessRequestsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -835,8 +1167,19 @@ export type UserUncheckedUpdateWithoutAccessRequestsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -854,8 +1197,19 @@ export type UserCreateWithoutPlayerLinksInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -874,8 +1228,19 @@ export type UserUncheckedCreateWithoutPlayerLinksInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -909,8 +1274,19 @@ export type UserUpdateWithoutPlayerLinksInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -929,8 +1305,19 @@ export type UserUncheckedUpdateWithoutPlayerLinksInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -948,8 +1335,19 @@ export type UserCreateWithoutCoachLinksInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -968,8 +1366,19 @@ export type UserUncheckedCreateWithoutCoachLinksInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1003,8 +1412,19 @@ export type UserUpdateWithoutCoachLinksInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -1023,8 +1443,19 @@ export type UserUncheckedUpdateWithoutCoachLinksInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1042,8 +1473,19 @@ export type UserCreateWithoutFavoritesInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -1062,8 +1504,19 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1097,8 +1550,19 @@ export type UserUpdateWithoutFavoritesInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -1117,8 +1581,19 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1136,8 +1611,19 @@ export type UserCreateWithoutSubmissionsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -1156,8 +1642,19 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1191,8 +1688,19 @@ export type UserUpdateWithoutSubmissionsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -1211,8 +1719,19 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1230,8 +1749,19 @@ export type UserCreateWithoutAnnouncementsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -1250,8 +1780,19 @@ export type UserUncheckedCreateWithoutAnnouncementsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1285,8 +1826,19 @@ export type UserUpdateWithoutAnnouncementsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -1305,8 +1857,19 @@ export type UserUncheckedUpdateWithoutAnnouncementsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1324,8 +1887,19 @@ export type UserCreateWithoutLineupsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
@@ -1344,8 +1918,19 @@ export type UserUncheckedCreateWithoutLineupsInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1379,8 +1964,19 @@ export type UserUpdateWithoutLineupsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
@@ -1399,8 +1995,19 @@ export type UserUncheckedUpdateWithoutLineupsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1411,6 +2018,420 @@ export type UserUncheckedUpdateWithoutLineupsInput = {
   announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
+export type UserCreateWithoutAuthSessionsInput = {
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutAuthSessionsInput = {
+  id?: number
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionUncheckedCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutAuthSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+}
+
+export type UserUpsertWithoutAuthSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthSessionsInput, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthSessionsInput, Prisma.UserUncheckedCreateWithoutAuthSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthSessionsInput, Prisma.UserUncheckedUpdateWithoutAuthSessionsInput>
+}
+
+export type UserUpdateWithoutAuthSessionsInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutAuthTokensInput = {
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutAuthTokensInput = {
+  id?: number
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionUncheckedCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutAuthTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthTokensInput, Prisma.UserUncheckedCreateWithoutAuthTokensInput>
+}
+
+export type UserUpsertWithoutAuthTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthTokensInput, Prisma.UserUncheckedUpdateWithoutAuthTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthTokensInput, Prisma.UserUncheckedCreateWithoutAuthTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthTokensInput, Prisma.UserUncheckedUpdateWithoutAuthTokensInput>
+}
+
+export type UserUpdateWithoutAuthTokensInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthTokensInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutRecoveryCodesInput = {
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutRecoveryCodesInput = {
+  id?: number
+  name?: string | null
+  email: string
+  passwordHash?: string | null
+  role?: string
+  accountType?: string
+  isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedCreateNestedManyWithoutUserInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
+  accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.ReviewSubmissionUncheckedCreateNestedManyWithoutUserInput
+  announcements?: Prisma.TeamAnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  lineups?: Prisma.TeamLineupUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutRecoveryCodesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecoveryCodesInput, Prisma.UserUncheckedCreateWithoutRecoveryCodesInput>
+}
+
+export type UserUpsertWithoutRecoveryCodesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRecoveryCodesInput, Prisma.UserUncheckedUpdateWithoutRecoveryCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecoveryCodesInput, Prisma.UserUncheckedCreateWithoutRecoveryCodesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRecoveryCodesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRecoveryCodesInput, Prisma.UserUncheckedUpdateWithoutRecoveryCodesInput>
+}
+
+export type UserUpdateWithoutRecoveryCodesInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRecoveryCodesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  fantasyEntries?: Prisma.FantasyEntryUncheckedUpdateManyWithoutUserNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
+  accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
+  playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
+  coachLinks?: Prisma.CoachAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.ReviewSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  announcements?: Prisma.TeamAnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  lineups?: Prisma.TeamLineupUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
 export type UserCreateWithoutFantasyEntriesInput = {
   name?: string | null
   email: string
@@ -1418,8 +2439,19 @@ export type UserCreateWithoutFantasyEntriesInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeCreateNestedManyWithoutUserInput
   items?: Prisma.ItemCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipCreateNestedManyWithoutUserInput
@@ -1438,8 +2470,19 @@ export type UserUncheckedCreateWithoutFantasyEntriesInput = {
   role?: string
   accountType?: string
   isActive?: boolean
+  emailVerifiedAt?: Date | string | null
+  emailVerificationRequired?: boolean
+  sessionVersion?: number
+  legacySessionsUntil?: Date | string | null
+  mfaSecret?: string | null
+  mfaEnabledAt?: Date | string | null
+  mfaLastStep?: number
+  mfaRequiredAfter?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
+  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutAuthorInput
   accessRequests?: Prisma.AccessRequestUncheckedCreateNestedManyWithoutUserInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedCreateNestedManyWithoutUserInput
@@ -1473,8 +2516,19 @@ export type UserUpdateWithoutFantasyEntriesInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUpdateManyWithoutUserNestedInput
@@ -1493,8 +2547,19 @@ export type UserUncheckedUpdateWithoutFantasyEntriesInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   accountType?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailVerificationRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessionVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  legacySessionsUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mfaEnabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mfaLastStep?: Prisma.IntFieldUpdateOperationsInput | number
+  mfaRequiredAfter?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  recoveryCodes?: Prisma.RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
   items?: Prisma.ItemUncheckedUpdateManyWithoutAuthorNestedInput
   accessRequests?: Prisma.AccessRequestUncheckedUpdateManyWithoutUserNestedInput
   playerLinks?: Prisma.PlayerOwnershipUncheckedUpdateManyWithoutUserNestedInput
@@ -1511,6 +2576,9 @@ export type UserUncheckedUpdateWithoutFantasyEntriesInput = {
  */
 
 export type UserCountOutputType = {
+  authSessions: number
+  authTokens: number
+  recoveryCodes: number
   fantasyEntries: number
   items: number
   accessRequests: number
@@ -1523,6 +2591,9 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  authSessions?: boolean | UserCountOutputTypeCountAuthSessionsArgs
+  authTokens?: boolean | UserCountOutputTypeCountAuthTokensArgs
+  recoveryCodes?: boolean | UserCountOutputTypeCountRecoveryCodesArgs
   fantasyEntries?: boolean | UserCountOutputTypeCountFantasyEntriesArgs
   items?: boolean | UserCountOutputTypeCountItemsArgs
   accessRequests?: boolean | UserCountOutputTypeCountAccessRequestsArgs
@@ -1542,6 +2613,27 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRecoveryCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecoveryCodeWhereInput
 }
 
 /**
@@ -1616,8 +2708,19 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   accountType?: boolean
   isActive?: boolean
+  emailVerifiedAt?: boolean
+  emailVerificationRequired?: boolean
+  sessionVersion?: boolean
+  legacySessionsUntil?: boolean
+  mfaSecret?: boolean
+  mfaEnabledAt?: boolean
+  mfaLastStep?: boolean
+  mfaRequiredAfter?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  authTokens?: boolean | Prisma.User$authTokensArgs<ExtArgs>
+  recoveryCodes?: boolean | Prisma.User$recoveryCodesArgs<ExtArgs>
   fantasyEntries?: boolean | Prisma.User$fantasyEntriesArgs<ExtArgs>
   items?: boolean | Prisma.User$itemsArgs<ExtArgs>
   accessRequests?: boolean | Prisma.User$accessRequestsArgs<ExtArgs>
@@ -1638,6 +2741,14 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   accountType?: boolean
   isActive?: boolean
+  emailVerifiedAt?: boolean
+  emailVerificationRequired?: boolean
+  sessionVersion?: boolean
+  legacySessionsUntil?: boolean
+  mfaSecret?: boolean
+  mfaEnabledAt?: boolean
+  mfaLastStep?: boolean
+  mfaRequiredAfter?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1650,6 +2761,14 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   accountType?: boolean
   isActive?: boolean
+  emailVerifiedAt?: boolean
+  emailVerificationRequired?: boolean
+  sessionVersion?: boolean
+  legacySessionsUntil?: boolean
+  mfaSecret?: boolean
+  mfaEnabledAt?: boolean
+  mfaLastStep?: boolean
+  mfaRequiredAfter?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1662,12 +2781,23 @@ export type UserSelectScalar = {
   role?: boolean
   accountType?: boolean
   isActive?: boolean
+  emailVerifiedAt?: boolean
+  emailVerificationRequired?: boolean
+  sessionVersion?: boolean
+  legacySessionsUntil?: boolean
+  mfaSecret?: boolean
+  mfaEnabledAt?: boolean
+  mfaLastStep?: boolean
+  mfaRequiredAfter?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "accountType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "accountType" | "isActive" | "emailVerifiedAt" | "emailVerificationRequired" | "sessionVersion" | "legacySessionsUntil" | "mfaSecret" | "mfaEnabledAt" | "mfaLastStep" | "mfaRequiredAfter" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  authSessions?: boolean | Prisma.User$authSessionsArgs<ExtArgs>
+  authTokens?: boolean | Prisma.User$authTokensArgs<ExtArgs>
+  recoveryCodes?: boolean | Prisma.User$recoveryCodesArgs<ExtArgs>
   fantasyEntries?: boolean | Prisma.User$fantasyEntriesArgs<ExtArgs>
   items?: boolean | Prisma.User$itemsArgs<ExtArgs>
   accessRequests?: boolean | Prisma.User$accessRequestsArgs<ExtArgs>
@@ -1685,6 +2815,9 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
+    authTokens: Prisma.$AuthTokenPayload<ExtArgs>[]
+    recoveryCodes: Prisma.$RecoveryCodePayload<ExtArgs>[]
     fantasyEntries: Prisma.$FantasyEntryPayload<ExtArgs>[]
     items: Prisma.$ItemPayload<ExtArgs>[]
     accessRequests: Prisma.$AccessRequestPayload<ExtArgs>[]
@@ -1703,6 +2836,14 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: string
     accountType: string
     isActive: boolean
+    emailVerifiedAt: Date | null
+    emailVerificationRequired: boolean
+    sessionVersion: number
+    legacySessionsUntil: Date | null
+    mfaSecret: string | null
+    mfaEnabledAt: Date | null
+    mfaLastStep: number
+    mfaRequiredAfter: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2099,6 +3240,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  authSessions<T extends Prisma.User$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authTokens<T extends Prisma.User$authTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recoveryCodes<T extends Prisma.User$recoveryCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recoveryCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fantasyEntries<T extends Prisma.User$fantasyEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fantasyEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FantasyEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   items<T extends Prisma.User$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accessRequests<T extends Prisma.User$accessRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accessRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccessRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2144,6 +3288,14 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly accountType: Prisma.FieldRef<"User", 'String'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailVerifiedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly emailVerificationRequired: Prisma.FieldRef<"User", 'Boolean'>
+  readonly sessionVersion: Prisma.FieldRef<"User", 'Int'>
+  readonly legacySessionsUntil: Prisma.FieldRef<"User", 'DateTime'>
+  readonly mfaSecret: Prisma.FieldRef<"User", 'String'>
+  readonly mfaEnabledAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly mfaLastStep: Prisma.FieldRef<"User", 'Int'>
+  readonly mfaRequiredAfter: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -2534,6 +3686,78 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.authSessions
+ */
+export type User$authSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuthSession
+   */
+  select?: Prisma.AuthSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuthSession
+   */
+  omit?: Prisma.AuthSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthSessionInclude<ExtArgs> | null
+  where?: Prisma.AuthSessionWhereInput
+  orderBy?: Prisma.AuthSessionOrderByWithRelationInput | Prisma.AuthSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AuthSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuthSessionScalarFieldEnum | Prisma.AuthSessionScalarFieldEnum[]
+}
+
+/**
+ * User.authTokens
+ */
+export type User$authTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuthToken
+   */
+  select?: Prisma.AuthTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuthToken
+   */
+  omit?: Prisma.AuthTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthTokenInclude<ExtArgs> | null
+  where?: Prisma.AuthTokenWhereInput
+  orderBy?: Prisma.AuthTokenOrderByWithRelationInput | Prisma.AuthTokenOrderByWithRelationInput[]
+  cursor?: Prisma.AuthTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuthTokenScalarFieldEnum | Prisma.AuthTokenScalarFieldEnum[]
+}
+
+/**
+ * User.recoveryCodes
+ */
+export type User$recoveryCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecoveryCode
+   */
+  select?: Prisma.RecoveryCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecoveryCode
+   */
+  omit?: Prisma.RecoveryCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecoveryCodeInclude<ExtArgs> | null
+  where?: Prisma.RecoveryCodeWhereInput
+  orderBy?: Prisma.RecoveryCodeOrderByWithRelationInput | Prisma.RecoveryCodeOrderByWithRelationInput[]
+  cursor?: Prisma.RecoveryCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecoveryCodeScalarFieldEnum | Prisma.RecoveryCodeScalarFieldEnum[]
 }
 
 /**

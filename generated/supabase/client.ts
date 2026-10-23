@@ -132,6 +132,31 @@ export type NewsArticle = Prisma.NewsArticleModel
  */
 export type HomepageContent = Prisma.HomepageContentModel
 /**
+ * Model AuthSession
+ * 
+ */
+export type AuthSession = Prisma.AuthSessionModel
+/**
+ * Model AuthToken
+ * 
+ */
+export type AuthToken = Prisma.AuthTokenModel
+/**
+ * Model RecoveryCode
+ * 
+ */
+export type RecoveryCode = Prisma.RecoveryCodeModel
+/**
+ * Model AuthLimit
+ * 
+ */
+export type AuthLimit = Prisma.AuthLimitModel
+/**
+ * Model SecurityEvent
+ * 
+ */
+export type SecurityEvent = Prisma.SecurityEventModel
+/**
  * Model FantasyRound
  * 
  */
@@ -141,6 +166,16 @@ export type FantasyRound = Prisma.FantasyRoundModel
  * 
  */
 export type FantasyEntry = Prisma.FantasyEntryModel
+/**
+ * Model InternationalNews
+ * 
+ */
+export type InternationalNews = Prisma.InternationalNewsModel
+/**
+ * Model NewsRefresh
+ * 
+ */
+export type NewsRefresh = Prisma.NewsRefreshModel
 /**
  * Model FantasyMatchStat
  * 

@@ -557,10 +557,6 @@ export type AccessRequestUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.AccessRequestScalarWhereInput | Prisma.AccessRequestScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type AccessRequestCreateWithoutUserInput = {
   kind: string
   targetId: number

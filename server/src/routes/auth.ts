@@ -1,120 +1,40 @@
-import { Router, type RequestHandler } from "express";
-import bcrypt from "bcryptjs";
-import { z } from "zod";
-import type { PrismaClient } from "../../../generated/prisma/client.js";
-import {
-  clearAuthCookie,
-  createAccessToken,
-  requireAuth,
-  setAuthCookie,
-} from "../middleware/auth.js";
-
-type AuthRouterOptions = {
-  prisma: PrismaClient;
-};
-
-const credentialsSchema = z.object({
-  email: z.string().trim().toLowerCase().email().max(254),
-  password: z.string().min(12).max(128),
-});
-
-const registerSchema = credentialsSchema.extend({
-  name: z.string().trim().min(1).max(80).optional(),
-  accountType: z.enum(["PLAYER", "COACH", "FAN"]).default("FAN"),
-});
-const loginSchema = credentialsSchema.extend({
-  accountType: z.enum(["PLAYER", "COACH", "FAN"]).optional(),
-});
-
-function publicUser(user: { id: number; email: string; name: string | null; role: string; accountType: string }) {
-  return { id: user.id, email: user.email, name: user.name, role: user.role, accountType: user.accountType };
-}
-
-export function createAuthRouter({ prisma }: AuthRouterOptions): Router {
-  const router = Router();
-
-  router.post("/register", async (request, response, next) => {
-    if (process.env.ALLOW_PUBLIC_REGISTRATION !== "true") {
-      response.status(403).json({ error: "Public registration is disabled" });
-      return;
-    }
-
-    const parsed = registerSchema.safeParse(request.body);
-    if (!parsed.success) {
-      response.status(400).json({ error: "Invalid registration details", details: parsed.error.flatten() });
-      return;
-    }
-
-    try {
-      const existing = await prisma.user.findUnique({ where: { email: parsed.data.email } });
-      if (existing) {
-        response.status(409).json({ error: "Unable to register with those details" });
-        return;
-      }
-
-      const user = await prisma.user.create({
-        data: {
-          email: parsed.data.email,
-          name: parsed.data.name || null,
-          passwordHash: await bcrypt.hash(parsed.data.password, 12),
-          role: "USER",
-          accountType: parsed.data.accountType,
-          isActive: true,
-        },
-        select: { id: true, email: true, name: true, role: true, accountType: true },
-      });
-
-      setAuthCookie(response, createAccessToken(publicUser(user)));
-      response.status(201).json({ user: publicUser(user) });
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  const signIn = (adminOnly = false): RequestHandler => async (request, response, next) => {
-    const parsed = loginSchema.safeParse(request.body);
-    if (!parsed.success) {
-      response.status(400).json({ error: "Invalid email or password" });
-      return;
-    }
-
-    try {
-      const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
-      const valid = user?.passwordHash
-        ? await bcrypt.compare(parsed.data.password, user.passwordHash)
-        : false;
-
-      if (!user || !user.isActive || !valid) {
-        response.status(401).json({ error: "Invalid email or password" });
-        return;
-      }
-
-      if (adminOnly && user.role !== 'ADMIN') {
-        response.status(403).json({ error: 'This account does not have administrator access. Use the regular sign-in page.' });
-        return;
-      }
-      if (user.role !== "ADMIN" && parsed.data.accountType && parsed.data.accountType !== user.accountType) {
-        user.accountType = parsed.data.accountType;
-        await prisma.user.update({ where: { id: user.id }, data: { accountType: user.accountType } });
-      }
-      const safeUser = publicUser(user);
-      setAuthCookie(response, createAccessToken(safeUser));
-      response.status(200).json({ user: safeUser });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  router.post('/admin-login', signIn(true));
-  router.post('/login', signIn());
-  router.get("/me", requireAuth, (request, response) => {
-    response.status(200).json({ user: request.user });
-  });
-
-  router.post("/logout", (_request, response) => {
-    clearAuthCookie(response);
-    response.status(204).send();
-  });
-
-  return router;
+import {requiresEmailVerification} from '../lib/auth-policy.js';
+import {Router,type Request,type Response,type NextFunction} from 'express';
+import bcrypt from 'bcryptjs';import {z} from 'zod';import QRCode from 'qrcode';import {Secret} from 'otpauth';
+import type {PrismaClient} from '../../../generated/prisma/client.js';
+import {clearAuthCookie,issueSession,requireAuth,requireRole,needsMfaSetup} from '../middleware/auth.js';
+import {prisma as db} from '../lib/prisma.js';
+import {AuthError,reject,atomic,audit,limited,tokenRecord,validToken,useToken,consumeFactor,newRecoveryCodes,encrypt,decrypt,totp,encryptionReady,hashToken,ipHash} from '../lib/auth-security.js';
+import {sendAuthEmail,emailConfigured,appBase} from '../lib/auth-email.js';
+const email=z.string().trim().toLowerCase().email().max(254);
+const newPassword=z.string().min(12).max(128).refine(v=>Buffer.byteLength(v,'utf8')<=72,'Use at most 72 UTF-8 bytes for this password.');
+const loginSchema=z.object({email,password:z.string().min(1).max(128),accountType:z.enum(['PLAYER','COACH','FAN']).optional()});
+const endpoint=(fn:(r:Request,s:Response)=>Promise<unknown>)=>async(r:Request,s:Response,n:NextFunction)=>{try{await fn(r,s);}catch(e){if(e instanceof AuthError){if(e.status===429)s.setHeader('Retry-After','900');s.status(e.status).json({error:e.message,code:e.code});return;}if(e instanceof z.ZodError){s.status(400).json({error:'Please check the form fields.',details:e.flatten()});return;}n(e);}};
+const publicUser=(u:any)=>({id:u.id,email:u.email,name:u.name,role:u.role,accountType:u.accountType});
+const dummyHash=bcrypt.hashSync('constant-non-user-dummy-password',12);
+async function invalidate(tx:any,userId:number){await tx.user.update({where:{id:userId},data:{sessionVersion:{increment:1},legacySessionsUntil:null}});await tx.authSession.updateMany({where:{userId,revokedAt:null},data:{revokedAt:new Date()}});await tx.authToken.updateMany({where:{userId,usedAt:null},data:{usedAt:new Date()}});}
+async function passwordProof(r:Request,user:any,password:string,code:string,requireFactor=true){await limited(r,'reauth',String(user.id),10,80);const ok=await bcrypt.compare(password,user.passwordHash||dummyHash);if(!ok){await audit(r,'REAUTH_FAILED',user.id);reject('The password or verification code is incorrect.',401);}if(requireFactor&&user.mfaEnabledAt){const valid=await atomic(tx=>consumeFactor(tx,user,code));if(!valid){await audit(r,'MFA_FAILED',user.id);reject('The password or verification code is incorrect.',401);}}}
+async function requestEmail(r:Request,user:any,purpose:'RESET'|'VERIFY'){const raw=await atomic(async tx=>{const fresh=await tx.user.findUniqueOrThrow({where:{id:user.id}});await tx.authToken.updateMany({where:{userId:user.id,purpose,usedAt:null},data:{usedAt:new Date()}});return tokenRecord(tx,user.id,purpose,fresh.sessionVersion,purpose==='RESET'?15:1440);});const sent=await sendAuthEmail(r,user,purpose,raw);if(!sent)await db.authToken.updateMany({where:{hash:hashToken(raw)},data:{usedAt:new Date()}});return sent;}
+export function createAuthRouter(_options:{prisma:PrismaClient}){const router=Router();
+ router.post('/register',endpoint(async(r,s)=>{if(process.env.ALLOW_PUBLIC_REGISTRATION!=='true')reject('Public registration is disabled',403);const b=loginSchema.extend({password:newPassword,name:z.string().trim().min(1).max(80).optional(),accountType:z.enum(['PLAYER','COACH','FAN']).default('FAN')}).parse(r.body);await limited(r,'register',b.email,3,20,3600000);if(await db.user.findUnique({where:{email:b.email}}))reject('Unable to register with those details',409);const user=await db.user.create({data:{email:b.email,passwordHash:await bcrypt.hash(b.password,12),name:b.name,role:'USER',accountType:b.accountType,emailVerificationRequired:true}});await issueSession(s,user);const required=requiresEmailVerification(user);const sent=required?await requestEmail(r,user,'VERIFY'):false;await audit(r,'ACCOUNT_REGISTERED',user.id);s.status(201).json({user:publicUser(user),verificationRequired:required,emailSent:sent});}));
+ const signIn=(adminOnly=false)=>endpoint(async(r,s)=>{const b=loginSchema.parse(r.body);await limited(r,'login',b.email);const user=await db.user.findUnique({where:{email:b.email}});const valid=await bcrypt.compare(b.password,user?.passwordHash||dummyHash);if(!user||!user.isActive||!valid){await audit(r,'LOGIN_FAILED',user?.id);reject('Invalid email or password',401);}const u=user!;if(adminOnly&&u.role!=='ADMIN'){await audit(r,'ADMIN_LOGIN_DENIED',u.id);reject('This account does not have administrator access. Use the regular sign-in page.',403);}if(u.role==='ADMIN'&&u.mfaEnabledAt){const challenge=await atomic(tx=>tokenRecord(tx,u.id,'MFA_LOGIN',u.sessionVersion,5));s.json({mfaRequired:true,challenge});return;}if(u.role!=='ADMIN'&&b.accountType&&b.accountType!==u.accountType){u.accountType=b.accountType;await db.user.update({where:{id:u.id},data:{accountType:u.accountType}});}await issueSession(s,u);await audit(r,'LOGIN_SUCCEEDED',u.id);s.json({user:publicUser(u),mfaSetupRequired:needsMfaSetup(u),securitySetupSuggested:u.role==='ADMIN'&&!u.mfaEnabledAt});});
+ router.post('/login',signIn());router.post('/admin-login',signIn(true));
+ router.post('/mfa/login',endpoint(async(r,s)=>{const b=z.object({challenge:z.string().min(20).max(200),code:z.string().trim().min(1).max(100)}).parse(r.body);await limited(r,'mfa-ip',hashToken(b.challenge),8,80);const peek=await db.authToken.findUnique({where:{hash:hashToken(b.challenge)}});if(peek)await limited(r,'mfa-account',String(peek.userId),8,80);const user=await atomic(async tx=>{const t=await validToken(tx,b.challenge,'MFA_LOGIN');if(!t.user.mfaEnabledAt||!await consumeFactor(tx,t.user,b.code)){await tx.securityEvent.create({data:{event:'MFA_FAILED',userId:t.userId,ipHash:ipHash(r)}});return null;}await useToken(tx,t.hash);return t.user;});if(!user)reject('The verification code is incorrect or already used.',401);await issueSession(s,user!,true);await audit(r,'MFA_LOGIN_SUCCEEDED',user!.id);s.json({user:publicUser(user)});}));
+ router.get('/me',requireAuth,(r,s)=>s.json({user:r.user}));
+ router.post('/logout',requireAuth,endpoint(async(r,s)=>{await db.authSession.updateMany({where:{id:r.user!.sessionId,userId:r.user!.id},data:{revokedAt:new Date()}});await audit(r,'LOGOUT',r.user!.id);clearAuthCookie(s);s.status(204).send();}));
+ router.delete('/sessions/:id',requireAuth,endpoint(async(r,s)=>{const result=await db.authSession.updateMany({where:{id:String(r.params.id),userId:r.user!.id,revokedAt:null},data:{revokedAt:new Date()}});if(!result.count)reject('Session not found.',404);if(r.params.id===r.user!.sessionId)clearAuthCookie(s);await audit(r,'SESSION_REVOKED',r.user!.id);s.json({message:'Session signed out.'});}));
+ router.post('/logout-all',requireAuth,endpoint(async(r,s)=>{await atomic(tx=>invalidate(tx,r.user!.id));await audit(r,'LOGOUT_ALL',r.user!.id);clearAuthCookie(s);s.json({message:'All devices have been signed out.'});}));
+ const resetConfirmation={message:'If an account exists for this email, we have sent a password reset link. Check your inbox and spam folder.'};
+ router.post('/forgot-password',endpoint(async(r,s)=>{const b=z.object({email}).parse(r.body);try{await limited(r,'reset-request',b.email,3,20,3600000);}catch(e){if(e instanceof AuthError&&e.status===429){s.json(resetConfirmation);return;}throw e;}const user=await db.user.findUnique({where:{email:b.email}});if(user?.isActive){await requestEmail(r,user,'RESET');await audit(r,'PASSWORD_RESET_REQUESTED',user.id);}s.json(resetConfirmation);}));
+ router.post('/reset-password',endpoint(async(r,s)=>{const b=z.object({token:z.string().min(20).max(200),password:newPassword}).parse(r.body);await limited(r,'reset-consume',hashToken(b.token),6,40);const passwordHash=await bcrypt.hash(b.password,12);const user=await atomic(async tx=>{const t=await validToken(tx,b.token,'RESET');await useToken(tx,t.hash);await tx.user.update({where:{id:t.userId},data:{passwordHash,emailVerifiedAt:new Date()}});await invalidate(tx,t.userId);return t.user;});await audit(r,'PASSWORD_RESET_COMPLETED',user.id);await sendAuthEmail(r,user,'NOTICE');clearAuthCookie(s);s.json({message:'Password changed. All devices have been signed out. Sign in with your new password; administrator two-step verification remains enabled.'});}));
+ router.post('/verification/request',endpoint(async(r,s)=>{const b=z.object({email}).parse(r.body);try{await limited(r,'verify-request',b.email,3,20,3600000);}catch(e){if(e instanceof AuthError&&e.status===429){s.json({message:'If this address needs verification, we have sent a verification link.'});return;}throw e;}const user=await db.user.findUnique({where:{email:b.email}});if(user?.isActive&&!user.emailVerifiedAt)await requestEmail(r,user,'VERIFY');s.json({message:'If this address needs verification, we have sent a verification link.'});}));
+ router.post('/verify-email',endpoint(async(r,s)=>{const b=z.object({token:z.string().min(20).max(200)}).parse(r.body);await limited(r,'verify-consume',hashToken(b.token),6,40);const verifiedId=await atomic(async tx=>{const t=await validToken(tx,b.token,'VERIFY');await useToken(tx,t.hash);await tx.user.update({where:{id:t.userId},data:{emailVerifiedAt:new Date()}});return t.userId;});await audit(r,'EMAIL_VERIFIED',verifiedId);s.json({message:'Your email is verified. You can return to your account.'});}));
+ router.get('/security',requireAuth,endpoint(async(r,s)=>{const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});s.json({user:publicUser(u),emailVerified:!!u.emailVerifiedAt,emailVerificationRequired:requiresEmailVerification(u),mfaEnabled:!!u.mfaEnabledAt,mfaRequiredAfter:u.mfaRequiredAfter,mfaSetupRequired:needsMfaSetup(u),authenticatorConfigured:encryptionReady(),emailDeliveryConfigured:emailConfigured()&&!!appBase(),recoveryCodesRemaining:await db.recoveryCode.count({where:{userId:u.id,usedAt:null}}),sessions:await db.authSession.findMany({where:{userId:u.id,revokedAt:null,expiresAt:{gt:new Date()}},select:{id:true,createdAt:true,expiresAt:true}}),currentSession:r.user!.sessionId});}));
+ router.post('/change-password',requireAuth,endpoint(async(r,s)=>{const b=z.object({currentPassword:z.string().max(128),password:newPassword,code:z.string().trim().max(100).default('')}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});await passwordProof(r,u,b.currentPassword,b.code);const passwordHash=await bcrypt.hash(b.password,12);await atomic(async tx=>{const fresh=await tx.user.findUniqueOrThrow({where:{id:u.id}});if(fresh.sessionVersion!==u.sessionVersion)reject('Your account changed. Sign in again.',409);await tx.user.update({where:{id:u.id},data:{passwordHash}});await invalidate(tx,u.id);});await audit(r,'PASSWORD_CHANGED',u.id);await sendAuthEmail(r,u,'NOTICE');clearAuthCookie(s);s.json({message:'Password changed. Sign in again on your devices.'});}));
+ router.post('/mfa/setup',requireAuth,endpoint(async(r,s)=>{const b=z.object({password:z.string().max(128)}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});if(u.role!=='ADMIN')reject('Administrator account required.',403);if(u.mfaEnabledAt)reject('Two-step verification is already enabled.',409);await passwordProof(r,u,b.password,'',false);if(!encryptionReady())reject('Authenticator setup needs AUTH_ENCRYPTION_KEY in the server environment.',503);const secret=new Secret({size:20}).base32,payload=encrypt(secret);const setupToken=await atomic(async tx=>{await tx.authToken.updateMany({where:{userId:u.id,purpose:'MFA_SETUP',usedAt:null},data:{usedAt:new Date()}});return tokenRecord(tx,u.id,'MFA_SETUP',u.sessionVersion,10,payload);});const uri=totp(secret,u.email).toString();s.json({setupToken,secret,qr:await QRCode.toDataURL(uri,{width:240,margin:2}),message:'Scan with your authenticator app or enter the setup key manually, then enter a code. Setup expires after 10 minutes.'});}));
+ router.post('/mfa/confirm',requireAuth,endpoint(async(r,s)=>{const b=z.object({setupToken:z.string().min(20).max(200),code:z.string().regex(/^\d{6}$/)}).parse(r.body);await limited(r,'mfa-setup',String(r.user!.id),8,80);const result=await atomic(async tx=>{const t=await validToken(tx,b.setupToken,'MFA_SETUP');if(t.userId!==r.user!.id||t.user.role!=='ADMIN'||t.user.mfaEnabledAt)reject('This setup request is no longer available.');const delta=totp(decrypt(t.payload!),t.user.email).validate({token:b.code,window:1});if(delta===null)reject('The code is incorrect. Check the time on your phone.');await useToken(tx,t.hash);await tx.user.update({where:{id:t.userId},data:{mfaSecret:t.payload,mfaEnabledAt:new Date(),mfaLastStep:Math.floor(Date.now()/30000)+delta!}});const codes=await newRecoveryCodes(tx,t.userId);await invalidate(tx,t.userId);return {user:await tx.user.findUniqueOrThrow({where:{id:t.userId}}),codes};});await issueSession(s,result.user,true);await audit(r,'MFA_ENABLED',result.user.id);s.json({recoveryCodes:result.codes,message:'Two-step verification is enabled. Store these recovery codes offline now. Each works once.'});}));
+ router.post('/mfa/recovery-codes',requireAuth,endpoint(async(r,s)=>{const b=z.object({password:z.string().max(128),code:z.string().trim().min(1).max(100)}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});if(u.role!=='ADMIN'||!u.mfaEnabledAt)reject('Two-step verification must be enabled.');await passwordProof(r,u,b.password,b.code);const codes=await atomic(async tx=>{const fresh=await tx.user.findUniqueOrThrow({where:{id:u.id}});if(fresh.sessionVersion!==u.sessionVersion||fresh.mfaSecret!==u.mfaSecret)reject('Your account changed. Sign in again.',409);return newRecoveryCodes(tx,u.id);});await audit(r,'MFA_RECOVERY_CODES_REPLACED',u.id);s.json({recoveryCodes:codes,message:'Store these codes offline. Previous recovery codes no longer work.'});}));
+ router.post('/mfa/disable',requireAuth,endpoint(async(r,s)=>{const b=z.object({password:z.string().max(128),code:z.string().trim().min(1).max(100)}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});if(u.role!=='ADMIN'||!u.mfaEnabledAt)reject('Two-step verification is not enabled.');await passwordProof(r,u,b.password,b.code);await atomic(async tx=>{const current=await tx.user.findUniqueOrThrow({where:{id:u.id}});if(current.sessionVersion!==u.sessionVersion)reject('Your account changed. Sign in again.',409);await tx.user.update({where:{id:u.id},data:{mfaSecret:null,mfaEnabledAt:null,mfaLastStep:-1,mfaRequiredAfter:new Date()}});await tx.recoveryCode.deleteMany({where:{userId:u.id}});await invalidate(tx,u.id);});await audit(r,'MFA_DISABLED',u.id);clearAuthCookie(s);s.json({message:'Authenticator removed. Sign in and set up a replacement to restore administrator tools.'});}));
+ router.get('/security-events',requireAuth,requireRole('ADMIN'),endpoint(async(_r,s)=>{s.json({events:await db.securityEvent.findMany({orderBy:{id:'desc'},take:100})});}));
+ return router;
 }

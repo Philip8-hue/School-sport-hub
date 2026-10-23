@@ -16,7 +16,7 @@
     if(button.textContent!==text)button.textContent=text;
     button.setAttribute('aria-pressed',String(active));button.classList.toggle('is-following',active);
     button.closest('[data-follow-kind]')?.classList.toggle('is-following-card',active);
-    button.title=active?'Already following. Open Following to manage.':text;
+    button.title=(active?'Already following. Open Following to manage.':text)+'. Your display name will appear in the public follower list.';
   }
   function decorate(){
     scheduled=false;if(!ready)return;
@@ -39,7 +39,7 @@
     const navLink=nav?.querySelector('[data-following-nav]');const text=signedIn?'Following ('+count+')':'Following';if(navLink&&navLink.textContent!==text)navLink.textContent=text;
     if(summary){summary.hidden=!signedIn;summary.innerHTML=`<div class="section-heading"><div><h2>Your following</h2><p>${state.clubs.length} ${state.clubs.length===1?'club':'clubs'} · ${state.players.length} ${state.players.length===1?'player':'players'}</p></div><a href="following.html">See all following</a></div>${count?`<div class="following-grid">${cards('CLUB',2)}${cards('PLAYER',2)}</div>`:'<p>Follow a club or player to see them here when you return home.</p><a href="players.html">Discover players</a> · <a href="aupl clubs.html">Explore clubs</a>'}`;}
     if(page){
-      page.innerHTML=`<div class="following-heading"><p class="eyebrow">Your sports community</p><h1>Following</h1><p>Your saved clubs and players, wherever you are on Sports Hub.</p></div>${signedIn?`<div class="following-sections"><section><h2>Clubs <span>${state.clubs.length}</span></h2><div class="following-grid">${cards('CLUB')||'<p>You aren’t following any clubs yet. <a href="aupl clubs.html">Find a club</a>.</p>'}</div></section><section><h2>Players <span>${state.players.length}</span></h2><div class="following-grid">${cards('PLAYER')||'<p>You aren’t following any players yet. <a href="players.html">Meet the players</a>.</p>'}</div></section></div><div class="experience-links"><a class="button" href="account.html">My fan feed</a><a href="index.html">Back home</a></div>`:'<p>Sign in to see the clubs and players you follow. Your following is saved to your account.</p><a class="button" href="login.html?type=fan">Sign in as a fan</a>'}`;
+      page.innerHTML=`<div class="following-heading"><p class="eyebrow">Your sports community</p><h1>Following</h1><p>Your saved clubs and players, wherever you are on Sports Hub. Your display name appears in their public follower lists.</p></div>${signedIn?`<div class="following-sections"><section><h2>Clubs <span>${state.clubs.length}</span></h2><div class="following-grid">${cards('CLUB')||'<p>You aren’t following any clubs yet. <a href="aupl clubs.html">Find a club</a>.</p>'}</div></section><section><h2>Players <span>${state.players.length}</span></h2><div class="following-grid">${cards('PLAYER')||'<p>You aren’t following any players yet. <a href="players.html">Meet the players</a>.</p>'}</div></section></div><div class="experience-links"><a class="button" href="account.html">My fan feed</a><a href="index.html">Back home</a></div>`:'<p>Sign in to see the clubs and players you follow. Your following is saved to your account.</p><a class="button" href="login.html?type=fan">Sign in as a fan</a>'}`;
     }
     schedule();
   }

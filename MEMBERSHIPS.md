@@ -75,3 +75,9 @@ optional `--preview` argument to `scripts/check-memberships.mjs` keeps a
 disposable test server open for browser review on a separate loopback host.
 `npm run supabase:check-models` verifies the real PostgreSQL adapter in one
 rolled-back transaction; no test users or team data are persisted.
+
+## Public followers
+
+Player profile cards, the approved player dashboard and club profiles show follower counts and expandable public follower lists. Anyone can view them without signing in. Only active followers’ display names are returned; email addresses, user IDs, roles, sessions, tokens and private team data are excluded. Blank names and email-like names use “Sports Hub member”. Following/unfollowing refreshes the visible counts. Lists paginate 20 names at a time. The Following page and follow-button hints explain that following is public. Existing Favorite records are reused without a data migration.
+
+Email verification is currently optional by default. New and previously pending accounts can follow clubs/players, request profile/team approval and save fantasy teams without verifying first; admin access and approval requirements remain unchanged.

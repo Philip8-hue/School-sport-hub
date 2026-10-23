@@ -1,0 +1,14 @@
+.news-page [hidden]{display:none!important}
+.news-header h1{font-family:var(--font-display,inherit);font-size:clamp(2.3rem,6vw,4.8rem);line-height:1.05;max-width:850px;margin:18px 0}
+.news-switch{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+.news-switch button,.news-sport-label select,#worldNewsRetry,#worldNewsOlder{font:inherit;padding:12px 18px;border:1px solid var(--line,#ccd5c9);border-radius:8px;background:var(--surface,#fff);color:var(--ink,#193c2b);cursor:pointer}
+.news-switch button[aria-pressed=true]{background:var(--ink,#193c2b);color:var(--surface,#fff)}
+.news-switch button:focus-visible,.news-sport-label select:focus-visible{outline:3px solid var(--accent,#a99a64);outline-offset:3px}
+.world-news-note,#worldNewsStatus,.news-card .news-source{color:var(--muted,#56675c);line-height:1.6}
+.news-card h3{font-size:1.35rem;line-height:1.4;margin:12px 0 24px}
+.news-card a{color:var(--ink,#193c2b);text-decoration:underline;text-underline-offset:4px}
+.news-match-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin:20px 0}
+.news-match-grid article{padding:22px;border:1px solid var(--line,#ccd5c9);border-radius:12px;background:var(--surface,#fff);color:var(--ink,#193c2b)}
+.news-match-grid h4{margin:12px 0;font-size:1.15rem}.news-sport-label{display:flex;align-items:center;gap:12px}
+.news-title{margin-top:30px}.news-title a{color:var(--ink,#193c2b)}
+@media(max-width:540px){.news-switch button{flex:1;padding:12px}.news-title{flex-wrap:wrap;gap:12px}}

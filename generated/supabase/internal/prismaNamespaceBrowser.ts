@@ -69,8 +69,15 @@ export const ModelName = {
   LeagueTable: 'LeagueTable',
   NewsArticle: 'NewsArticle',
   HomepageContent: 'HomepageContent',
+  AuthSession: 'AuthSession',
+  AuthToken: 'AuthToken',
+  RecoveryCode: 'RecoveryCode',
+  AuthLimit: 'AuthLimit',
+  SecurityEvent: 'SecurityEvent',
   FantasyRound: 'FantasyRound',
   FantasyEntry: 'FantasyEntry',
+  InternationalNews: 'InternationalNews',
+  NewsRefresh: 'NewsRefresh',
   FantasyMatchStat: 'FantasyMatchStat'
 } as const
 
@@ -98,6 +105,14 @@ export const UserScalarFieldEnum = {
   role: 'role',
   accountType: 'accountType',
   isActive: 'isActive',
+  emailVerifiedAt: 'emailVerifiedAt',
+  emailVerificationRequired: 'emailVerificationRequired',
+  sessionVersion: 'sessionVersion',
+  legacySessionsUntil: 'legacySessionsUntil',
+  mfaSecret: 'mfaSecret',
+  mfaEnabledAt: 'mfaEnabledAt',
+  mfaLastStep: 'mfaLastStep',
+  mfaRequiredAfter: 'mfaRequiredAfter',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -354,6 +369,64 @@ export const HomepageContentScalarFieldEnum = {
 export type HomepageContentScalarFieldEnum = (typeof HomepageContentScalarFieldEnum)[keyof typeof HomepageContentScalarFieldEnum]
 
 
+export const AuthSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  version: 'version',
+  mfaVerified: 'mfaVerified',
+  legacyTokenHash: 'legacyTokenHash',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
+
+
+export const AuthTokenScalarFieldEnum = {
+  hash: 'hash',
+  userId: 'userId',
+  purpose: 'purpose',
+  payload: 'payload',
+  version: 'version',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthTokenScalarFieldEnum = (typeof AuthTokenScalarFieldEnum)[keyof typeof AuthTokenScalarFieldEnum]
+
+
+export const RecoveryCodeScalarFieldEnum = {
+  hash: 'hash',
+  userId: 'userId',
+  usedAt: 'usedAt'
+} as const
+
+export type RecoveryCodeScalarFieldEnum = (typeof RecoveryCodeScalarFieldEnum)[keyof typeof RecoveryCodeScalarFieldEnum]
+
+
+export const AuthLimitScalarFieldEnum = {
+  key: 'key',
+  count: 'count',
+  resetsAt: 'resetsAt'
+} as const
+
+export type AuthLimitScalarFieldEnum = (typeof AuthLimitScalarFieldEnum)[keyof typeof AuthLimitScalarFieldEnum]
+
+
+export const SecurityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  event: 'event',
+  ipHash: 'ipHash',
+  resource: 'resource',
+  createdAt: 'createdAt'
+} as const
+
+export type SecurityEventScalarFieldEnum = (typeof SecurityEventScalarFieldEnum)[keyof typeof SecurityEventScalarFieldEnum]
+
+
 export const FantasyRoundScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -385,6 +458,28 @@ export const FantasyEntryScalarFieldEnum = {
 } as const
 
 export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const InternationalNewsScalarFieldEnum = {
+  id: 'id',
+  sport: 'sport',
+  linkHash: 'linkHash',
+  title: 'title',
+  url: 'url',
+  source: 'source',
+  publishedAt: 'publishedAt'
+} as const
+
+export type InternationalNewsScalarFieldEnum = (typeof InternationalNewsScalarFieldEnum)[keyof typeof InternationalNewsScalarFieldEnum]
+
+
+export const NewsRefreshScalarFieldEnum = {
+  id: 'id',
+  nextAt: 'nextAt',
+  fetchedAt: 'fetchedAt'
+} as const
+
+export type NewsRefreshScalarFieldEnum = (typeof NewsRefreshScalarFieldEnum)[keyof typeof NewsRefreshScalarFieldEnum]
 
 
 export const FantasyMatchStatScalarFieldEnum = {

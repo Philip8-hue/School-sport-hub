@@ -415,8 +415,15 @@ export const ModelName = {
   LeagueTable: 'LeagueTable',
   NewsArticle: 'NewsArticle',
   HomepageContent: 'HomepageContent',
+  AuthSession: 'AuthSession',
+  AuthToken: 'AuthToken',
+  RecoveryCode: 'RecoveryCode',
+  AuthLimit: 'AuthLimit',
+  SecurityEvent: 'SecurityEvent',
   FantasyRound: 'FantasyRound',
   FantasyEntry: 'FantasyEntry',
+  InternationalNews: 'InternationalNews',
+  NewsRefresh: 'NewsRefresh',
   FantasyMatchStat: 'FantasyMatchStat'
 } as const
 
@@ -433,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "fantasyRound" | "fantasyEntry" | "fantasyMatchStat"
+    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "authSession" | "authToken" | "recoveryCode" | "authLimit" | "securityEvent" | "fantasyRound" | "fantasyEntry" | "internationalNews" | "newsRefresh" | "fantasyMatchStat"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1769,6 +1776,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AuthSession: {
+      payload: Prisma.$AuthSessionPayload<ExtArgs>
+      fields: Prisma.AuthSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuthSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuthSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.AuthSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuthSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        findMany: {
+          args: Prisma.AuthSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>[]
+        }
+        create: {
+          args: Prisma.AuthSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        createMany: {
+          args: Prisma.AuthSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuthSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.AuthSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        update: {
+          args: Prisma.AuthSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuthSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuthSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuthSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuthSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.AuthSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuthSession>
+        }
+        groupBy: {
+          args: Prisma.AuthSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuthSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuthToken: {
+      payload: Prisma.$AuthTokenPayload<ExtArgs>
+      fields: Prisma.AuthTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuthTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuthTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.AuthTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuthTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        findMany: {
+          args: Prisma.AuthTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>[]
+        }
+        create: {
+          args: Prisma.AuthTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        createMany: {
+          args: Prisma.AuthTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuthTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.AuthTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        update: {
+          args: Prisma.AuthTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuthTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuthTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuthTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuthTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.AuthTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuthToken>
+        }
+        groupBy: {
+          args: Prisma.AuthTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuthTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecoveryCode: {
+      payload: Prisma.$RecoveryCodePayload<ExtArgs>
+      fields: Prisma.RecoveryCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecoveryCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecoveryCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        findFirst: {
+          args: Prisma.RecoveryCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecoveryCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        findMany: {
+          args: Prisma.RecoveryCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+        }
+        create: {
+          args: Prisma.RecoveryCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        createMany: {
+          args: Prisma.RecoveryCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecoveryCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+        }
+        delete: {
+          args: Prisma.RecoveryCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        update: {
+          args: Prisma.RecoveryCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.RecoveryCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecoveryCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecoveryCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.RecoveryCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+        }
+        aggregate: {
+          args: Prisma.RecoveryCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecoveryCode>
+        }
+        groupBy: {
+          args: Prisma.RecoveryCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecoveryCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecoveryCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecoveryCodeCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuthLimit: {
+      payload: Prisma.$AuthLimitPayload<ExtArgs>
+      fields: Prisma.AuthLimitFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuthLimitFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuthLimitFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        findFirst: {
+          args: Prisma.AuthLimitFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuthLimitFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        findMany: {
+          args: Prisma.AuthLimitFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>[]
+        }
+        create: {
+          args: Prisma.AuthLimitCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        createMany: {
+          args: Prisma.AuthLimitCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuthLimitCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>[]
+        }
+        delete: {
+          args: Prisma.AuthLimitDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        update: {
+          args: Prisma.AuthLimitUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuthLimitDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuthLimitUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuthLimitUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuthLimitUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthLimitPayload>
+        }
+        aggregate: {
+          args: Prisma.AuthLimitAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuthLimit>
+        }
+        groupBy: {
+          args: Prisma.AuthLimitGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthLimitGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuthLimitCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthLimitCountAggregateOutputType> | number
+        }
+      }
+    }
+    SecurityEvent: {
+      payload: Prisma.$SecurityEventPayload<ExtArgs>
+      fields: Prisma.SecurityEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SecurityEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SecurityEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        findFirst: {
+          args: Prisma.SecurityEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SecurityEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        findMany: {
+          args: Prisma.SecurityEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>[]
+        }
+        create: {
+          args: Prisma.SecurityEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        createMany: {
+          args: Prisma.SecurityEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SecurityEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>[]
+        }
+        delete: {
+          args: Prisma.SecurityEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        update: {
+          args: Prisma.SecurityEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.SecurityEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SecurityEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SecurityEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.SecurityEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecurityEventPayload>
+        }
+        aggregate: {
+          args: Prisma.SecurityEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSecurityEvent>
+        }
+        groupBy: {
+          args: Prisma.SecurityEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SecurityEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SecurityEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SecurityEventCountAggregateOutputType> | number
+        }
+      }
+    }
     FantasyRound: {
       payload: Prisma.$FantasyRoundPayload<ExtArgs>
       fields: Prisma.FantasyRoundFieldRefs
@@ -1917,6 +2294,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InternationalNews: {
+      payload: Prisma.$InternationalNewsPayload<ExtArgs>
+      fields: Prisma.InternationalNewsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InternationalNewsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InternationalNewsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        findFirst: {
+          args: Prisma.InternationalNewsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InternationalNewsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        findMany: {
+          args: Prisma.InternationalNewsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>[]
+        }
+        create: {
+          args: Prisma.InternationalNewsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        createMany: {
+          args: Prisma.InternationalNewsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InternationalNewsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>[]
+        }
+        delete: {
+          args: Prisma.InternationalNewsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        update: {
+          args: Prisma.InternationalNewsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        deleteMany: {
+          args: Prisma.InternationalNewsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InternationalNewsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InternationalNewsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>[]
+        }
+        upsert: {
+          args: Prisma.InternationalNewsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InternationalNewsPayload>
+        }
+        aggregate: {
+          args: Prisma.InternationalNewsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInternationalNews>
+        }
+        groupBy: {
+          args: Prisma.InternationalNewsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InternationalNewsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InternationalNewsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InternationalNewsCountAggregateOutputType> | number
+        }
+      }
+    }
+    NewsRefresh: {
+      payload: Prisma.$NewsRefreshPayload<ExtArgs>
+      fields: Prisma.NewsRefreshFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NewsRefreshFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NewsRefreshFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        findFirst: {
+          args: Prisma.NewsRefreshFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NewsRefreshFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        findMany: {
+          args: Prisma.NewsRefreshFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>[]
+        }
+        create: {
+          args: Prisma.NewsRefreshCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        createMany: {
+          args: Prisma.NewsRefreshCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NewsRefreshCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>[]
+        }
+        delete: {
+          args: Prisma.NewsRefreshDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        update: {
+          args: Prisma.NewsRefreshUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        deleteMany: {
+          args: Prisma.NewsRefreshDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NewsRefreshUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NewsRefreshUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>[]
+        }
+        upsert: {
+          args: Prisma.NewsRefreshUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsRefreshPayload>
+        }
+        aggregate: {
+          args: Prisma.NewsRefreshAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsRefresh>
+        }
+        groupBy: {
+          args: Prisma.NewsRefreshGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsRefreshGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NewsRefreshCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsRefreshCountAggregateOutputType> | number
+        }
+      }
+    }
     FantasyMatchStat: {
       payload: Prisma.$FantasyMatchStatPayload<ExtArgs>
       fields: Prisma.FantasyMatchStatFieldRefs
@@ -2038,6 +2563,14 @@ export const UserScalarFieldEnum = {
   role: 'role',
   accountType: 'accountType',
   isActive: 'isActive',
+  emailVerifiedAt: 'emailVerifiedAt',
+  emailVerificationRequired: 'emailVerificationRequired',
+  sessionVersion: 'sessionVersion',
+  legacySessionsUntil: 'legacySessionsUntil',
+  mfaSecret: 'mfaSecret',
+  mfaEnabledAt: 'mfaEnabledAt',
+  mfaLastStep: 'mfaLastStep',
+  mfaRequiredAfter: 'mfaRequiredAfter',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2294,6 +2827,64 @@ export const HomepageContentScalarFieldEnum = {
 export type HomepageContentScalarFieldEnum = (typeof HomepageContentScalarFieldEnum)[keyof typeof HomepageContentScalarFieldEnum]
 
 
+export const AuthSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  version: 'version',
+  mfaVerified: 'mfaVerified',
+  legacyTokenHash: 'legacyTokenHash',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
+
+
+export const AuthTokenScalarFieldEnum = {
+  hash: 'hash',
+  userId: 'userId',
+  purpose: 'purpose',
+  payload: 'payload',
+  version: 'version',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthTokenScalarFieldEnum = (typeof AuthTokenScalarFieldEnum)[keyof typeof AuthTokenScalarFieldEnum]
+
+
+export const RecoveryCodeScalarFieldEnum = {
+  hash: 'hash',
+  userId: 'userId',
+  usedAt: 'usedAt'
+} as const
+
+export type RecoveryCodeScalarFieldEnum = (typeof RecoveryCodeScalarFieldEnum)[keyof typeof RecoveryCodeScalarFieldEnum]
+
+
+export const AuthLimitScalarFieldEnum = {
+  key: 'key',
+  count: 'count',
+  resetsAt: 'resetsAt'
+} as const
+
+export type AuthLimitScalarFieldEnum = (typeof AuthLimitScalarFieldEnum)[keyof typeof AuthLimitScalarFieldEnum]
+
+
+export const SecurityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  event: 'event',
+  ipHash: 'ipHash',
+  resource: 'resource',
+  createdAt: 'createdAt'
+} as const
+
+export type SecurityEventScalarFieldEnum = (typeof SecurityEventScalarFieldEnum)[keyof typeof SecurityEventScalarFieldEnum]
+
+
 export const FantasyRoundScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2325,6 +2916,28 @@ export const FantasyEntryScalarFieldEnum = {
 } as const
 
 export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const InternationalNewsScalarFieldEnum = {
+  id: 'id',
+  sport: 'sport',
+  linkHash: 'linkHash',
+  title: 'title',
+  url: 'url',
+  source: 'source',
+  publishedAt: 'publishedAt'
+} as const
+
+export type InternationalNewsScalarFieldEnum = (typeof InternationalNewsScalarFieldEnum)[keyof typeof InternationalNewsScalarFieldEnum]
+
+
+export const NewsRefreshScalarFieldEnum = {
+  id: 'id',
+  nextAt: 'nextAt',
+  fetchedAt: 'fetchedAt'
+} as const
+
+export type NewsRefreshScalarFieldEnum = (typeof NewsRefreshScalarFieldEnum)[keyof typeof NewsRefreshScalarFieldEnum]
 
 
 export const FantasyMatchStatScalarFieldEnum = {
@@ -2600,8 +3213,15 @@ export type GlobalOmitConfig = {
   leagueTable?: Prisma.LeagueTableOmit
   newsArticle?: Prisma.NewsArticleOmit
   homepageContent?: Prisma.HomepageContentOmit
+  authSession?: Prisma.AuthSessionOmit
+  authToken?: Prisma.AuthTokenOmit
+  recoveryCode?: Prisma.RecoveryCodeOmit
+  authLimit?: Prisma.AuthLimitOmit
+  securityEvent?: Prisma.SecurityEventOmit
   fantasyRound?: Prisma.FantasyRoundOmit
   fantasyEntry?: Prisma.FantasyEntryOmit
+  internationalNews?: Prisma.InternationalNewsOmit
+  newsRefresh?: Prisma.NewsRefreshOmit
   fantasyMatchStat?: Prisma.FantasyMatchStatOmit
 }
 

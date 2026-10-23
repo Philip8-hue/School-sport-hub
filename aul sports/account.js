@@ -38,8 +38,9 @@
     message.textContent = registration ? 'Creating your account…' : 'Signing in…';
     try {
       const response = await fetch('/api/auth/' + (registration ? 'register' : 'login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: document.getElementById(prefix + 'Email').value, password: password.value, accountType: selected.toUpperCase(), ...(registration ? { name: document.getElementById('registerName').value } : {}) }) });
-      const data = await response.json(); if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
-      location.assign(data.user.role === 'ADMIN' ? 'admin.html' : 'account.html');
+      let data = await response.json(); if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
+      data=await window.authSecurity.finishLogin(data);
+      location.assign(data.mfaSetupRequired||(registration&&data.verificationRequired) ? 'security.html' : data.user.role === 'ADMIN' ? 'admin.html' : 'account.html');
     } catch (error) { message.textContent = error instanceof TypeError ? 'Connection unavailable. Please try again.' : error.message; }
     finally { button.disabled = false; }
   });

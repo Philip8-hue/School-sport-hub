@@ -10,9 +10,9 @@ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'sport-hub-test-'));const dbfile
 const db=new Database(dbfile);
 for(const dir of fs.readdirSync('prisma/migrations').filter(x=>fs.existsSync(`prisma/migrations/${x}/migration.sql`)).sort())db.exec(fs.readFileSync(`prisma/migrations/${dir}/migration.sql`,'utf8'));
 db.prepare('INSERT INTO User (email,name,passwordHash,role,isActive,updatedAt) VALUES (?,?,?,?,?,?)').run('qa@example.test','QA Administrator',await bcrypt.hash('Testing-sports-123',4),'ADMIN',1,new Date().toISOString());
-db.prepare('INSERT INTO NewsArticle (title,slug,content,published,updatedAt) VALUES (?,?,?,?,?)').run('Private draft','draft','Not public',0,new Date().toISOString());db.close();
+db.prepare('INSERT INTO NewsArticle (title,slug,content,published,updatedAt) VALUES (?,?,?,?,?)').run('Private draft','draft','Not public',0,new Date().toISOString());db.prepare('UPDATE User SET legacySessionsUntil=?').run(new Date(Date.now()+7*86400000).toISOString());db.close();
 const port=5127;const base=`http://127.0.0.1:${port}`;
-const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,DATABASE_PROVIDER:'sqlite',PORT:String(port),DATABASE_URL:'file:'+dbfile,JWT_SECRET:'test-only-secret-12345678901234567890123456789',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
+const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,NODE_ENV:'test',REQUIRE_EMAIL_VERIFICATION:'false',AUTH_TEST_EMAIL_DIR:path.join(temp,'mail'),DATABASE_PROVIDER:'sqlite',PORT:String(port),DATABASE_URL:'file:'+dbfile,JWT_SECRET:'test-only-secret-12345678901234567890123456789',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
 let cookie='';let checks=0;const request=async(url,options={})=>{const response=await fetch(base+url,{...options,headers:{'Content-Type':'application/json',Origin:`http://localhost:${port}`,...(cookie?{Cookie:cookie}:{}),...options.headers}});return response;};
 const status=async(url,expected,options)=>{const r=await request(url,options);assert.equal(r.status,expected,url+': '+await r.clone().text());checks++;return r;};
 try{

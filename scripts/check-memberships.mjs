@@ -13,11 +13,12 @@ for(const dir of fs.readdirSync('prisma/migrations').filter(x=>fs.existsSync(`pr
 db.prepare('INSERT INTO User(email,name,passwordHash,role,isActive,updatedAt) VALUES (?,?,?,?,?,?)').run('admin@example.test','Test Admin',await bcrypt.hash('Admin-test-password',4),'ADMIN',1,new Date().toISOString());
 db.close();
 const port=5131,host=process.argv.includes('--preview')?'127.0.0.2':'127.0.0.1',base=`http://${host}:${port}`;
-const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,VERCEL:'0',DATABASE_PROVIDER:'sqlite',DATABASE_URL:'file:'+file,HOST:host,PORT:String(port),JWT_SECRET:'membership-test-secret-at-least-32-characters',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
+const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,NODE_ENV:'test',REQUIRE_EMAIL_VERIFICATION:'false',AUTH_TEST_EMAIL_DIR:path.join(temp,'mail'),VERCEL:'0',DATABASE_PROVIDER:'sqlite',DATABASE_URL:'file:'+file,HOST:host,PORT:String(port),JWT_SECRET:'membership-test-secret-at-least-32-characters',ALLOW_PUBLIC_REGISTRATION:'true'},stdio:['ignore','pipe','pipe']});
 const sessions={};let checks=0;
 async function req(method,url,status,body,who){
  const r=await fetch(base+url,{method,headers:{'Content-Type':'application/json',Origin:base,...(sessions[who]?{Cookie:sessions[who]}:{})},body:body?JSON.stringify(body):undefined});
- const data=await r.json().catch(()=>({}));assert.equal(r.status,status,`${method} ${url}: ${JSON.stringify(data)}`);checks++;
+ const data=await r.json().catch(()=>({}));
+assert.equal(r.status,status,`${method} ${url}: ${JSON.stringify(data)}`);checks++;
  if(who&&r.headers.get('set-cookie'))sessions[who]=r.headers.get('set-cookie').split(';')[0];return data;
 }
 const dashboard=who=>req('GET','/api/member/dashboard',200,null,who);
@@ -78,6 +79,13 @@ try{
  await req('PUT','/api/member/favorites',200,{kind:'CLUB',targetId:home.id,following:true},'fan');
  await req('PUT','/api/member/favorites',200,{kind:'CLUB',targetId:home.id,following:true},'fan');
  await req('PUT','/api/member/favorites',200,{kind:'PLAYER',targetId:player.id,following:true},'fan');
+
+ const publicClub=await req('GET','/api/followers/CLUB/'+home.id,200);assert.equal(publicClub.count,1);assert.deepEqual(publicClub.followers,[{displayName:'fan'}]);checks+=2;
+ const publicPlayer=await req('GET','/api/followers/PLAYER/'+player.id,200);assert.equal(publicPlayer.count,1);assert.ok(!JSON.stringify(publicPlayer).includes('email'));assert.ok(!JSON.stringify(publicPlayer).includes('userId'));assert.ok(!JSON.stringify(publicPlayer).includes('password'));checks+=4;
+ await req('GET','/api/followers/PLAYER/99999999',404);await req('GET','/api/followers/USER/1',400);await req('GET','/api/followers/CLUB/'+home.id+'?cursor=invalid',400);
+ const followerDb=new Database(file);for(let i=0;i<23;i++){const record=followerDb.prepare('INSERT INTO User(email,name,isActive,updatedAt) VALUES(?,?,?,?)').run('pagination-'+i+'@example.test',i===22?'private@example.test':'Public fan '+i,i===21?0:1,new Date().toISOString());followerDb.prepare('INSERT INTO Favorite(userId,kind,targetId) VALUES(?,?,?)').run(Number(record.lastInsertRowid),'CLUB',home.id);}followerDb.close();
+ const firstPage=await req('GET','/api/followers/CLUB/'+home.id,200);assert.equal(firstPage.count,23);assert.equal(firstPage.followers.length,20);assert.ok(firstPage.nextCursor);assert.equal(firstPage.followers[0].displayName,'Sports Hub member');assert.ok(!JSON.stringify(firstPage).includes('private@example.test'));checks+=5;
+ const nextPage=await req('GET','/api/followers/CLUB/'+home.id+'?cursor='+firstPage.nextCursor,200);assert.equal(nextPage.followers.length,3);assert.equal(nextPage.nextCursor,null);checks+=2;
  const feed=await dashboard('fan');assert.equal(feed.favorites.length,2);assert.equal(feed.announcements.length,0);assert.equal(feed.lineups.length,0);assert.equal(feed.availability.length,0);assert.equal(feed.fixtures.length,1);assert.equal(feed.news.length,1);assert.equal(feed.news[0].slug,'visible');
  const following=await req('GET','/api/member/following',200,null,'fan');assert.equal(following.clubs.length,1);assert.equal(following.players.length,1);assert.equal(following.favorites.length,2);assert.ok(!('announcements' in following));
  assert.equal((await req('GET','/api/member/following',200,null,'alice')).favorites.length,0);
@@ -102,7 +110,7 @@ try{
  await req('POST','/api/member/announcements',403,{clubId:home.id,title:'Revoked',body:'No longer allowed'},'sam');
  await req('PUT','/api/member/lineups',403,{clubId:home.id,fixtureId:fixture.id,playerIds:[player.id]},'sam');
  await approve(competing.id);assert.equal((await dashboard('bob')).playerLinks.length,1);
- await req('PUT','/api/member/favorites',200,{kind:'CLUB',targetId:home.id,following:false},'fan');assert.equal((await dashboard('fan')).favorites.length,1);
+ await req('PUT','/api/member/favorites',200,{kind:'CLUB',targetId:home.id,following:false},'fan');assert.equal((await dashboard('fan')).favorites.length,1);assert.equal((await req('GET','/api/followers/CLUB/'+home.id,200)).count,22);checks++;
  console.log(`Passed ${checks} membership HTTP checks, including approval, duplicate claims, multi-role access, privacy, history, submissions, favourites and revocation.`);
  if(process.argv.includes('--preview')){
   const request=await req('POST','/api/member/requests',201,{kind:'COACH',targetId:home.id,message:'Please verify my coaching assignment for the preview.'},'sam');await approve(request.id);
