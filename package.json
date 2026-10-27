@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsx watch server/src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node scripts/check.mjs && node scripts/check-memberships.mjs && node scripts/check-fantasy.mjs && node scripts/check-email-policy.mjs && node scripts/check-security.mjs",
+    "test": "npm run build && node scripts/check.mjs && node scripts/check-memberships.mjs && node scripts/check-fantasy.mjs && node scripts/check-email-policy.mjs && node scripts/check-security.mjs && node scripts/check-executives.mjs",
     "start": "node dist/server/src/index.js",
     "db:generate": "node scripts/generate-clients.mjs",
     "db:migrate": "prisma migrate dev",
@@ -23,7 +23,8 @@
     "test:memberships": "npm run build && node scripts/check-memberships.mjs",
     "test:fantasy": "npm run build && node scripts/check-fantasy.mjs",
     "test:security": "npm run build && node scripts/check-security.mjs",
-    "test:news": "npm run build && node scripts/check-news.mjs"
+    "test:news": "npm run build && node scripts/check-news.mjs",
+    "test:executives": "npm run build && node scripts/check-executives.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.1",
@@ -37,6 +38,7 @@
     "otpauth": "^9.5.2",
     "pg": "^8.23.1",
     "qrcode": "^1.5.4",
+    "sharp": "^0.35.5",
     "zod": "^4.6.7"
   },
   "devDependencies": {

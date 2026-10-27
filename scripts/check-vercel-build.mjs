@@ -7,6 +7,7 @@ const config = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
 assert.equal(config.framework, 'express');
 assert.equal(config.buildCommand, 'npm run vercel-build');
 assert.equal(config.cleanUrls, false);
+assert.equal(config.functions['app.ts'].includeFiles, 'aul sports/{admin*,executive}.html');
 let files = 0;
 function check(directory) {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
@@ -23,7 +24,7 @@ function check(directory) {
 }
 check('public');
 for (const file of ['index.html', 'register.html', 'design.css', 'homepage-copy.json']) assert.ok(fs.existsSync(path.join('public', file)));
-for (const file of ['admin.html', 'admin-preview.html']) assert.ok(!fs.existsSync(path.join('public', file)), 'Admin HTML must never be served directly by the CDN');
+for (const file of ['admin.html', 'admin-preview.html', 'executive.html']) assert.ok(!fs.existsSync(path.join('public', file)), 'Admin HTML must never be served directly by the CDN');
 process.env.VERCEL = '1';
 process.env.DATABASE_PROVIDER = 'supabase';
 process.env.SUPABASE_DATABASE_URL = 'postgresql://localhost:5432/build_check';

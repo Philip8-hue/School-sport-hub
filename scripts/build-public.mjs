@@ -18,7 +18,7 @@ const extensions = new Set(['.pdf', '.html', '.css', '.js', '.json', '.svg', '.p
 let count = 0;
 function copy(directory, relative = '') {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    if (['admin.html', 'admin-preview.html'].includes(entry.name.toLowerCase())) continue;
+    if (['admin.html', 'admin-preview.html', 'executive.html'].includes(entry.name.toLowerCase())) continue;
     if (entry.name.startsWith('.') || entry.isSymbolicLink()) continue;
     const next = path.join(relative, entry.name);
     if (entry.isDirectory()) copy(path.join(directory, entry.name), next);

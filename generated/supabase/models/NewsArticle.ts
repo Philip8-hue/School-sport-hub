@@ -35,6 +35,7 @@ export type NewsArticleSumAggregateOutputType = {
 }
 
 export type NewsArticleMinAggregateOutputType = {
+  sport: string | null
   id: number | null
   title: string | null
   slug: string | null
@@ -47,6 +48,7 @@ export type NewsArticleMinAggregateOutputType = {
 }
 
 export type NewsArticleMaxAggregateOutputType = {
+  sport: string | null
   id: number | null
   title: string | null
   slug: string | null
@@ -59,6 +61,7 @@ export type NewsArticleMaxAggregateOutputType = {
 }
 
 export type NewsArticleCountAggregateOutputType = {
+  sport: number
   id: number
   title: number
   slug: number
@@ -81,6 +84,7 @@ export type NewsArticleSumAggregateInputType = {
 }
 
 export type NewsArticleMinAggregateInputType = {
+  sport?: true
   id?: true
   title?: true
   slug?: true
@@ -93,6 +97,7 @@ export type NewsArticleMinAggregateInputType = {
 }
 
 export type NewsArticleMaxAggregateInputType = {
+  sport?: true
   id?: true
   title?: true
   slug?: true
@@ -105,6 +110,7 @@ export type NewsArticleMaxAggregateInputType = {
 }
 
 export type NewsArticleCountAggregateInputType = {
+  sport?: true
   id?: true
   title?: true
   slug?: true
@@ -204,6 +210,7 @@ export type NewsArticleGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type NewsArticleGroupByOutputType = {
+  sport: string | null
   id: number
   title: string
   slug: string
@@ -239,6 +246,7 @@ export type NewsArticleWhereInput = {
   AND?: Prisma.NewsArticleWhereInput | Prisma.NewsArticleWhereInput[]
   OR?: Prisma.NewsArticleWhereInput[]
   NOT?: Prisma.NewsArticleWhereInput | Prisma.NewsArticleWhereInput[]
+  sport?: Prisma.StringNullableFilter<"NewsArticle"> | string | null
   id?: Prisma.IntFilter<"NewsArticle"> | number
   title?: Prisma.StringFilter<"NewsArticle"> | string
   slug?: Prisma.StringFilter<"NewsArticle"> | string
@@ -251,6 +259,7 @@ export type NewsArticleWhereInput = {
 }
 
 export type NewsArticleOrderByWithRelationInput = {
+  sport?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -268,6 +277,7 @@ export type NewsArticleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.NewsArticleWhereInput | Prisma.NewsArticleWhereInput[]
   OR?: Prisma.NewsArticleWhereInput[]
   NOT?: Prisma.NewsArticleWhereInput | Prisma.NewsArticleWhereInput[]
+  sport?: Prisma.StringNullableFilter<"NewsArticle"> | string | null
   title?: Prisma.StringFilter<"NewsArticle"> | string
   excerpt?: Prisma.StringNullableFilter<"NewsArticle"> | string | null
   content?: Prisma.StringFilter<"NewsArticle"> | string
@@ -278,6 +288,7 @@ export type NewsArticleWhereUniqueInput = Prisma.AtLeast<{
 }, "id" | "slug">
 
 export type NewsArticleOrderByWithAggregationInput = {
+  sport?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -298,6 +309,7 @@ export type NewsArticleScalarWhereWithAggregatesInput = {
   AND?: Prisma.NewsArticleScalarWhereWithAggregatesInput | Prisma.NewsArticleScalarWhereWithAggregatesInput[]
   OR?: Prisma.NewsArticleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.NewsArticleScalarWhereWithAggregatesInput | Prisma.NewsArticleScalarWhereWithAggregatesInput[]
+  sport?: Prisma.StringNullableWithAggregatesFilter<"NewsArticle"> | string | null
   id?: Prisma.IntWithAggregatesFilter<"NewsArticle"> | number
   title?: Prisma.StringWithAggregatesFilter<"NewsArticle"> | string
   slug?: Prisma.StringWithAggregatesFilter<"NewsArticle"> | string
@@ -310,6 +322,7 @@ export type NewsArticleScalarWhereWithAggregatesInput = {
 }
 
 export type NewsArticleCreateInput = {
+  sport?: string | null
   title: string
   slug: string
   excerpt?: string | null
@@ -321,6 +334,7 @@ export type NewsArticleCreateInput = {
 }
 
 export type NewsArticleUncheckedCreateInput = {
+  sport?: string | null
   id?: number
   title: string
   slug: string
@@ -333,6 +347,7 @@ export type NewsArticleUncheckedCreateInput = {
 }
 
 export type NewsArticleUpdateInput = {
+  sport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -344,6 +359,7 @@ export type NewsArticleUpdateInput = {
 }
 
 export type NewsArticleUncheckedUpdateInput = {
+  sport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -356,6 +372,7 @@ export type NewsArticleUncheckedUpdateInput = {
 }
 
 export type NewsArticleCreateManyInput = {
+  sport?: string | null
   id?: number
   title: string
   slug: string
@@ -368,6 +385,7 @@ export type NewsArticleCreateManyInput = {
 }
 
 export type NewsArticleUpdateManyMutationInput = {
+  sport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -379,6 +397,7 @@ export type NewsArticleUpdateManyMutationInput = {
 }
 
 export type NewsArticleUncheckedUpdateManyInput = {
+  sport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -391,6 +410,7 @@ export type NewsArticleUncheckedUpdateManyInput = {
 }
 
 export type NewsArticleCountOrderByAggregateInput = {
+  sport?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -407,6 +427,7 @@ export type NewsArticleAvgOrderByAggregateInput = {
 }
 
 export type NewsArticleMaxOrderByAggregateInput = {
+  sport?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -419,6 +440,7 @@ export type NewsArticleMaxOrderByAggregateInput = {
 }
 
 export type NewsArticleMinOrderByAggregateInput = {
+  sport?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -437,6 +459,7 @@ export type NewsArticleSumOrderByAggregateInput = {
 
 
 export type NewsArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  sport?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -449,6 +472,7 @@ export type NewsArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 }, ExtArgs["result"]["newsArticle"]>
 
 export type NewsArticleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  sport?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -461,6 +485,7 @@ export type NewsArticleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 }, ExtArgs["result"]["newsArticle"]>
 
 export type NewsArticleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  sport?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -473,6 +498,7 @@ export type NewsArticleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 }, ExtArgs["result"]["newsArticle"]>
 
 export type NewsArticleSelectScalar = {
+  sport?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -484,12 +510,13 @@ export type NewsArticleSelectScalar = {
   updatedAt?: boolean
 }
 
-export type NewsArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "published" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["newsArticle"]>
+export type NewsArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"sport" | "id" | "title" | "slug" | "excerpt" | "content" | "published" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["newsArticle"]>
 
 export type $NewsArticlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NewsArticle"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    sport: string | null
     id: number
     title: string
     slug: string
@@ -582,8 +609,8 @@ export interface NewsArticleDelegate<ExtArgs extends runtime.Types.Extensions.In
    * // Get first 10 NewsArticles
    * const newsArticles = await prisma.newsArticle.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const newsArticleWithIdOnly = await prisma.newsArticle.findMany({ select: { id: true } })
+   * // Only select the `sport`
+   * const newsArticleWithSportOnly = await prisma.newsArticle.findMany({ select: { sport: true } })
    * 
    */
   findMany<T extends NewsArticleFindManyArgs>(args?: Prisma.SelectSubset<T, NewsArticleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -627,9 +654,9 @@ export interface NewsArticleDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Create many NewsArticles and only return the `id`
-   * const newsArticleWithIdOnly = await prisma.newsArticle.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many NewsArticles and only return the `sport`
+   * const newsArticleWithSportOnly = await prisma.newsArticle.createManyAndReturn({
+   *   select: { sport: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -718,9 +745,9 @@ export interface NewsArticleDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Update zero or more NewsArticles and only return the `id`
-   * const newsArticleWithIdOnly = await prisma.newsArticle.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more NewsArticles and only return the `sport`
+   * const newsArticleWithSportOnly = await prisma.newsArticle.updateManyAndReturn({
+   *   select: { sport: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -922,6 +949,7 @@ export interface Prisma__NewsArticleClient<T, Null = never, ExtArgs extends runt
  * Fields of the NewsArticle model
  */
 export interface NewsArticleFieldRefs {
+  readonly sport: Prisma.FieldRef<"NewsArticle", 'String'>
   readonly id: Prisma.FieldRef<"NewsArticle", 'Int'>
   readonly title: Prisma.FieldRef<"NewsArticle", 'String'>
   readonly slug: Prisma.FieldRef<"NewsArticle", 'String'>

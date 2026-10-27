@@ -13,6 +13,7 @@ model User {
   email        String   @unique
   passwordHash String?
   role         String   @default("USER")
+  executiveSport String?
   accountType  String   @default("FAN")
   isActive     Boolean  @default(true)
   emailVerifiedAt DateTime?
@@ -72,6 +73,7 @@ model Club {
 }
 
 model Player {
+  uploadedPhoto PlayerPhoto?
   id           Int      @id @default(autoincrement())
   name         String
   fullName     String?
@@ -277,6 +279,7 @@ model LeagueTable {
 }
 
 model NewsArticle {
+  sport       String?
   id          Int       @id @default(autoincrement())
   title       String
   slug        String    @unique
@@ -372,6 +375,12 @@ model FantasyEntry {
   breakdown String @default("[]")
   updatedAt DateTime @updatedAt
   @@unique([roundId, userId])
+}
+model PlayerPhoto {
+  playerId Int @id
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  image Bytes
+  updatedAt DateTime @updatedAt
 }
 model InternationalNews {
   id Int @id @default(autoincrement())

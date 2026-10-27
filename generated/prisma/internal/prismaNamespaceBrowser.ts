@@ -76,6 +76,7 @@ export const ModelName = {
   SecurityEvent: 'SecurityEvent',
   FantasyRound: 'FantasyRound',
   FantasyEntry: 'FantasyEntry',
+  PlayerPhoto: 'PlayerPhoto',
   InternationalNews: 'InternationalNews',
   NewsRefresh: 'NewsRefresh',
   FantasyMatchStat: 'FantasyMatchStat'
@@ -100,6 +101,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
+  executiveSport: 'executiveSport',
   accountType: 'accountType',
   isActive: 'isActive',
   emailVerifiedAt: 'emailVerifiedAt',
@@ -343,6 +345,7 @@ export type LeagueTableScalarFieldEnum = (typeof LeagueTableScalarFieldEnum)[key
 
 
 export const NewsArticleScalarFieldEnum = {
+  sport: 'sport',
   id: 'id',
   title: 'title',
   slug: 'slug',
@@ -455,6 +458,15 @@ export const FantasyEntryScalarFieldEnum = {
 } as const
 
 export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const PlayerPhotoScalarFieldEnum = {
+  playerId: 'playerId',
+  image: 'image',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlayerPhotoScalarFieldEnum = (typeof PlayerPhotoScalarFieldEnum)[keyof typeof PlayerPhotoScalarFieldEnum]
 
 
 export const InternationalNewsScalarFieldEnum = {

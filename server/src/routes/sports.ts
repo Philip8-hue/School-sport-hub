@@ -5,6 +5,7 @@ import { requireAuth, requireRole } from "../middleware/auth.js";
 import { updatePlayerWithHistory } from "../lib/player-history.js";
 
 export const sportsRouter = Router();
+export { clubSchema, playerSchema, fixtureSchema, resultSchema, tableSchema, newsSchema };
 const adminOnly: RequestHandler[] = [requireAuth, requireRole("ADMIN")];
 const id = (value: string | string[]): number | null => {
   if (Array.isArray(value)) return null;
@@ -17,7 +18,7 @@ const playerSchema = z.object({ name: z.string().trim().min(1).max(100), fullNam
 const fixtureSchema = z.object({ sport: z.string().trim().min(1).max(40), startsAt: z.string().datetime(), venue: z.string().trim().max(160).optional().nullable(), status: z.enum(["SCHEDULED", "LIVE", "COMPLETED", "CANCELLED"]).optional(), homeClubId: z.number().int().positive().optional().nullable(), awayClubId: z.number().int().positive().optional().nullable() });
 const resultSchema = z.object({ homeScore: z.number().int().min(0).max(999), awayScore: z.number().int().min(0).max(999), playedAt: z.string().datetime().optional().nullable() });
 const tableSchema = z.object({ sport: z.string().trim().min(1).max(40), clubId: z.number().int().positive(), played: z.number().int().min(0), won: z.number().int().min(0), drawn: z.number().int().min(0), lost: z.number().int().min(0), points: z.number().int().min(0) });
-const newsSchema = z.object({ title: z.string().trim().min(1).max(180), slug: z.string().trim().min(1).max(200), excerpt: z.string().trim().max(300).optional().nullable(), content: z.string().trim().min(1), published: z.boolean().optional() });
+const newsSchema = z.object({ sport: z.enum(["Male Football","Female Football","Male Basketball","Female Basketball","Volleyball"]).optional().nullable(), title: z.string().trim().min(1).max(180), slug: z.string().trim().min(1).max(200), excerpt: z.string().trim().max(300).optional().nullable(), content: z.string().trim().min(1), published: z.boolean().optional() });
 
 sportsRouter.get("/clubs", async (request, response, next) => {
   try { response.json(await prisma.club.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, orderBy: { name: "asc" } })); } catch (error) { next(error); }

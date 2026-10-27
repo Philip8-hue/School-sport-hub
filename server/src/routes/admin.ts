@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
 import { defaultHomepageContent, parseHomepageContent, homepageCopyFields } from "../lib/homepage.js";
+import { isExecutiveSport } from '../lib/executive-access.js';
 
 export const adminRouter = Router();
 const adminOnly = [requireAuth, requireRole("ADMIN")];
@@ -72,7 +73,7 @@ adminRouter.delete("/items/:id", ...adminOnly, async (request, response, next) =
 adminRouter.get("/users", ...adminOnly, async (_request, response, next) => {
   try {
     const users = await prisma.user.findMany({
-      select: { id: true, email: true, name: true, role: true, isActive: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, executiveSport: true, isActive: true, createdAt: true },
       orderBy: { createdAt: "desc" },
     });
     response.json(users);
@@ -83,7 +84,8 @@ adminRouter.get("/users", ...adminOnly, async (_request, response, next) => {
 
 adminRouter.patch("/users/:id", ...adminOnly, async (request, response, next) => {
   const userId = Number(request.params.id);
-  const role = request.body?.role === "ADMIN" ? "ADMIN" : request.body?.role === "USER" ? "USER" : undefined;
+  const role = ['ADMIN','USER','EXECUTIVE'].includes(request.body?.role) ? request.body.role as string : undefined;
+  const executiveSport = request.body?.executiveSport;
   const isActive = typeof request.body?.isActive === "boolean" ? request.body.isActive : undefined;
   if (!Number.isInteger(userId) || userId < 1 || (!role && isActive === undefined)) {
     response.status(400).json({ error: "Invalid user update" });
@@ -91,7 +93,17 @@ adminRouter.patch("/users/:id", ...adminOnly, async (request, response, next) =>
   }
   if (userId === request.user?.id && (role === "USER" || isActive === false)) { response.status(400).json({ error: "You cannot remove your own administrator access" }); return; }
   try {
-    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role, sessionVersion: { increment: 1 }, legacySessionsUntil: null, ...(role === "ADMIN" ? { mfaRequiredAfter: new Date(Date.now()+14*86400000) } : {}) } : {}), ...(isActive !== undefined ? { isActive, ...(role ? {} : { sessionVersion: { increment: 1 }, legacySessionsUntil: null }) } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
+    if (role === 'EXECUTIVE') {
+      if (!isExecutiveSport(executiveSport)) { response.status(400).json({ error: 'Choose football, basketball or volleyball for this executive.' }); return; }
+      const changed = await prisma.$transaction(async tx => {
+        const user = await tx.user.findUniqueOrThrow({ where: { id: userId } });
+        if (user.role === 'ADMIN') return null;
+        return tx.user.update({ where: { id: userId }, data: { role: 'EXECUTIVE', executiveSport, sessionVersion: { increment: 1 }, legacySessionsUntil: null, mfaRequiredAfter: user.mfaRequiredAfter ?? new Date(Date.now()+14*86400000), ...(isActive !== undefined ? { isActive } : {}) }, select: { id:true,email:true,name:true,role:true,executiveSport:true,isActive:true } });
+      });
+      if (!changed) { response.status(400).json({ error: 'Overall administrators keep their existing access. Choose a regular user or executive.' }); return; }
+      response.json(changed); return;
+    }
+    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role, executiveSport: null, sessionVersion: { increment: 1 }, legacySessionsUntil: null, ...(role === "ADMIN" ? { mfaRequiredAfter: new Date(Date.now()+14*86400000) } : {}) } : {}), ...(isActive !== undefined ? { isActive, ...(role ? {} : { sessionVersion: { increment: 1 }, legacySessionsUntil: null }) } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
   } catch (error) {
     next(error);
   }

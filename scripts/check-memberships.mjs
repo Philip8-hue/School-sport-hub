@@ -5,6 +5,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import Database from 'better-sqlite3';
 import bcrypt from 'bcryptjs';
+import sharp from 'sharp';
 
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'sports-memberships-'));
 const file=path.join(temp,'check.db');
@@ -22,10 +23,15 @@ assert.equal(r.status,status,`${method} ${url}: ${JSON.stringify(data)}`);checks
  if(who&&r.headers.get('set-cookie'))sessions[who]=r.headers.get('set-cookie').split(';')[0];return data;
 }
 const dashboard=who=>req('GET','/api/member/dashboard',200,null,who);
+const photoInput = await sharp({create:{width:700,height:500,channels:3,background:'#346747'}}).jpeg().toBuffer();
+async function upload(id,who,status,bytes=photoInput){
+ const response=await fetch(base+'/api/player-photos/'+id,{method:'PUT',headers:{Origin:base,'Content-Type':'application/octet-stream',...(sessions[who]?{Cookie:sessions[who]}:{})},body:bytes});
+ assert.equal(response.status,status);checks++;return response;
+}
 const approve=(id,status='APPROVED')=>req('PATCH','/api/admin/approvals/requests/'+id,200,{status,reviewNote:'Verified through university team records.'},'admin');
 let log='';child.stderr.on('data',chunk=>{log+=chunk;});
 try{
- await new Promise((resolve,reject)=>{child.stdout.once('data',resolve);child.once('error',reject);child.once('exit',code=>reject(new Error('Server exited '+code+': '+log)));setTimeout(()=>reject(new Error('Startup timed out')),15000).unref();});
+ await new Promise((resolve,reject)=>{child.stdout.once('data',resolve);child.once('error',reject);child.once('exit',code=>reject(new Error('Server exited '+code+': '+log)));setTimeout(()=>reject(new Error('Startup timed out: '+log)),45000).unref();});
  await req('GET','/api/member/dashboard',401);await req('GET','/api/admin/approvals/queue',401);
  await req('POST','/api/auth/login',200,{email:'admin@example.test',password:'Admin-test-password'},'admin');
  for(const [who,type]of [['alice','PLAYER'],['bob','PLAYER'],['sam','COACH'],['fan','FAN']]){
@@ -53,6 +59,7 @@ try{
  await req('POST','/api/member/requests',409,{kind:'PLAYER',targetId:player.id,message:'Duplicate pending profile request.'},'alice');
  assert.equal((await dashboard('alice')).playerLinks.length,0);assert.equal((await dashboard('sam')).coachLinks.length,0);
  await req('PATCH',`/api/member/players/${player.id}/bio`,403,{bio:'Unapproved'},'alice');
+ await upload(player.id,'alice',403);await upload(player.id,null,401);
  await req('POST','/api/member/announcements',403,{clubId:home.id,title:'Not approved',body:'No access'},'sam');
  await req('PATCH',`/api/admin/approvals/requests/${claim.id}`,403,{status:'APPROVED'},'alice');
  await approve(claim.id);await approve(coaching.id);
@@ -64,6 +71,17 @@ try{
  await req('GET','/api/admin/approvals/queue',403,null,'sam');
  await req('PATCH',`/api/players/${player.id}`,403,{goals:99},'alice');await req('PATCH',`/api/players/${player.id}`,403,{goals:99},'sam');
  await req('PATCH',`/api/member/players/${player.id}/bio`,200,{bio:'My approved profile bio'},'alice');
+ await upload(player.id,'bob',403);await upload(player.id,'sam',403);await upload(other.id,'alice',403);
+ await upload(player.id,'alice',400,Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'));
+ await upload(player.id,'alice',400,Buffer.from('not an image'));
+ await upload(player.id,'alice',413,Buffer.alloc(3*1024*1024+1));
+ const uploaded=await (await upload(player.id,'alice',200)).json();assert.match(uploaded.photoUrl,new RegExp('^/api/player-photos/'+player.id));
+ const publicPhoto=await fetch(base+uploaded.photoUrl);assert.equal(publicPhoto.status,200);assert.match(publicPhoto.headers.get('content-type'),/image\/webp/);
+ const imageBytes=Buffer.from(await publicPhoto.arrayBuffer());assert.ok(imageBytes.length<=48*1024);const metadata=await sharp(imageBytes).metadata();assert.equal(metadata.width,700);assert.equal(metadata.height,500);assert.equal(metadata.exif,undefined);
+ assert.equal((await dashboard('alice')).playerLinks[0].player.photoUrl,uploaded.photoUrl);
+ await upload(player.id,'alice',200);const photoDb=new Database(file);assert.equal(photoDb.prepare('SELECT COUNT(*) AS count FROM PlayerPhoto WHERE playerId=?').get(player.id).count,1);photoDb.close();
+ await req('DELETE',`/api/player-photos/${player.id}`,403,null,'bob');await req('DELETE',`/api/player-photos/${player.id}`,200,null,'alice');assert.equal((await fetch(base+'/api/player-photos/'+player.id)).status,404);
+ await upload(player.id,'alice',200);
  await req('PATCH',`/api/member/players/${other.id}/bio`,403,{bio:'Not mine'},'alice');
  await req('PATCH',`/api/member/players/${player.id}/bio`,400,{bio:'Wrong',role:'ADMIN'},'alice');
  await req('PUT','/api/member/availability',200,{playerId:player.id,fixtureId:fixture.id,status:'AVAILABLE',note:'Ready for the match'},'alice');
@@ -106,6 +124,7 @@ try{
  mine=await dashboard('alice');assert.equal(mine.playerLinks.length,1);assert.equal(mine.coachLinks.length,1);assert.equal(mine.user.role,'USER');
  await approve(claim.id,'REVOKED');mine=await dashboard('alice');assert.equal(mine.playerLinks.length,0);assert.equal(mine.announcements.length,0);
  await req('PATCH',`/api/member/players/${player.id}/bio`,403,{bio:'Revoked owner'},'alice');
+ await upload(player.id,'alice',403);await req('DELETE',`/api/player-photos/${player.id}`,403,null,'alice');
  await approve(coaching.id,'REVOKED');const revoked=await dashboard('sam');assert.equal(revoked.coachLinks.length,0);assert.equal(revoked.announcements.length,0);assert.equal(revoked.availability.length,0);
  await req('POST','/api/member/announcements',403,{clubId:home.id,title:'Revoked',body:'No longer allowed'},'sam');
  await req('PUT','/api/member/lineups',403,{clubId:home.id,fixtureId:fixture.id,playerIds:[player.id]},'sam');

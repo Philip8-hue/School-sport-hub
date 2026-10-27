@@ -422,6 +422,7 @@ export const ModelName = {
   SecurityEvent: 'SecurityEvent',
   FantasyRound: 'FantasyRound',
   FantasyEntry: 'FantasyEntry',
+  PlayerPhoto: 'PlayerPhoto',
   InternationalNews: 'InternationalNews',
   NewsRefresh: 'NewsRefresh',
   FantasyMatchStat: 'FantasyMatchStat'
@@ -440,7 +441,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "authSession" | "authToken" | "recoveryCode" | "authLimit" | "securityEvent" | "fantasyRound" | "fantasyEntry" | "internationalNews" | "newsRefresh" | "fantasyMatchStat"
+    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "authSession" | "authToken" | "recoveryCode" | "authLimit" | "securityEvent" | "fantasyRound" | "fantasyEntry" | "playerPhoto" | "internationalNews" | "newsRefresh" | "fantasyMatchStat"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2294,6 +2295,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PlayerPhoto: {
+      payload: Prisma.$PlayerPhotoPayload<ExtArgs>
+      fields: Prisma.PlayerPhotoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlayerPhotoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlayerPhotoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        findFirst: {
+          args: Prisma.PlayerPhotoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlayerPhotoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        findMany: {
+          args: Prisma.PlayerPhotoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>[]
+        }
+        create: {
+          args: Prisma.PlayerPhotoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        createMany: {
+          args: Prisma.PlayerPhotoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlayerPhotoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>[]
+        }
+        delete: {
+          args: Prisma.PlayerPhotoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        update: {
+          args: Prisma.PlayerPhotoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        deleteMany: {
+          args: Prisma.PlayerPhotoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlayerPhotoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlayerPhotoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>[]
+        }
+        upsert: {
+          args: Prisma.PlayerPhotoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerPhotoPayload>
+        }
+        aggregate: {
+          args: Prisma.PlayerPhotoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlayerPhoto>
+        }
+        groupBy: {
+          args: Prisma.PlayerPhotoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlayerPhotoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlayerPhotoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlayerPhotoCountAggregateOutputType> | number
+        }
+      }
+    }
     InternationalNews: {
       payload: Prisma.$InternationalNewsPayload<ExtArgs>
       fields: Prisma.InternationalNewsFieldRefs
@@ -2561,6 +2636,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
+  executiveSport: 'executiveSport',
   accountType: 'accountType',
   isActive: 'isActive',
   emailVerifiedAt: 'emailVerifiedAt',
@@ -2804,6 +2880,7 @@ export type LeagueTableScalarFieldEnum = (typeof LeagueTableScalarFieldEnum)[key
 
 
 export const NewsArticleScalarFieldEnum = {
+  sport: 'sport',
   id: 'id',
   title: 'title',
   slug: 'slug',
@@ -2916,6 +2993,15 @@ export const FantasyEntryScalarFieldEnum = {
 } as const
 
 export type FantasyEntryScalarFieldEnum = (typeof FantasyEntryScalarFieldEnum)[keyof typeof FantasyEntryScalarFieldEnum]
+
+
+export const PlayerPhotoScalarFieldEnum = {
+  playerId: 'playerId',
+  image: 'image',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlayerPhotoScalarFieldEnum = (typeof PlayerPhotoScalarFieldEnum)[keyof typeof PlayerPhotoScalarFieldEnum]
 
 
 export const InternationalNewsScalarFieldEnum = {
@@ -3042,6 +3128,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes'
+ */
+export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes[]'
+ */
+export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 /**
@@ -3220,6 +3320,7 @@ export type GlobalOmitConfig = {
   securityEvent?: Prisma.SecurityEventOmit
   fantasyRound?: Prisma.FantasyRoundOmit
   fantasyEntry?: Prisma.FantasyEntryOmit
+  playerPhoto?: Prisma.PlayerPhotoOmit
   internationalNews?: Prisma.InternationalNewsOmit
   newsRefresh?: Prisma.NewsRefreshOmit
   fantasyMatchStat?: Prisma.FantasyMatchStatOmit

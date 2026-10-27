@@ -1,0 +1,8 @@
+CREATE TABLE "PlayerPhoto" (
+ "playerId" INTEGER NOT NULL PRIMARY KEY,
+ "image" BYTEA NOT NULL,
+ "updatedAt" TIMESTAMP(3) NOT NULL,
+ CONSTRAINT "PlayerPhoto_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Player" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+ALTER TABLE "PlayerPhoto" ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE "PlayerPhoto" FROM anon, authenticated;

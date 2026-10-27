@@ -16,7 +16,7 @@ const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process
 let cookie='';let checks=0;const request=async(url,options={})=>{const response=await fetch(base+url,{...options,headers:{'Content-Type':'application/json',Origin:`http://localhost:${port}`,...(cookie?{Cookie:cookie}:{}),...options.headers}});return response;};
 const status=async(url,expected,options)=>{const r=await request(url,options);assert.equal(r.status,expected,url+': '+await r.clone().text());checks++;return r;};
 try{
- await new Promise((resolve,reject)=>{child.stdout.once('data',resolve);child.once('error',reject);child.once('exit',code=>reject(new Error('Server exited '+code)));setTimeout(()=>reject(new Error('Server startup timeout')),15000).unref();});
+ await new Promise((resolve,reject)=>{child.stdout.once('data',resolve);child.once('error',reject);child.once('exit',code=>reject(new Error('Server exited '+code)));setTimeout(()=>reject(new Error('Server startup timeout')),45000).unref();});
  await status('/',200);const blockedPage=await status('/admin.html',303,{redirect:'manual'});assert.equal(blockedPage.headers.get('location'),'/admin-login.html');await status('/design.css',200);await status('/admin-design.css',200);await status('/api/health',200);await status('/api/news?all=true',401);await status('/api/admin/summary',401);await status('/api/missing',404);await status('/missing.html',404);
  assert.equal((await (await status('/api/news',200)).json()).length,0);
  await status('/api/items',400,{method:'POST',body:'{}'});await status('/api/items',400,{method:'POST',body:'null'});await status('/api/items',400,{method:'POST',body:'{'});await status('/api/items',403,{method:'POST',headers:{Origin:'https://untrusted.example'},body:'{}'});

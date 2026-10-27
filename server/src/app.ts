@@ -1,5 +1,7 @@
 import {followersRouter} from './routes/followers.js';
 import { internationalNewsRouter } from './routes/international-news.js';
+import { playerPhotosRouter } from './routes/player-photos.js';
+import { executiveRouter } from './routes/executive.js';
 import { fantasyRouter, fantasyAdminRouter } from './routes/fantasy.js';
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
@@ -10,7 +12,7 @@ import { adminRouter } from "./routes/admin.js";
 import { sportsRouter } from "./routes/sports.js";
 import { homepageRouter } from "./routes/homepage.js";
 import { memberRouter, approvalRouter } from "./routes/member.js";
-import { requireAdminPage } from "./middleware/auth.js";
+import { requireAdminPage, requireExecutivePage } from "./middleware/auth.js";
 
 import { rateLimit } from "./middleware/rate-limit.js";
 import { sameOrigin } from "./middleware/same-origin.js";
@@ -20,6 +22,13 @@ app.disable("x-powered-by");
 app.use((_request, response, next) => { response.setHeader("X-Content-Type-Options", "nosniff"); response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin"); response.setHeader("X-Frame-Options", "SAMEORIGIN"); next(); });
 app.use("/api", sameOrigin);
 const frontendDirectory = path.resolve(process.cwd(), "aul sports");
+// Executive HTML has its own guard; existing ADMIN guards are unchanged.
+app.use((request, response, next) => {
+  let pathname: string;
+  try { pathname = path.posix.normalize(decodeURIComponent(request.path).replace(/\\/g, '/')).replace(/\/$/, '').toLowerCase(); } catch { next(); return; }
+  if (!['/executive','/executive.html'].includes(pathname)) { next(); return; }
+  requireExecutivePage(request, response, error => {if(error){next(error);return;}response.sendFile(path.join(frontendDirectory,'executive.html'));});
+});
 // Admin HTML is excluded from Vercel's public assets and served only here.
 app.use((request, response, next) => {
   let pathname: string;
@@ -42,6 +51,8 @@ app.use("/api/auth", createAuthRouter({ prisma }));
 app.use("/api/admin", adminRouter);
 app.use("/api/admin/approvals", approvalRouter);
 app.use("/api/member", memberRouter);
+app.use("/api/executive", executiveRouter);
+app.use("/api/player-photos", playerPhotosRouter);
 app.use("/api/followers", followersRouter);
 app.use("/api/fantasy", fantasyRouter);
 app.use("/api/admin/fantasy", fantasyAdminRouter);

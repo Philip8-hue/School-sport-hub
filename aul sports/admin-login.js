@@ -1,3 +1,4 @@
+const executiveLogin = document.body.hasAttribute("data-executive-login");
 const form = document.getElementById("adminLoginForm");
 const message = document.getElementById("loginMessage");
 const connectionStatus = document.getElementById("connectionStatus");
@@ -45,22 +46,22 @@ form?.addEventListener("submit", async (event) => {
   loginButton.innerHTML = '<span>Signing in…</span><span aria-hidden="true">→</span>';
 
   try {
-    const response = await fetch("/api/auth/admin-login", {
+    const response = await fetch(executiveLogin ? "/api/executive/login" : "/api/auth/admin-login", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       credentials: "same-origin",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, ...(executiveLogin ? {sport:document.getElementById("executiveSport").value} : {}) }),
     });
     let data = await response.json().catch(() => ({}));
     if (!response.ok) {
       throw new Error(data.error || `Sign-in failed (${response.status})`);
     }
     data=await window.authSecurity.finishLogin(data);
-    if (data.user?.role !== "ADMIN") {
+    if (data.user?.role !== (executiveLogin ? "EXECUTIVE" : "ADMIN")) {
       throw new Error("This account is valid but does not have admin access.");
     }
     setMessage("Signed in. Opening dashboard…", "success");
-    window.location.assign(data.mfaSetupRequired ? "security.html" : "admin.html");
+    window.location.assign(data.mfaSetupRequired ? "security.html" : executiveLogin ? "executive.html" : "admin.html");
   } catch (error) {
     const messageText = error instanceof TypeError
       ? "Cannot reach the server. Start npm.cmd run dev and open this page from localhost."

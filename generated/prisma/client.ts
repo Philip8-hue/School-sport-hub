@@ -167,6 +167,11 @@ export type FantasyRound = Prisma.FantasyRoundModel
  */
 export type FantasyEntry = Prisma.FantasyEntryModel
 /**
+ * Model PlayerPhoto
+ * 
+ */
+export type PlayerPhoto = Prisma.PlayerPhotoModel
+/**
  * Model InternationalNews
  * 
  */
