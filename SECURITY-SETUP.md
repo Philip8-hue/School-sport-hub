@@ -18,7 +18,22 @@ Login limits are shared database counters: 10 attempts/account/15 minutes and 10
 
 Security events cover failed and successful sign-ins, MFA, recovery-code replacement, password changes/resets, revocation, mail failures, and admin write attempts. Admin attempts are recorded before a protected write; an attempt is not a success receipt. Event data contains time, event type, account ID when known, hashed IP, and a constrained resource path, without request bodies, passwords, email-link tokens, OTPs, recovery codes, cookies or encryption keys. View the latest 100 events in Account security as an admin. Email-provider logs necessarily have access to the email content for delivery; keep access to that provider restricted and disable link/open tracking for these transactional messages.
 
-## Email service: Resend
+## Email service: Brevo
+
+For password resets without a custom domain, add a mailbox you control as a [Brevo sender](https://help.brevo.com/hc/en-us/articles/208836149-Create-a-new-sender-From-name-and-From-email) and complete its email verification. Brevo may replace the visible From address for free or unauthenticated domains. Confirm transactional sending is available in your account and test actual inbox delivery before relying on it.
+
+Create an API key in Brevo and enter these settings in Vercel under the Sports Hub project’s **Settings → Environment Variables → Production**:
+
+| Variable | Value |
+| --- | --- |
+| `AUTH_EMAIL_PROVIDER` | `brevo` |
+| `BREVO_API_KEY` | Paste the key directly from Brevo; keep it private |
+| `BREVO_SENDER_EMAIL` | The exact email address you verified in Brevo |
+| `APP_BASE_URL` | The live website’s HTTPS origin |
+
+Deploy a commit that includes Brevo support. On its login page, use **Forgot password** with an existing account you own. Confirm receipt in your inbox or spam folder, open the reset link, and verify you can sign in with the new password. Check Brevo’s transactional logs and the app’s security events if it does not arrive. Keep existing database and session secrets, and leave `REQUIRE_EMAIL_VERIFICATION` at its current setting. No database migration is required for this provider change.
+
+## Email service: Resend (alternative)
 
 Use https://resend.com. This implementation calls its server-side API directly; no public API key is exposed to the browser. Official domain setup: https://resend.com/docs/dashboard/domains/introduction. A domain or sending subdomain you control is required to send to your users; a free vercel.app subdomain is not a domain you control for email DNS.
 
