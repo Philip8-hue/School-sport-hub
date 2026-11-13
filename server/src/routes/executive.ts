@@ -110,6 +110,7 @@ executiveRouter.put('/fixtures/:id/result', endpoint(async (r, s) => {
   const result = await prisma.$transaction(async tx => {
     const access = await scope(tx, r, s); const fixture = await tx.fixture.findUniqueOrThrow({ where: { id: fixtureId } }); access.check(fixture.sport);
     await access.club(fixture.homeClubId, fixture.sport); await access.club(fixture.awayClubId, fixture.sport);
+    if (await tx.matchGoal.count({where: {result: {fixtureId}}})) fail("Ask an administrator to correct this result with its listed goal scorers.");
     const changed = await tx.fixture.updateMany({ where: { id: fixtureId, status: { notIn: ['LIVE', 'CANCELLED'] } }, data: { status: 'COMPLETED' } });
     if (!changed.count) fail('Only administrators can finish a live match. Cancelled matches cannot have results.');
     const values = { ...data, playedAt: data.playedAt ? new Date(data.playedAt) : null };

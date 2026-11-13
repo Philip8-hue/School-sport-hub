@@ -252,6 +252,7 @@ export type ResultWhereInput = {
   stage?: Prisma.StringNullableFilter<"Result"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Result"> | Date | string
+  scorers?: Prisma.MatchGoalListRelationFilter
   fixture?: Prisma.XOR<Prisma.FixtureScalarRelationFilter, Prisma.FixtureWhereInput>
 }
 
@@ -264,6 +265,7 @@ export type ResultOrderByWithRelationInput = {
   stage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  scorers?: Prisma.MatchGoalOrderByRelationAggregateInput
   fixture?: Prisma.FixtureOrderByWithRelationInput
 }
 
@@ -279,6 +281,7 @@ export type ResultWhereUniqueInput = Prisma.AtLeast<{
   stage?: Prisma.StringNullableFilter<"Result"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Result"> | Date | string
+  scorers?: Prisma.MatchGoalListRelationFilter
   fixture?: Prisma.XOR<Prisma.FixtureScalarRelationFilter, Prisma.FixtureWhereInput>
 }, "id" | "fixtureId">
 
@@ -319,6 +322,7 @@ export type ResultCreateInput = {
   stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  scorers?: Prisma.MatchGoalCreateNestedManyWithoutResultInput
   fixture: Prisma.FixtureCreateNestedOneWithoutResultInput
 }
 
@@ -331,6 +335,7 @@ export type ResultUncheckedCreateInput = {
   stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  scorers?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutResultInput
 }
 
 export type ResultUpdateInput = {
@@ -340,6 +345,7 @@ export type ResultUpdateInput = {
   stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scorers?: Prisma.MatchGoalUpdateManyWithoutResultNestedInput
   fixture?: Prisma.FixtureUpdateOneRequiredWithoutResultNestedInput
 }
 
@@ -352,6 +358,7 @@ export type ResultUncheckedUpdateInput = {
   stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scorers?: Prisma.MatchGoalUncheckedUpdateManyWithoutResultNestedInput
 }
 
 export type ResultCreateManyInput = {
@@ -437,6 +444,11 @@ export type ResultSumOrderByAggregateInput = {
   awayScore?: Prisma.SortOrder
 }
 
+export type ResultScalarRelationFilter = {
+  is?: Prisma.ResultWhereInput
+  isNot?: Prisma.ResultWhereInput
+}
+
 export type ResultCreateNestedOneWithoutFixtureInput = {
   create?: Prisma.XOR<Prisma.ResultCreateWithoutFixtureInput, Prisma.ResultUncheckedCreateWithoutFixtureInput>
   connectOrCreate?: Prisma.ResultCreateOrConnectWithoutFixtureInput
@@ -469,6 +481,20 @@ export type ResultUncheckedUpdateOneWithoutFixtureNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ResultUpdateToOneWithWhereWithoutFixtureInput, Prisma.ResultUpdateWithoutFixtureInput>, Prisma.ResultUncheckedUpdateWithoutFixtureInput>
 }
 
+export type ResultCreateNestedOneWithoutScorersInput = {
+  create?: Prisma.XOR<Prisma.ResultCreateWithoutScorersInput, Prisma.ResultUncheckedCreateWithoutScorersInput>
+  connectOrCreate?: Prisma.ResultCreateOrConnectWithoutScorersInput
+  connect?: Prisma.ResultWhereUniqueInput
+}
+
+export type ResultUpdateOneRequiredWithoutScorersNestedInput = {
+  create?: Prisma.XOR<Prisma.ResultCreateWithoutScorersInput, Prisma.ResultUncheckedCreateWithoutScorersInput>
+  connectOrCreate?: Prisma.ResultCreateOrConnectWithoutScorersInput
+  upsert?: Prisma.ResultUpsertWithoutScorersInput
+  connect?: Prisma.ResultWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResultUpdateToOneWithWhereWithoutScorersInput, Prisma.ResultUpdateWithoutScorersInput>, Prisma.ResultUncheckedUpdateWithoutScorersInput>
+}
+
 export type ResultCreateWithoutFixtureInput = {
   homeScore: number
   awayScore: number
@@ -476,6 +502,7 @@ export type ResultCreateWithoutFixtureInput = {
   stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  scorers?: Prisma.MatchGoalCreateNestedManyWithoutResultInput
 }
 
 export type ResultUncheckedCreateWithoutFixtureInput = {
@@ -486,6 +513,7 @@ export type ResultUncheckedCreateWithoutFixtureInput = {
   stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  scorers?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutResultInput
 }
 
 export type ResultCreateOrConnectWithoutFixtureInput = {
@@ -511,6 +539,7 @@ export type ResultUpdateWithoutFixtureInput = {
   stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scorers?: Prisma.MatchGoalUpdateManyWithoutResultNestedInput
 }
 
 export type ResultUncheckedUpdateWithoutFixtureInput = {
@@ -521,8 +550,96 @@ export type ResultUncheckedUpdateWithoutFixtureInput = {
   stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scorers?: Prisma.MatchGoalUncheckedUpdateManyWithoutResultNestedInput
 }
 
+export type ResultCreateWithoutScorersInput = {
+  homeScore: number
+  awayScore: number
+  playedAt?: Date | string | null
+  stage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fixture: Prisma.FixtureCreateNestedOneWithoutResultInput
+}
+
+export type ResultUncheckedCreateWithoutScorersInput = {
+  id?: number
+  fixtureId: number
+  homeScore: number
+  awayScore: number
+  playedAt?: Date | string | null
+  stage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ResultCreateOrConnectWithoutScorersInput = {
+  where: Prisma.ResultWhereUniqueInput
+  create: Prisma.XOR<Prisma.ResultCreateWithoutScorersInput, Prisma.ResultUncheckedCreateWithoutScorersInput>
+}
+
+export type ResultUpsertWithoutScorersInput = {
+  update: Prisma.XOR<Prisma.ResultUpdateWithoutScorersInput, Prisma.ResultUncheckedUpdateWithoutScorersInput>
+  create: Prisma.XOR<Prisma.ResultCreateWithoutScorersInput, Prisma.ResultUncheckedCreateWithoutScorersInput>
+  where?: Prisma.ResultWhereInput
+}
+
+export type ResultUpdateToOneWithWhereWithoutScorersInput = {
+  where?: Prisma.ResultWhereInput
+  data: Prisma.XOR<Prisma.ResultUpdateWithoutScorersInput, Prisma.ResultUncheckedUpdateWithoutScorersInput>
+}
+
+export type ResultUpdateWithoutScorersInput = {
+  homeScore?: Prisma.IntFieldUpdateOperationsInput | number
+  awayScore?: Prisma.IntFieldUpdateOperationsInput | number
+  playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixture?: Prisma.FixtureUpdateOneRequiredWithoutResultNestedInput
+}
+
+export type ResultUncheckedUpdateWithoutScorersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  fixtureId?: Prisma.IntFieldUpdateOperationsInput | number
+  homeScore?: Prisma.IntFieldUpdateOperationsInput | number
+  awayScore?: Prisma.IntFieldUpdateOperationsInput | number
+  playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type ResultCountOutputType
+ */
+
+export type ResultCountOutputType = {
+  scorers: number
+}
+
+export type ResultCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  scorers?: boolean | ResultCountOutputTypeCountScorersArgs
+}
+
+/**
+ * ResultCountOutputType without action
+ */
+export type ResultCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ResultCountOutputType
+   */
+  select?: Prisma.ResultCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ResultCountOutputType without action
+ */
+export type ResultCountOutputTypeCountScorersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchGoalWhereInput
+}
 
 
 export type ResultSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -534,7 +651,9 @@ export type ResultSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  scorers?: boolean | Prisma.Result$scorersArgs<ExtArgs>
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.ResultCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["result"]>
 
 export type ResultSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -574,7 +693,9 @@ export type ResultSelectScalar = {
 
 export type ResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fixtureId" | "homeScore" | "awayScore" | "playedAt" | "stage" | "createdAt" | "updatedAt", ExtArgs["result"]["result"]>
 export type ResultInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  scorers?: boolean | Prisma.Result$scorersArgs<ExtArgs>
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.ResultCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ResultIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
@@ -586,6 +707,7 @@ export type ResultIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $ResultPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Result"
   objects: {
+    scorers: Prisma.$MatchGoalPayload<ExtArgs>[]
     fixture: Prisma.$FixturePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -991,6 +1113,7 @@ readonly fields: ResultFieldRefs;
  */
 export interface Prisma__ResultClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  scorers<T extends Prisma.Result$scorersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Result$scorersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fixture<T extends Prisma.FixtureDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FixtureDefaultArgs<ExtArgs>>): Prisma.Prisma__FixtureClient<runtime.Types.Result.GetResult<Prisma.$FixturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1427,6 +1550,30 @@ export type ResultDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Results to delete.
    */
   limit?: number
+}
+
+/**
+ * Result.scorers
+ */
+export type Result$scorersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchGoal
+   */
+  select?: Prisma.MatchGoalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MatchGoal
+   */
+  omit?: Prisma.MatchGoalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchGoalInclude<ExtArgs> | null
+  where?: Prisma.MatchGoalWhereInput
+  orderBy?: Prisma.MatchGoalOrderByWithRelationInput | Prisma.MatchGoalOrderByWithRelationInput[]
+  cursor?: Prisma.MatchGoalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchGoalScalarFieldEnum | Prisma.MatchGoalScalarFieldEnum[]
 }
 
 /**

@@ -27,7 +27,7 @@
   photoDialog.addEventListener('close', () => { photoDialog.replaceChildren(); if (!dialog.open) document.documentElement.classList.remove('profile-open'); if (photoTrigger?.isConnected) photoTrigger.focus({ preventScroll: true }); });
   async function records() {
     if (players) return players;
-    if (!loading) loading = fetch('/api/players').then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(rows => { players = rows; return rows; }).finally(() => { loading = null; });
+    if (!loading) loading = fetch('/api/players').then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(rows => rows).finally(() => { loading = null; });
     return loading;
   }
   function shell(content) {

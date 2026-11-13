@@ -73,6 +73,7 @@ model Club {
 }
 
 model Player {
+  matchGoals MatchGoal[]
   uploadedPhoto PlayerPhoto?
   id           Int      @id @default(autoincrement())
   name         String
@@ -252,6 +253,7 @@ model PlayerSnapshot {
 }
 
 model Result {
+  scorers MatchGoal[]
   id        Int      @id @default(autoincrement())
   fixtureId Int      @unique
   homeScore Int
@@ -421,4 +423,16 @@ model MatchPushSubscription {
 
   @@id([fixtureId, endpoint])
   @@index([createdAt])
+}
+
+model MatchGoal {
+  resultId Int
+  playerId Int
+  side     String
+  goals    Int
+  result   Result @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@id([resultId, playerId])
+  @@index([playerId])
 }

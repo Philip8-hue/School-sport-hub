@@ -167,3 +167,8 @@ export type FantasyMatchStat = Prisma.FantasyMatchStatModel
  * 
  */
 export type MatchPushSubscription = Prisma.MatchPushSubscriptionModel
+/**
+ * Model MatchGoal
+ * 
+ */
+export type MatchGoal = Prisma.MatchGoalModel
