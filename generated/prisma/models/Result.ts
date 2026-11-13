@@ -46,6 +46,7 @@ export type ResultMinAggregateOutputType = {
   homeScore: number | null
   awayScore: number | null
   playedAt: Date | null
+  stage: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +57,7 @@ export type ResultMaxAggregateOutputType = {
   homeScore: number | null
   awayScore: number | null
   playedAt: Date | null
+  stage: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +68,7 @@ export type ResultCountAggregateOutputType = {
   homeScore: number
   awayScore: number
   playedAt: number
+  stage: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,6 +95,7 @@ export type ResultMinAggregateInputType = {
   homeScore?: true
   awayScore?: true
   playedAt?: true
+  stage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +106,7 @@ export type ResultMaxAggregateInputType = {
   homeScore?: true
   awayScore?: true
   playedAt?: true
+  stage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +117,7 @@ export type ResultCountAggregateInputType = {
   homeScore?: true
   awayScore?: true
   playedAt?: true
+  stage?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,6 +215,7 @@ export type ResultGroupByOutputType = {
   homeScore: number
   awayScore: number
   playedAt: Date | null
+  stage: string | null
   createdAt: Date
   updatedAt: Date
   _count: ResultCountAggregateOutputType | null
@@ -242,6 +249,7 @@ export type ResultWhereInput = {
   homeScore?: Prisma.IntFilter<"Result"> | number
   awayScore?: Prisma.IntFilter<"Result"> | number
   playedAt?: Prisma.DateTimeNullableFilter<"Result"> | Date | string | null
+  stage?: Prisma.StringNullableFilter<"Result"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   fixture?: Prisma.XOR<Prisma.FixtureScalarRelationFilter, Prisma.FixtureWhereInput>
@@ -253,6 +261,7 @@ export type ResultOrderByWithRelationInput = {
   homeScore?: Prisma.SortOrder
   awayScore?: Prisma.SortOrder
   playedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  stage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   fixture?: Prisma.FixtureOrderByWithRelationInput
@@ -267,6 +276,7 @@ export type ResultWhereUniqueInput = Prisma.AtLeast<{
   homeScore?: Prisma.IntFilter<"Result"> | number
   awayScore?: Prisma.IntFilter<"Result"> | number
   playedAt?: Prisma.DateTimeNullableFilter<"Result"> | Date | string | null
+  stage?: Prisma.StringNullableFilter<"Result"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Result"> | Date | string
   fixture?: Prisma.XOR<Prisma.FixtureScalarRelationFilter, Prisma.FixtureWhereInput>
@@ -278,6 +288,7 @@ export type ResultOrderByWithAggregationInput = {
   homeScore?: Prisma.SortOrder
   awayScore?: Prisma.SortOrder
   playedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  stage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ResultCountOrderByAggregateInput
@@ -296,6 +307,7 @@ export type ResultScalarWhereWithAggregatesInput = {
   homeScore?: Prisma.IntWithAggregatesFilter<"Result"> | number
   awayScore?: Prisma.IntWithAggregatesFilter<"Result"> | number
   playedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Result"> | Date | string | null
+  stage?: Prisma.StringNullableWithAggregatesFilter<"Result"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Result"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Result"> | Date | string
 }
@@ -304,6 +316,7 @@ export type ResultCreateInput = {
   homeScore: number
   awayScore: number
   playedAt?: Date | string | null
+  stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   fixture: Prisma.FixtureCreateNestedOneWithoutResultInput
@@ -315,6 +328,7 @@ export type ResultUncheckedCreateInput = {
   homeScore: number
   awayScore: number
   playedAt?: Date | string | null
+  stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -323,6 +337,7 @@ export type ResultUpdateInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fixture?: Prisma.FixtureUpdateOneRequiredWithoutResultNestedInput
@@ -334,6 +349,7 @@ export type ResultUncheckedUpdateInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -344,6 +360,7 @@ export type ResultCreateManyInput = {
   homeScore: number
   awayScore: number
   playedAt?: Date | string | null
+  stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -352,6 +369,7 @@ export type ResultUpdateManyMutationInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -362,6 +380,7 @@ export type ResultUncheckedUpdateManyInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -377,6 +396,7 @@ export type ResultCountOrderByAggregateInput = {
   homeScore?: Prisma.SortOrder
   awayScore?: Prisma.SortOrder
   playedAt?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -394,6 +414,7 @@ export type ResultMaxOrderByAggregateInput = {
   homeScore?: Prisma.SortOrder
   awayScore?: Prisma.SortOrder
   playedAt?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -404,6 +425,7 @@ export type ResultMinOrderByAggregateInput = {
   homeScore?: Prisma.SortOrder
   awayScore?: Prisma.SortOrder
   playedAt?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -451,6 +473,7 @@ export type ResultCreateWithoutFixtureInput = {
   homeScore: number
   awayScore: number
   playedAt?: Date | string | null
+  stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -460,6 +483,7 @@ export type ResultUncheckedCreateWithoutFixtureInput = {
   homeScore: number
   awayScore: number
   playedAt?: Date | string | null
+  stage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -484,6 +508,7 @@ export type ResultUpdateWithoutFixtureInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -493,6 +518,7 @@ export type ResultUncheckedUpdateWithoutFixtureInput = {
   homeScore?: Prisma.IntFieldUpdateOperationsInput | number
   awayScore?: Prisma.IntFieldUpdateOperationsInput | number
   playedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -505,6 +531,7 @@ export type ResultSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   homeScore?: boolean
   awayScore?: boolean
   playedAt?: boolean
+  stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
@@ -516,6 +543,7 @@ export type ResultSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   homeScore?: boolean
   awayScore?: boolean
   playedAt?: boolean
+  stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
@@ -527,6 +555,7 @@ export type ResultSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   homeScore?: boolean
   awayScore?: boolean
   playedAt?: boolean
+  stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
@@ -538,11 +567,12 @@ export type ResultSelectScalar = {
   homeScore?: boolean
   awayScore?: boolean
   playedAt?: boolean
+  stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fixtureId" | "homeScore" | "awayScore" | "playedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["result"]>
+export type ResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fixtureId" | "homeScore" | "awayScore" | "playedAt" | "stage" | "createdAt" | "updatedAt", ExtArgs["result"]["result"]>
 export type ResultInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fixture?: boolean | Prisma.FixtureDefaultArgs<ExtArgs>
 }
@@ -564,6 +594,7 @@ export type $ResultPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     homeScore: number
     awayScore: number
     playedAt: Date | null
+    stage: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["result"]>
@@ -995,6 +1026,7 @@ export interface ResultFieldRefs {
   readonly homeScore: Prisma.FieldRef<"Result", 'Int'>
   readonly awayScore: Prisma.FieldRef<"Result", 'Int'>
   readonly playedAt: Prisma.FieldRef<"Result", 'DateTime'>
+  readonly stage: Prisma.FieldRef<"Result", 'String'>
   readonly createdAt: Prisma.FieldRef<"Result", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Result", 'DateTime'>
 }

@@ -257,6 +257,7 @@ model Result {
   homeScore Int
   awayScore Int
   playedAt  DateTime?
+  stage     String?
   fixture   Fixture  @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

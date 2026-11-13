@@ -1,6 +1,7 @@
 import webPush from "web-push";
 import { waitUntil } from "@vercel/functions";
 import { prisma } from "./prisma.js";
+import { scoreSport, scoreStageLabel } from "./match-stages.js";
 
 export function matchPushConfig() {
   const { MATCH_PUSH_PUBLIC_KEY: publicKey, MATCH_PUSH_PRIVATE_KEY: privateKey, MATCH_PUSH_SUBJECT: subject } = process.env;
@@ -25,7 +26,8 @@ type MatchScoreUpdate = {
   fixtureId: number;
   homeScore: number;
   awayScore: number;
-  fixture: { status: string; homeClub: { name: string } | null; awayClub: { name: string } | null };
+  stage: string | null;
+  fixture: { sport: string; status: string; homeClub: { name: string } | null; awayClub: { name: string } | null };
 };
 
 export function notifyMatchFollowers(score: MatchScoreUpdate) {
@@ -35,8 +37,8 @@ export function notifyMatchFollowers(score: MatchScoreUpdate) {
     const final = score.fixture.status === "COMPLETED";
     const data = JSON.stringify({
       fixtureId: score.fixtureId,
-      title: final ? "Final score · Sports Hub" : "Score update · Sports Hub",
-      body: (score.fixture.homeClub?.name ?? "Home") + " " + score.homeScore + " – " + score.awayScore + " " + (score.fixture.awayClub?.name ?? "Away")
+      title: (scoreSport(score.fixture.sport) ?? score.fixture.sport) + " · " + scoreStageLabel(score.fixture.sport, score.fixture.status, score.stage) + (score.stage || final ? "" : " score update"),
+      body: (score.fixture.homeClub?.name ?? "Home") + " " + score.homeScore + " – " + score.awayScore + " " + (score.fixture.awayClub?.name ?? "Away") + (scoreSport(score.fixture.sport) === "Volleyball" ? " (sets won)" : "")
     });
     let cursor: string | undefined;
     const cutoff = new Date(Date.now() - 30 * 86400000);

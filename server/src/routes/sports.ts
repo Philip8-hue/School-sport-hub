@@ -7,6 +7,8 @@ import { updatePlayerWithHistory } from "../lib/player-history.js";
 import { atomic, AuthError, limited } from "../lib/auth-security.js";
 import { isPushEndpoint, matchPushConfig, notifyMatchFollowers } from "../lib/match-push.js";
 
+import { matchStages, scoreSport } from "../lib/match-stages.js";
+
 export const sportsRouter = Router();
 export { clubSchema, playerSchema, fixtureSchema, resultSchema, tableSchema, newsSchema };
 const adminOnly: RequestHandler[] = [requireAuth, requireRole("ADMIN")];
@@ -124,26 +126,28 @@ sportsRouter.get("/results", async (_request, response, next) => {
 });
 sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, response, next) => {
   const fixtureId = id(request.params.fixtureId);
-  const parsed = resultSchema.extend({ status: z.enum(["LIVE", "COMPLETED"]).default("COMPLETED") }).safeParse(request.body);
+  const parsed = resultSchema.extend({ status: z.enum(["LIVE", "COMPLETED"]).default("COMPLETED"), stage: z.string().trim().max(30).nullable().optional() }).safeParse(request.body);
   if (!fixtureId || !parsed.success) { response.status(400).json({ error: "Invalid score details" }); return; }
   try {
-    const { status, homeScore, awayScore, playedAt } = parsed.data;
+    const { status, homeScore, awayScore, playedAt, stage } = parsed.data;
     const update = await atomic(async tx => {
       const previous = await tx.fixture.findUnique({ where: {id: fixtureId}, include: {result: true} });
+      const sport = previous && scoreSport(previous.sport);
+      if (stage && (status !== "LIVE" || !sport || !(matchStages[sport] as readonly string[]).includes(stage))) throw new AuthError(400, "Choose a score stage for this sport.");
       const fixture = await tx.fixture.updateMany({
         where: { id: fixtureId, status: { in: status === "LIVE" ? ["SCHEDULED", "LIVE"] : ["SCHEDULED", "LIVE", "COMPLETED"] } },
         data: { status }
       });
       if (!fixture.count) return null;
-      const score = { homeScore, awayScore, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : new Date() };
+      const score = { homeScore, awayScore, stage: status === "LIVE" ? stage ?? null : null, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : new Date() };
       const result = await tx.result.upsert({ where: { fixtureId }, update: score, create: { fixtureId, ...score }, include: { fixture: { include: { homeClub: true, awayClub: true } } } });
-      const changed = previous?.status === "LIVE" && (status !== previous.status || previous.result?.homeScore !== homeScore || previous.result?.awayScore !== awayScore);
+      const changed = previous?.status === "LIVE" && (status !== previous.status || previous.result?.homeScore !== homeScore || previous.result?.awayScore !== awayScore || (previous.result?.stage ?? null) !== score.stage);
       return { result, changed };
     });
     if (!update) { response.status(409).json({ error: "That match is unavailable for this score update." }); return; }
     if (update.changed) notifyMatchFollowers(update.result);
     response.json(update.result);
-  } catch (error) { next(error); }
+  } catch (error) { if (error instanceof AuthError) { response.status(error.status).json({error: error.message}); return; } next(error); }
 });
 
 sportsRouter.get("/tables", async (request, response, next) => { try { response.json(await prisma.leagueTable.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, include: { club: true }, orderBy: [{ points: "desc" }, { won: "desc" }] })); } catch (error) { next(error); } });

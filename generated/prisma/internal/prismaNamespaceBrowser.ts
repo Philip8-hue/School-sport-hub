@@ -322,6 +322,7 @@ export const ResultScalarFieldEnum = {
   homeScore: 'homeScore',
   awayScore: 'awayScore',
   playedAt: 'playedAt',
+  stage: 'stage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

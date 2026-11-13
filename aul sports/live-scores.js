@@ -39,13 +39,14 @@
   const home = match => match.homeClub?.name || 'Home';
   const away = match => match.awayClub?.name || 'Away';
   const score = match => match.result ? match.result.homeScore + ' – ' + match.result.awayScore : '—';
+  const stage = match => match.status === 'COMPLETED' ? (/football/i.test(match.sport) ? 'Full-time' : 'Final') : match.result?.stage || 'Live';
   function render() {
     const rows = matches.filter(match => !filter.value || match.sport === filter.value);
     const focussed = list.contains(document.activeElement) ? document.activeElement.dataset.follow : null;
     list.innerHTML = rows.map(match => {
       const live = match.status === 'LIVE', active = followed.has(match.id);
-      return '<article class="match-card"><div class="match-meta"><span>' + esc(match.sport) + '</span><span class="match-phase" data-live="' + live + '">' + (live ? 'Live' : 'Final') + '</span></div>'
-        + '<div class="match-scoreline"><strong>' + esc(home(match)) + '</strong><b aria-label="Score ' + score(match) + '">' + score(match) + '</b><strong>' + esc(away(match)) + '</strong></div>'
+      return '<article class="match-card"><div class="match-meta"><span>' + esc(match.sport) + '</span><span class="match-phase" data-live="' + live + '">' + esc(stage(match)) + '</span></div>'
+        + '<div class="match-scoreline"><strong>' + esc(home(match)) + '</strong><b aria-label="Score ' + score(match) + '">' + score(match) + (/volleyball/i.test(match.sport) && match.result ? '<small>Sets won</small>' : '') + '</b><strong>' + esc(away(match)) + '</strong></div>'
         + '<div class="match-meta"><span>' + esc(match.venue || '') + '</span>' + (live ? '<button type="button" data-follow="' + match.id + '" aria-pressed="' + active + '" aria-label="Follow ' + esc(home(match)) + ' versus ' + esc(away(match)) + '">' + (active ? 'Unfollow match' : 'Follow match') + '</button>' : '') + '</div></article>';
     }).join('') || (initialized ? '<p>No live or recently finished matches in this view. <a href="aupl-fixtures.html">See upcoming fixtures</a></p>' : '');
     if (focussed) list.querySelector('[data-follow="' + Number(focussed) + '"]')?.focus({preventScroll:true});
@@ -64,8 +65,8 @@
       const updates = [];
       for (const match of next) {
         const old = previous.get(match.id);
-        if (old && followed.has(match.id) && (score(old) !== score(match) || old.status !== match.status)) {
-          updates.push((match.status === 'COMPLETED' ? 'Final: ' : 'Score update: ') + home(match) + ' ' + score(match) + ' ' + away(match));
+        if (old && followed.has(match.id) && (score(old) !== score(match) || stage(old) !== stage(match))) {
+          updates.push(match.sport + ' · ' + stage(match) + ': ' + home(match) + ' ' + score(match) + ' ' + away(match));
         }
       }
       if (updates.length) alert.textContent = updates.join(' · ');
