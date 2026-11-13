@@ -98,7 +98,9 @@ Regular accounts must use that exact email domain and verify their address befor
 receiving a session. Existing regular sessions are checked against the same rule.
 Coordinate with existing users who registered with a different email; their data
 remains intact, but they cannot sign in until their account address is corrected
-and verified. Do not mark a changed address as verified. School mailbox access
+and verified. From sign-in, **Correct my email** lets a regular user confirm their
+current password and verify a replacement Anchor address before or after the
+school-only rule is enabled. The account ID stays the same and old sessions end. School mailbox access
 does not establish current enrollment if the university keeps alumni mailboxes active.
 
 Admins retain their existing email and permissions. They can open the regular

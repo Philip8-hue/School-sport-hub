@@ -30,6 +30,44 @@ export function createAuthRouter(_options:{prisma:PrismaClient}){const router=Ro
  router.post('/reset-password',endpoint(async(r,s)=>{const b=z.object({token:z.string().min(20).max(200),password:newPassword}).parse(r.body);await limited(r,'reset-consume',hashToken(b.token),6,40);const passwordHash=await bcrypt.hash(b.password,12);const user=await atomic(async tx=>{const t=await validToken(tx,b.token,'RESET');await useToken(tx,t.hash);await tx.user.update({where:{id:t.userId},data:{passwordHash,...(studentEmailDomain()&&t.user.role==='USER'?{}:{emailVerifiedAt:new Date()})}});await invalidate(tx,t.userId);return t.user;});await audit(r,'PASSWORD_RESET_COMPLETED',user.id);await sendAuthEmail(r,user,'NOTICE');clearAuthCookie(s);s.json({message:'Password changed. All devices have been signed out. Sign in with your new password; administrator two-step verification remains enabled.'});}));
  router.post('/verification/request',endpoint(async(r,s)=>{const b=z.object({email}).parse(r.body);try{await limited(r,'verify-request',b.email,3,20,3600000);}catch(e){if(e instanceof AuthError&&e.status===429){s.json({message:'If this address needs verification, we have sent a verification link.'});return;}throw e;}const user=await db.user.findUnique({where:{email:b.email}});if(user?.isActive&&!user.emailVerifiedAt)await requestEmail(r,user,'VERIFY');s.json({message:'If this address needs verification, we have sent a verification link.'});}));
  router.post('/verify-email',endpoint(async(r,s)=>{const b=z.object({token:z.string().min(20).max(200)}).parse(r.body);await limited(r,'verify-consume',hashToken(b.token),6,40);const verifiedId=await atomic(async tx=>{const t=await validToken(tx,b.token,'VERIFY');await useToken(tx,t.hash);await tx.user.update({where:{id:t.userId},data:{emailVerifiedAt:new Date()}});return t.userId;});await audit(r,'EMAIL_VERIFIED',verifiedId);s.json({message:'Your email is verified. You can now sign in.'});}));
+ router.post('/email-change/request',endpoint(async(r,s)=>{
+  const b=z.object({email,newEmail:email,password:loginSchema.shape.password}).parse(r.body);
+  if(!isStudentEmail(b.newEmail))reject('Enter your corrected Anchor student email.',400);
+  if(b.email===b.newEmail)reject('Enter a different email address, or request a new verification link for this address.');
+  if(process.env.NODE_ENV!=='test'&&!emailConfigured())reject('Email delivery is temporarily unavailable. Try again later.',503);
+  await limited(r,'email-change-request',b.email,5,20,3600000);
+  const user=await db.user.findUnique({where:{email:b.email}});
+  const valid=await bcrypt.compare(b.password,user?.passwordHash||dummyHash);
+  if(!user||!user.isActive||user.role!=='USER'||!valid)reject('The current sign-in email or password is incorrect.',401);
+  await limited(r,'email-change-destination',b.newEmail,3,20,3600000);
+  const raw=await atomic(async tx=>{
+   const current=await tx.user.findUniqueOrThrow({where:{id:user!.id}});
+   if(!current.isActive||current.role!=='USER'||current.email!==b.email||current.sessionVersion!==user!.sessionVersion)reject('The account changed. Try again.',409);
+   if(await tx.user.findUnique({where:{email:b.newEmail}}))reject('That address is already in use. Contact a site administrator if you need help.',409);
+   await tx.authToken.updateMany({where:{userId:current.id,purpose:'EMAIL_CHANGE',usedAt:null},data:{usedAt:new Date()}});
+   return tokenRecord(tx,current.id,'EMAIL_CHANGE',current.sessionVersion,1440,b.newEmail);
+  });
+  const sent=await sendAuthEmail(r,{id:user!.id,email:b.newEmail},'EMAIL_CHANGE',raw);
+  if(!sent){await db.authToken.updateMany({where:{hash:hashToken(raw)},data:{usedAt:new Date()}});reject('The email could not be sent. Try again later.',503);}
+  s.json({message:'Check your new Anchor inbox for a confirmation link. Your sign-in email stays the same until you confirm.'});
+ }));
+ router.post('/email-change/confirm',endpoint(async(r,s)=>{
+  const b=z.object({token:z.string().min(20).max(200)}).parse(r.body);
+  await limited(r,'email-change-confirm',hashToken(b.token),6,40);
+  const id=await atomic(async tx=>{
+   const t=await validToken(tx,b.token,'EMAIL_CHANGE');
+   const address=t.payload;
+   if(!address||!isStudentEmail(address)||t.user.role!=='USER')reject('This email change is no longer available.');
+   if(await tx.user.findUnique({where:{email:address!}}))reject('That address is already in use. Contact a site administrator if you need help.',409);
+   await useToken(tx,t.hash);
+   await tx.user.update({where:{id:t.userId},data:{email:address!,emailVerifiedAt:new Date()}});
+   await invalidate(tx,t.userId);
+   return t.userId;
+  });
+  await audit(r,'EMAIL_CHANGED',id);
+  clearAuthCookie(s);
+  s.json({message:'Your email was updated. Sign in with your new Anchor email and your existing password.'});
+ }));
  router.get('/security',requireAuth,endpoint(async(r,s)=>{const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});s.json({user:publicUser(u),emailVerified:!!u.emailVerifiedAt,emailVerificationRequired:requiresEmailVerification(u),mfaEnabled:!!u.mfaEnabledAt,mfaRequiredAfter:u.mfaRequiredAfter,mfaSetupRequired:needsMfaSetup(u),authenticatorConfigured:encryptionReady(),emailDeliveryConfigured:emailConfigured()&&!!appBase(),recoveryCodesRemaining:await db.recoveryCode.count({where:{userId:u.id,usedAt:null}}),sessions:await db.authSession.findMany({where:{userId:u.id,revokedAt:null,expiresAt:{gt:new Date()}},select:{id:true,createdAt:true,expiresAt:true}}),currentSession:r.user!.sessionId});}));
  router.post('/change-password',requireAuth,endpoint(async(r,s)=>{const b=z.object({currentPassword:z.string().max(128),password:newPassword,code:z.string().trim().max(100).default('')}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});await passwordProof(r,u,b.currentPassword,b.code);const passwordHash=await bcrypt.hash(b.password,12);await atomic(async tx=>{const fresh=await tx.user.findUniqueOrThrow({where:{id:u.id}});if(fresh.sessionVersion!==u.sessionVersion)reject('Your account changed. Sign in again.',409);await tx.user.update({where:{id:u.id},data:{passwordHash}});await invalidate(tx,u.id);});await audit(r,'PASSWORD_CHANGED',u.id);await sendAuthEmail(r,u,'NOTICE');clearAuthCookie(s);s.json({message:'Password changed. Sign in again on your devices.'});}));
  router.post('/mfa/setup',requireAuth,endpoint(async(r,s)=>{const b=z.object({password:z.string().max(128)}).parse(r.body);const u=await db.user.findUniqueOrThrow({where:{id:r.user!.id}});if(u.role!=='ADMIN'&&u.role!=='EXECUTIVE')reject('Staff account required.',403);if(u.mfaEnabledAt)reject('Two-step verification is already enabled.',409);await passwordProof(r,u,b.password,'',false);if(!encryptionReady())reject('Authenticator setup needs AUTH_ENCRYPTION_KEY in the server environment.',503);const secret=new Secret({size:20}).base32,payload=encrypt(secret);const setupToken=await atomic(async tx=>{await tx.authToken.updateMany({where:{userId:u.id,purpose:'MFA_SETUP',usedAt:null},data:{usedAt:new Date()}});return tokenRecord(tx,u.id,'MFA_SETUP',u.sessionVersion,10,payload);});const uri=totp(secret,u.email).toString();s.json({setupToken,secret,qr:await QRCode.toDataURL(uri,{width:240,margin:2}),message:'Scan with your authenticator app or enter the setup key manually, then enter a code. Setup expires after 10 minutes.'});}));
