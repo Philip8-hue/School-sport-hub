@@ -54,9 +54,14 @@ function updateResultScoreLabels(fixture, useSavedStage = false) {
   const selected = useSavedStage ? fixture?.result?.stage : stage.value;
   stage.replaceChildren(new Option("Live score", ""), ...(resultStages[sport] || []).map(label => new Option(label, label)));
   stage.value = [...stage.options].some(option => option.value === selected) ? selected : "";
-  stage.disabled = !fixture;
+  const completed = fixture?.status === "COMPLETED";
+  stage.disabled = !fixture || completed;
+  const liveButton = stage.form.querySelector('button[value="LIVE"]');
+  liveButton.hidden = completed;
+  liveButton.style.display = completed ? "none" : "";
+  liveButton.disabled = completed;
   const finalButton = stage.form.querySelector('button[value="COMPLETED"]');
-  if (!stage.form.dataset.saving) finalButton.textContent = sport === "Football" ? "Publish full-time score" : "Publish final score";
+  if (!stage.form.dataset.saving) finalButton.textContent = completed ? "Save corrected final score" : sport === "Football" ? "Publish full-time score" : "Publish final score";
   const unit = { Football: "goals", Basketball: "total points", Volleyball: "sets won" }[sport];
   document.getElementById("resultSport").textContent = fixture ? fixture.sport + (unit ? " · Enter " + unit : "") : "";
   document.getElementById("homeScoreLabel").textContent = fixture?.homeClub?.name ? fixture.homeClub.name + " score" : "Home score";
@@ -74,9 +79,25 @@ async function loadResults() {
   state.results = results;
   const live = fixtures.filter(f => f.status === "LIVE" && f.result).map(f => ({...f.result, fixture: f}));
   const rows = [...live, ...results];
-  renderList("resultsList", rows.map(r => `<article class="data-row"><div><h4>${escapeHtml(r.fixture?.homeClub?.name || "Home")} ${r.homeScore} — ${r.awayScore} ${escapeHtml(r.fixture?.awayClub?.name || "Away")}</h4><p>${escapeHtml(r.fixture?.sport || "Match")} · ${r.fixture?.status === "LIVE" ? escapeHtml(r.stage || "Live") : "Final"}</p></div><div class="row-actions"><button type="button" class="danger-button" data-delete-score="${r.fixtureId}">Delete score</button></div></article>`).join(""), "No published scores yet.");
+  renderList("resultsList", rows.map(r => `<article class="data-row"><div><h4>${escapeHtml(r.fixture?.homeClub?.name || "Home")} ${r.homeScore} — ${r.awayScore} ${escapeHtml(r.fixture?.awayClub?.name || "Away")}</h4><p>${escapeHtml(r.fixture?.sport || "Match")} · ${r.fixture?.status === "LIVE" ? escapeHtml(r.stage || "Live") : "Final"}</p></div><div class="row-actions"><button type="button" class="button-secondary" data-edit-score="${r.fixtureId}">Edit score</button><button type="button" class="danger-button" data-delete-score="${r.fixtureId}">Delete score</button></div></article>`).join(""), "No published scores yet.");
 }
 document.getElementById("resultsList")?.addEventListener("click", async event => {
+  const edit = event.target.closest("[data-edit-score]");
+  if (edit) {
+    const select = document.getElementById("resultFixtureSelect");
+    if (select.form.dataset.saving) return;
+    edit.disabled = true;
+    try {
+      await loadFixtures();
+      select.value = edit.dataset.editScore;
+      if (!select.value) { setMessage("That fixture is no longer available.", "error"); return; }
+      select.dispatchEvent(new Event("change"));
+      select.form.scrollIntoView({block: "nearest"});
+      select.form.elements.homeScore.focus({preventScroll: true});
+    } catch (error) { setMessage(error.message, "error"); }
+    finally { edit.disabled = false; }
+    return;
+  }
   const button = event.target.closest("[data-delete-score]");
   if (!button || button.disabled || !window.confirm("Delete this published score? The fixture will remain scheduled.")) return;
   button.disabled = true;
@@ -105,13 +126,13 @@ const forms = {
   clubForm: async (form) => { const o = formObject(form); const data = { ...o, logoUrl: o.logoUrl || null }; await api(o.id ? `/api/clubs/${o.id}` : "/api/clubs", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Club updated." : "Club created."; },
   playerForm: async (form) => { const o = formObject(form); const numeric = ["price", "rating", ...window.playerStatFields(o.sport).map(([key]) => key)]; const data = { ...o, jerseyNumber: numberOrNull(o.jerseyNumber), clubId: numberOrNull(o.clubId), fullName: o.fullName || null, photoUrl: o.photoUrl || null, captain: form.elements.captain.checked }; numeric.forEach((key) => { data[key] = o[key] === "" ? undefined : Number(o[key]); }); await api(o.id ? `/api/players/${o.id}` : "/api/players", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Player updated." : "Player created."; },
   fixtureForm: async (form) => { const o = formObject(form); const data = { ...o, startsAt: new Date(o.startsAt).toISOString(), homeClubId: numberOrNull(o.homeClubId), awayClubId: numberOrNull(o.awayClubId) }; await api(o.id ? `/api/fixtures/${o.id}` : "/api/fixtures", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Fixture updated." : "Fixture scheduled."; },
-  resultForm: async (form, status) => { const o = formObject(form); await api(`/api/fixtures/${o.fixtureId}/result`, { method: "PUT", body: JSON.stringify({ homeScore: Number(o.homeScore), awayScore: Number(o.awayScore), status: status || "LIVE", stage: status === "COMPLETED" ? null : o.stage || null }) }); return status === "COMPLETED" ? "Final score published." : o.stage ? o.stage + " score published." : "Live score published."; },
+  resultForm: async (form, status) => { const o = formObject(form); const correction = state.fixtures.some(f => String(f.id) === o.fixtureId && f.status === "COMPLETED"); await api(`/api/fixtures/${o.fixtureId}/result`, { method: "PUT", body: JSON.stringify({ homeScore: Number(o.homeScore), awayScore: Number(o.awayScore), status: status || "LIVE", stage: status === "COMPLETED" ? null : o.stage || null }) }); return status === "COMPLETED" ? (correction ? "Final score corrected." : "Final score published.") : o.stage ? o.stage + " score published." : "Live score published."; },
   tableForm: async (form) => { const o = formObject(form); await api("/api/tables", { method: "PUT", body: JSON.stringify({ ...o, clubId: Number(o.clubId), played: Number(o.played), won: Number(o.won), drawn: Number(o.drawn), lost: Number(o.lost), points: Number(o.points) }) }); return "Table entry saved."; },
   newsForm: async (form) => { const o = formObject(form); const data = { ...o, sport: o.sport || null, published: form.querySelector('[name="published"]').checked }; await api(o.id ? `/api/news/${o.id}` : "/api/news", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Article updated." : "Article saved."; },
 };
 const formSections = { clubForm: "clubs", playerForm: "players", fixtureForm: "fixtures", resultForm: "results", tableForm: "tables", newsForm: "news" };
 
-Object.entries(forms).forEach(([id, handler]) => document.getElementById(id)?.addEventListener("submit", async (event) => { event.preventDefault(); const form = event.currentTarget; if (form.dataset.saving) return; form.dataset.saving = "true"; const submit = event.submitter || form.querySelector('button[type="submit"]'); if (submit) { submit.disabled = true; submit.dataset.originalText = submit.textContent; submit.textContent = "Saving..."; } try { const result = await handler(form, submit?.value); if(id!=="resultForm")form.reset(); if (form.elements.id) form.elements.id.value = ""; const heading = form.querySelector("h3"); if (heading) heading.textContent = id === "clubForm" ? "Add club" : id === "playerForm" ? "Add player" : id === "fixtureForm" ? "Schedule fixture" : id === "newsForm" ? "Publish article" : heading.textContent; if (submit) submit.dataset.originalText = id === "clubForm" ? "Create club" : id === "playerForm" ? "Create player" : id === "fixtureForm" ? "Schedule fixture" : id === "newsForm" ? "Save article" : submit.dataset.originalText; setMessage(result); try { await loadOverview(); } catch (refreshError) { console.warn("Saved successfully, but the dashboard summary could not refresh", refreshError); setMessage(`${result} Refresh the list if needed.`); } if (formSections[id]) showSection(formSections[id]); } catch (error) { setMessage(error.message, "error"); } finally { delete form.dataset.saving; if (submit) { submit.disabled = false; submit.textContent = submit.dataset.originalText || "Save"; } } }));
+Object.entries(forms).forEach(([id, handler]) => document.getElementById(id)?.addEventListener("submit", async (event) => { event.preventDefault(); const form = event.currentTarget; if (form.dataset.saving) return; form.dataset.saving = "true"; const submit = event.submitter || form.querySelector('button[type="submit"]:not([hidden])'); if (submit) { submit.disabled = true; submit.dataset.originalText = submit.textContent; submit.textContent = "Saving..."; } try { const result = await handler(form, submit?.value); if(id!=="resultForm")form.reset(); if (form.elements.id) form.elements.id.value = ""; const heading = form.querySelector("h3"); if (heading) heading.textContent = id === "clubForm" ? "Add club" : id === "playerForm" ? "Add player" : id === "fixtureForm" ? "Schedule fixture" : id === "newsForm" ? "Publish article" : heading.textContent; if (submit) submit.dataset.originalText = id === "clubForm" ? "Create club" : id === "playerForm" ? "Create player" : id === "fixtureForm" ? "Schedule fixture" : id === "newsForm" ? "Save article" : submit.dataset.originalText; setMessage(result); try { await loadOverview(); } catch (refreshError) { console.warn("Saved successfully, but the dashboard summary could not refresh", refreshError); setMessage(`${result} Refresh the list if needed.`); } if (formSections[id]) showSection(formSections[id]); } catch (error) { setMessage(error.message, "error"); } finally { delete form.dataset.saving; if (submit) { submit.disabled = false; submit.textContent = submit.dataset.originalText || "Save"; } } }));
 document.getElementById('homepageForm').addEventListener('submit', async event => {
  event.preventDefault(); const form=event.currentTarget; const submit=form.querySelector('[type=submit]'); submit.disabled=true;
  try { const copy={...homepageContent.copy}; const data={...homepageContent}; for(const field of homepageConfig){copy[field.key]=form.elements['copy.'+field.key].value;if(field.legacy)data[field.legacy]=copy[field.key];} data.copy=copy; await api('/api/admin/homepage',{method:'PATCH',body:JSON.stringify(data)});homepageContent=data;setMessage('Homepage saved. All edited text is now published.');document.getElementById('homepageSaveMessage').textContent='Saved successfully'; } catch(error){setMessage(error.message,'error');}finally{submit.disabled=false;}

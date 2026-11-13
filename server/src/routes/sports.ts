@@ -133,13 +133,17 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
     const update = await atomic(async tx => {
       const previous = await tx.fixture.findUnique({ where: {id: fixtureId}, include: {result: true} });
       const sport = previous && scoreSport(previous.sport);
+      if (previous?.status === "COMPLETED" && previous.result && (previous.result.homeScore !== homeScore || previous.result.awayScore !== awayScore)) {
+        const rounds = await tx.fantasyRound.findMany({where: {status: "PUBLISHED", sport: previous.sport}, select: {fixtureIds: true}});
+        if (rounds.some(round => (JSON.parse(round.fixtureIds) as number[]).includes(fixtureId))) throw new AuthError(409, "This score is used in a published fantasy round and cannot be changed.");
+      }
       if (stage && (status !== "LIVE" || !sport || !(matchStages[sport] as readonly string[]).includes(stage))) throw new AuthError(400, "Choose a score stage for this sport.");
       const fixture = await tx.fixture.updateMany({
         where: { id: fixtureId, status: { in: status === "LIVE" ? ["SCHEDULED", "LIVE"] : ["SCHEDULED", "LIVE", "COMPLETED"] } },
         data: { status }
       });
       if (!fixture.count) return null;
-      const score = { homeScore, awayScore, stage: status === "LIVE" ? stage ?? null : null, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : new Date() };
+      const score = { homeScore, awayScore, stage: status === "LIVE" ? stage ?? null : null, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : previous?.result?.playedAt ?? new Date() };
       const result = await tx.result.upsert({ where: { fixtureId }, update: score, create: { fixtureId, ...score }, include: { fixture: { include: { homeClub: true, awayClub: true } } } });
       const changed = previous?.status === "LIVE" && (status !== previous.status || previous.result?.homeScore !== homeScore || previous.result?.awayScore !== awayScore || (previous.result?.stage ?? null) !== score.stage);
       return { result, changed };
