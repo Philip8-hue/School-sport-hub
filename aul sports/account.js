@@ -40,6 +40,19 @@
   }
   if (registration) { password.minLength = 12; password.maxLength = 128; message.textContent = 'Use at least 12 characters. All new accounts have regular user access.'; document.getElementById('confirmPassword').autocomplete = 'new-password'; }
   document.getElementById(prefix + 'Email').autocomplete = 'email';
+  function verificationLink(text) {
+    const link = document.createElement('a');
+    link.href = 'verify-email.html'; link.textContent = 'Request a new verification link';
+    message.replaceChildren(text + ' ', link);
+  }
+  if (registration) {
+    fetch('/api/auth/registration-policy').then(r => r.ok ? r.json() : null).then(policy => {
+      if (policy?.schoolEmailRequired) {
+        document.getElementById('registerEmail').placeholder = 'Enter your Anchor student email';
+        if (message.textContent.startsWith('Use at least')) message.textContent = 'Use your Anchor student email and a password of at least 12 characters. Player accounts stay in the player view.';
+      }
+    }).catch(() => {});
+  }
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (registration && password.value !== document.getElementById('confirmPassword').value) { message.textContent = 'Passwords do not match.'; return; }
@@ -47,9 +60,15 @@
     message.textContent = registration ? 'Creating your account…' : 'Signing in…';
     try {
       const response = await fetch('/api/auth/' + (registration ? 'register' : 'login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: document.getElementById(prefix + 'Email').value, password: password.value, accountType: selected.toUpperCase(), ...(registration ? { name: document.getElementById('registerName').value } : {}) }) });
-      let data = await response.json(); if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
+      let data = await response.json();
+      if (data.code === 'SCHOOL_EMAIL_UNVERIFIED') { verificationLink(data.error); return; }
+      if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
+      if (data.schoolVerificationRequired) {
+        verificationLink(data.emailSent ? 'Check your Anchor email for a verification link before signing in.' : 'Account created, but the verification email could not be sent.');
+        return;
+      }
       data=await window.authSecurity.finishLogin(data);
-      location.assign(data.mfaSetupRequired||(registration&&data.verificationRequired) ? 'security.html' : data.user.role === 'ADMIN' ? 'admin.html' : data.user.role === 'EXECUTIVE' ? 'executive.html' : 'account.html');
+      location.assign(data.mfaSetupRequired||(registration&&data.verificationRequired) ? 'security.html' : data.user.role === 'EXECUTIVE' ? 'executive.html' : 'account.html');
     } catch (error) { message.textContent = error instanceof TypeError ? 'Connection unavailable. Please try again.' : error.message; }
     finally { button.disabled = false; }
   });

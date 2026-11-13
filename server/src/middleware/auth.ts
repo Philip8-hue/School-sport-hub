@@ -1,5 +1,5 @@
 import {isExecutiveSport} from '../lib/executive-access.js';
-import {requiresEmailVerification} from '../lib/auth-policy.js';
+import {requiresEmailVerification,studentSignInError} from '../lib/auth-policy.js';
 import type {Request,RequestHandler,Response} from 'express';
 import jwt from 'jsonwebtoken';
 import {prisma} from '../lib/prisma.js';
@@ -14,7 +14,7 @@ export function setAuthCookie(s:Response,token:string){const decoded=jwt.decode(
 export function clearAuthCookie(s:Response){s.setHeader('Set-Cookie',`${AUTH_COOKIE}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'||process.env.VERCEL==='1'?'; Secure':''}`);}
 export async function issueSession(s:Response,user:any,mfaVerified=false){const session=await prisma.authSession.create({data:{id:randomToken(),userId:user.id,version:user.sessionVersion,mfaVerified,expiresAt:new Date(Date.now()+7*86400000)}});setAuthCookie(s,createAccessToken(user,session.id));return session;}
 export function needsMfaSetup(user:AuthUser){return user.role==='EXECUTIVE'&&!user.mfaEnabledAt&&!!user.mfaRequiredAfter&&new Date(user.mfaRequiredAfter).getTime()<=Date.now();}
-async function authenticated(r:Request,s:Response){const token=readAuthCookie(r);if(!token)return null;let payload;try{payload=jwt.verify(token,jwtSecret(),{algorithms:['HS256']});}catch{return null;}if(typeof payload!=='object'||typeof payload.sub!=='string'||!Number.isSafeInteger(Number(payload.sub)))return null;const user=await prisma.user.findUnique({where:{id:Number(payload.sub)}});if(!user?.isActive||(payload.v??0)!==user.sessionVersion)return null;
+async function authenticated(r:Request,s:Response){const token=readAuthCookie(r);if(!token)return null;let payload;try{payload=jwt.verify(token,jwtSecret(),{algorithms:['HS256']});}catch{return null;}if(typeof payload!=='object'||typeof payload.sub!=='string'||!Number.isSafeInteger(Number(payload.sub)))return null;const user=await prisma.user.findUnique({where:{id:Number(payload.sub)}});if(!user?.isActive||(payload.v??0)!==user.sessionVersion||studentSignInError(user))return null;
  let session=typeof payload.sid==='string'?await prisma.authSession.findUnique({where:{id:payload.sid}}):null;
  if(!payload.sid){if(user.sessionVersion!==0||!user.legacySessionsUntil||user.legacySessionsUntil.getTime()<=Date.now()||user.mfaEnabledAt)return null;const legacyTokenHash=hashToken(token);session=await atomic(async tx=>tx.authSession.upsert({where:{legacyTokenHash},create:{id:randomToken(),userId:user.id,version:0,legacyTokenHash,expiresAt:user.legacySessionsUntil!},update:{}}));}
  if(!session||session.userId!==user.id||session.version!==user.sessionVersion||session.revokedAt||session.expiresAt.getTime()<=Date.now())return null;

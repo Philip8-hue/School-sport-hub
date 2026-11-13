@@ -89,3 +89,19 @@ Expired session/link/counter rows do not grant access. Schedule periodic removal
 For the current Vercel deployment, set `ALLOW_PUBLIC_REGISTRATION=true` and `REQUIRE_EMAIL_VERIFICATION=false`. Keep all database/JWT settings unchanged, retain the existing `AUTH_ENCRYPTION_KEY`, and use the production `APP_BASE_URL`. Password-reset emails still cannot be delivered until an email provider is configured. Admin MFA, approvals and all other authorization/session protections remain in place.
 
 After email sending has been configured and tested, set `REQUIRE_EMAIL_VERIFICATION=true` and redeploy. This will require verification for accounts created under the newer registration flow (including accounts registered during optional mode); original legacy accounts retain their existing access. Announce that change before enabling it. No schema migration or data import is needed for this rollout switch.
+
+## Anchor student sign-in
+
+After confirming live Brevo delivery to an Anchor student mailbox, set
+`ANCHOR_STUDENT_EMAIL_DOMAIN=student.aul.edu.ng` in Vercel Production and redeploy.
+Regular accounts must use that exact email domain and verify their address before
+receiving a session. Existing regular sessions are checked against the same rule.
+Coordinate with existing users who registered with a different email; their data
+remains intact, but they cannot sign in until their account address is corrected
+and verified. Do not mark a changed address as verified. School mailbox access
+does not establish current enrollment if the university keeps alumni mailboxes active.
+
+Admins retain their existing email and permissions. They can open the regular
+views from the admin dashboard and return using the Admin dashboard link.
+Regular players remain in the player view, even if they choose Fan at sign-in.
+The view selector does not grant player or coach permissions.

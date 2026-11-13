@@ -3,6 +3,8 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
 
+import { studentViewLocked } from "../lib/auth-policy.js";
+
 export const memberRouter = Router();
 export const approvalRouter = Router();
 memberRouter.use(requireAuth);
@@ -53,12 +55,13 @@ memberRouter.get('/dashboard', endpoint(async (r, s) => {
     prisma.newsArticle.findMany({ where: { published: true }, orderBy: { publishedAt: 'desc' }, take: 6 })
   ]);
   const [players, clubs, standings] = await Promise.all([prisma.player.findMany({ select: { id: true, name: true, sport: true, clubId: true }, orderBy: { name: 'asc' } }), prisma.club.findMany({ orderBy: { name: 'asc' } }), prisma.leagueTable.findMany({ orderBy: [{ points: 'desc' }, { won: 'desc' }, { clubId: 'asc' }] })]);
-  s.json({ user, playerLinks, coachLinks, requests, favorites, followedPlayers, followedClubs, submissions, fixtures, announcements, lineups, availability, news, standings, directory: { players, clubs } });
+  s.json({ user, viewLocked: studentViewLocked(user), playerLinks, coachLinks, requests, favorites, followedPlayers, followedClubs, submissions, fixtures, announcements, lineups, availability, news, standings, directory: { players, clubs } });
 }));
 
 memberRouter.put('/view', endpoint(async (r, s) => {
   const { accountType } = z.object({ accountType: z.enum(['PLAYER', 'COACH', 'FAN']) }).parse(r.body);
-  await prisma.user.update({ where: { id: r.user!.id }, data: { accountType } });
+  const changed = await prisma.user.updateMany({ where: { id: r.user!.id, ...(studentViewLocked({role:r.user!.role,accountType:"PLAYER"})&&accountType!=="PLAYER"?{accountType:{not:"PLAYER"}}:{}) }, data: { accountType } });
+  if (!changed.count) fail(403, "Player accounts must stay in the player view.");
   s.json({ accountType });
 }));
 
