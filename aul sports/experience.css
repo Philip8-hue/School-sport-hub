@@ -3,3 +3,19 @@
 .profile-photo{overflow:hidden}.profile-photo img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:3/4}.player-preview-photo{overflow:hidden}.player-preview-photo img{width:100%;height:100%;object-fit:cover}.photo-upload-preview{width:160px;height:160px;object-fit:contain;border-radius:10px;border:1px solid var(--line)}.photo-upload-form{margin:24px 0;border-top:1px solid var(--line);padding-top:20px}.photo-upload-form input{max-width:100%}.photo-upload-form [hidden]{display:none!important}.photo-upload-actions{display:flex;gap:12px;flex-wrap:wrap}
 .profile-photo-trigger{display:block;width:100%;height:100%;border:0;padding:0;background:transparent;cursor:zoom-in;border-radius:inherit}.profile-photo-trigger:hover{filter:none}.profile-photo-trigger:focus-visible{outline:3px solid var(--accent,#b6a875);outline-offset:-3px}.player-preview-photo:has(img){cursor:zoom-in}.player-photo-dialog{position:fixed;inset:0;margin:auto;width:min(900px,calc(100vw - 24px));max-height:calc(100dvh - 24px);padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--surface,#fff);color:var(--ink);overflow:auto;box-shadow:0 24px 100px #0006}.player-photo-dialog::backdrop{background:#071c19db}.player-photo-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}.player-photo-heading h2{font-size:1.1rem;margin:0}.player-photo-heading button{flex-shrink:0;background:var(--soft,#edf0ea);color:var(--ink);border:1px solid var(--line);padding:10px 14px}.player-photo-full{display:block;width:100%;height:auto;max-height:75dvh;object-fit:contain;background:var(--soft,#edf0ea);border-radius:8px}@media(max-width:500px){.player-photo-dialog{padding:12px}.player-photo-full{max-height:70dvh}}
 .photo-upload-preview{object-fit:contain}
+
+/* Password visibility on the public sign-in form. */
+#loginForm .login-password-field { position: relative; margin-top: 8px; }
+#loginForm .login-password-field input { margin-top: 0; min-height: 48px; padding-inline-end: 52px; }
+#loginPassword::-ms-reveal { display: none; }
+#loginPasswordToggle:not([hidden]) {
+  position: absolute; inset-inline-end: 2px; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 0; background: transparent; color: var(--ink);
+}
+#loginPasswordToggle:hover { background: var(--line); }
+#loginPasswordToggle svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+#loginPasswordToggle .password-eye-off,
+#loginPassword[type="text"] + #loginPasswordToggle .password-eye { display: none; }
+#loginPassword[type="text"] + #loginPasswordToggle .password-eye-off { display: block; }
+#loginPasswordToggle[hidden] { display: none; }

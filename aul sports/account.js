@@ -29,6 +29,15 @@
   message.setAttribute('role', 'status'); message.setAttribute('aria-live', 'polite');
   const password = document.getElementById(prefix + 'Password');
   password.autocomplete = registration ? 'new-password' : 'current-password';
+  const passwordToggle = form.querySelector('#loginPasswordToggle');
+  if (passwordToggle) {
+    passwordToggle.hidden = false;
+    passwordToggle.addEventListener('click', () => {
+      const visible = password.type === 'password';
+      password.type = visible ? 'text' : 'password';
+      passwordToggle.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+    });
+  }
   if (registration) { password.minLength = 12; password.maxLength = 128; message.textContent = 'Use at least 12 characters. All new accounts have regular user access.'; document.getElementById('confirmPassword').autocomplete = 'new-password'; }
   document.getElementById(prefix + 'Email').autocomplete = 'email';
   form.addEventListener('submit', async event => {
