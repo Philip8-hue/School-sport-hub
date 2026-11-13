@@ -150,6 +150,29 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
   } catch (error) { if (error instanceof AuthError) { response.status(error.status).json({error: error.message}); return; } next(error); }
 });
 
+sportsRouter.delete("/fixtures/:fixtureId/result", ...adminOnly, async (request, response, next) => {
+  const fixtureId = id(request.params.fixtureId);
+  if (!fixtureId) { response.status(400).json({ error: "Invalid fixture ID." }); return; }
+  try {
+    await atomic(async tx => {
+      const fixture = await tx.fixture.findUnique({ where: { id: fixtureId }, include: { result: true } });
+      if (!fixture?.result) throw new AuthError(404, "This fixture has no published score.");
+      const rounds = await tx.fantasyRound.findMany({where: {status: "PUBLISHED", sport: fixture.sport}, select: {fixtureIds: true}});
+      if (rounds.some(round => (JSON.parse(round.fixtureIds) as number[]).includes(fixtureId))) {
+        throw new AuthError(409, "This score is used in a published fantasy round and cannot be deleted.");
+      }
+      if (fixture.status === "LIVE" || fixture.status === "COMPLETED") {
+        await tx.fixture.update({ where: { id: fixtureId }, data: { status: "SCHEDULED" } });
+      }
+      await tx.result.delete({ where: { fixtureId } });
+    });
+    response.status(204).end();
+  } catch (error) {
+    if (error instanceof AuthError) { response.status(error.status).json({error: error.message}); return; }
+    next(error);
+  }
+});
+
 sportsRouter.get("/tables", async (request, response, next) => { try { response.json(await prisma.leagueTable.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, include: { club: true }, orderBy: [{ points: "desc" }, { won: "desc" }] })); } catch (error) { next(error); } });
 sportsRouter.put("/tables", ...adminOnly, async (request, response, next) => {
   const parsed = tableSchema.safeParse(request.body); if (!parsed.success) { response.status(400).json({ error: "Invalid table entry", details: parsed.error.flatten() }); return; }

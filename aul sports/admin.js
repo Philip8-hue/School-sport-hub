@@ -69,7 +69,29 @@ document.getElementById("resultFixtureSelect")?.addEventListener("change", event
   form.elements.homeScore.value = fixture ? fixture.result?.homeScore ?? 0 : "";
   form.elements.awayScore.value = fixture ? fixture.result?.awayScore ?? 0 : "";
 });
-async function loadResults() { state.results = await api("/api/results"); renderList("resultsList", state.results.map((r) => `<article class="data-row"><div><h4>${escapeHtml(r.fixture?.homeClub?.name || "Home")} ${r.homeScore} — ${r.awayScore} ${escapeHtml(r.fixture?.awayClub?.name || "Away")}</h4><p>${r.playedAt ? new Date(r.playedAt).toLocaleString() : "Result recorded"}</p></div></article>`).join(""), "No results yet."); }
+async function loadResults() {
+  const [results, fixtures] = await Promise.all([api("/api/results"), api("/api/fixtures")]);
+  state.results = results;
+  const live = fixtures.filter(f => f.status === "LIVE" && f.result).map(f => ({...f.result, fixture: f}));
+  const rows = [...live, ...results];
+  renderList("resultsList", rows.map(r => `<article class="data-row"><div><h4>${escapeHtml(r.fixture?.homeClub?.name || "Home")} ${r.homeScore} — ${r.awayScore} ${escapeHtml(r.fixture?.awayClub?.name || "Away")}</h4><p>${escapeHtml(r.fixture?.sport || "Match")} · ${r.fixture?.status === "LIVE" ? escapeHtml(r.stage || "Live") : "Final"}</p></div><div class="row-actions"><button type="button" class="danger-button" data-delete-score="${r.fixtureId}">Delete score</button></div></article>`).join(""), "No published scores yet.");
+}
+document.getElementById("resultsList")?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-delete-score]");
+  if (!button || button.disabled || !window.confirm("Delete this published score? The fixture will remain scheduled.")) return;
+  button.disabled = true;
+  try {
+    await api("/api/fixtures/" + button.dataset.deleteScore + "/result", {method: "DELETE"});
+    const select = document.getElementById("resultFixtureSelect");
+    if (select.value === button.dataset.deleteScore) {
+      select.form.reset();
+      updateResultScoreLabels();
+    }
+    setMessage("Score deleted. The fixture was kept.");
+    await Promise.all([loadFixtures(), loadResults()]);
+  } catch (error) { setMessage(error.message, "error"); }
+  finally { button.disabled = false; }
+});
 async function loadTables() { state.tables = await api("/api/tables"); renderList("tablesList", state.tables.map((t) => `<article class="data-row"><div><h4>${escapeHtml(t.club?.name || "Club")}</h4><p>${escapeHtml(t.sport)} · P ${t.played} · W ${t.won} · D ${t.drawn} · L ${t.lost}</p></div><strong>${t.points} pts</strong></article>`).join(""), "No table entries yet."); }
 async function loadNews() { state.news = await api("/api/news?all=true"); renderList("newsList", state.news.map((n) => `<article class="data-row"><div><h4>${escapeHtml(n.title)}</h4><p>${escapeHtml(n.excerpt || n.content.slice(0, 120))}</p><span class="status-pill ${n.published ? "" : "off"}">${n.published ? "Published" : "Draft"}</span></div><div class="row-actions"><button data-edit-type="news" data-edit-id="${n.id}">Edit</button><button class="danger-button" data-delete="/api/news/${n.id}" data-refresh="news">Delete</button></div></article>`).join(""), "No news articles yet."); }
 async function loadItems() { const data = await api("/api/admin/summary"); state.items = data.recentItems; renderList("itemsList", state.items.map((item) => `<article class="data-row"><div><h4>${escapeHtml(item.title)}</h4><p>${escapeHtml(item.content || "No content")}</p><small>${new Date(item.createdAt).toLocaleString()}</small></div><button class="danger-button" data-delete="/api/admin/items/${item.id}" data-refresh="community">Delete</button></article>`).join(""), "No community posts yet."); }
