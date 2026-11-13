@@ -46,7 +46,9 @@ sportsRouter.get("/players", async (request, response, next) => {
     const players = await prisma.player.findMany({ where: { ...(request.query.sport ? { sport: String(request.query.sport) } : {}), ...(request.query.clubId && Number.isInteger(Number(request.query.clubId)) && Number(request.query.clubId) > 0 ? { clubId: Number(request.query.clubId) } : {}) }, include: { club: true }, orderBy: { name: "asc" } });
     const counts = await prisma.matchGoal.groupBy({by: ["playerId"], where: {playerId: {in: players.map(player => player.id)}, result: {fixture: {status: "COMPLETED"}}}, _sum: {goals: true}});
     const goals = new Map(counts.map(row => [row.playerId, row._sum.goals ?? 0]));
-    response.json(players.map(player => ({...player, manualGoals: player.goals, matchGoals: goals.get(player.id) ?? 0, goals: player.goals + (goals.get(player.id) ?? 0)})));
+    const assistCounts = await prisma.matchAssist.groupBy({by: ["playerId"], where: {playerId: {in: players.map(player => player.id)}, goal: {result: {fixture: {status: "COMPLETED"}}}}, _count: {_all: true}});
+    const assists = new Map(assistCounts.map(row => [row.playerId, row._count._all]));
+    response.json(players.map(player => ({...player, manualAssists: player.assists, assists: player.assists + (assists.get(player.id) ?? 0), manualGoals: player.goals, matchGoals: goals.get(player.id) ?? 0, goals: player.goals + (goals.get(player.id) ?? 0)})));
   } catch (error) { next(error); }
 });
 sportsRouter.post("/players", ...adminOnly, async (request, response, next) => {
@@ -63,7 +65,7 @@ sportsRouter.delete("/players/:id", ...adminOnly, async (request, response, next
 });
 
 sportsRouter.get("/fixtures", async (request, response, next) => {
-  try { response.json(await prisma.fixture.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, include: { homeClub: true, awayClub: true, result: {include: {scorers: true}} }, orderBy: { startsAt: "asc" } })); } catch (error) { next(error); }
+  try { response.json(await prisma.fixture.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, include: { homeClub: true, awayClub: true, result: {include: {scorers: {include: {assists: true}}}} }, orderBy: { startsAt: "asc" } })); } catch (error) { next(error); }
 });
 sportsRouter.post("/fixtures", ...adminOnly, async (request, response, next) => {
   const parsed = fixtureSchema.safeParse(request.body); if (!parsed.success) { response.status(400).json({ error: "Invalid fixture details", details: parsed.error.flatten() }); return; }
@@ -131,12 +133,12 @@ sportsRouter.get("/results", async (_request, response, next) => {
 });
 sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, response, next) => {
   const fixtureId = id(request.params.fixtureId);
-  const parsed = resultSchema.extend({ status: z.enum(["LIVE", "COMPLETED"]).default("COMPLETED"), stage: z.string().trim().max(30).nullable().optional(), scorers: z.array(z.object({playerId: z.number().int().positive(), goals: z.number().int().min(1).max(999)})).max(80).optional() }).safeParse(request.body);
+  const parsed = resultSchema.extend({ status: z.enum(["LIVE", "COMPLETED"]).default("COMPLETED"), stage: z.string().trim().max(30).nullable().optional(), scorers: z.array(z.object({playerId: z.number().int().positive(), goals: z.number().int().min(1).max(999), assists: z.array(z.number().int().positive().nullable()).max(999).optional()})).max(80).optional() }).safeParse(request.body);
   if (!fixtureId || !parsed.success) { response.status(400).json({ error: "Invalid score details" }); return; }
   try {
     const { status, homeScore, awayScore, playedAt, stage, scorers } = parsed.data;
     const update = await atomic(async tx => {
-      const previous = await tx.fixture.findUnique({ where: {id: fixtureId}, include: {result: {include: {scorers: true}}} });
+      const previous = await tx.fixture.findUnique({ where: {id: fixtureId}, include: {result: {include: {scorers: {include: {assists: true}}}}} });
       const sport = previous && scoreSport(previous.sport);
       if (previous?.status === "COMPLETED" && previous.result && (previous.result.homeScore !== homeScore || previous.result.awayScore !== awayScore)) {
         const rounds = await tx.fantasyRound.findMany({where: {status: "PUBLISHED", sport: previous.sport}, select: {fixtureIds: true}});
@@ -147,7 +149,7 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
       const entered = scorers ?? existing;
       if (entered.length && sport !== "Football") throw new AuthError(400, "Goal scorers are only available for football fixtures.");
       if (new Set(entered.map(row => row.playerId)).size !== entered.length) throw new AuthError(400, "List each scorer once and enter their total goals.");
-      const players = scorers?.length ? await tx.player.findMany({where: {id: {in: scorers.map(row => row.playerId)}}}) : [];
+      const players = scorers?.length ? await tx.player.findMany({where: {id: {in: scorers.flatMap(row => [row.playerId, ...(row.assists ?? []).filter((id): id is number => id !== null)])}}}) : [];
       const attributed = entered.map(row => {
         const saved = existing.find(item => item.playerId === row.playerId);
         const player = players.find(item => item.id === row.playerId);
@@ -162,6 +164,22 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
           throw new AuthError(400, "The listed goal scorers exceed one club's score.");
         }
       }
+      const assists = (scorers ?? []).flatMap(row => {
+        const side = attributed.find(item => item.playerId === row.playerId)!.side;
+        const clubId = side === "HOME" ? previous?.homeClubId : previous?.awayClubId;
+        const saved = existing.find(item => item.playerId === row.playerId)?.assists ?? [];
+        if (row.assists && row.assists.length !== row.goals) throw new AuthError(400, "Choose one assist option for each goal.");
+        const selections = row.assists ?? Array.from({length: row.goals}, (_, index) => saved.find(item => item.goalNumber === index + 1)?.playerId ?? null);
+        return selections.flatMap((playerId, index) => {
+          if (playerId === null) return [];
+          const player = players.find(item => item.id === playerId);
+          const sameAssignment = saved.some(item => item.playerId === playerId && item.goalNumber === index + 1);
+          if (playerId === row.playerId || (!sameAssignment && (!clubId || player?.clubId !== clubId || player.sport !== previous?.sport))) {
+            throw new AuthError(400, "An assist must come from a different player on the scorer's team.");
+          }
+          return [{scorerId: row.playerId, goalNumber: index + 1, playerId}];
+        });
+      });
       const fixture = await tx.fixture.updateMany({
         where: { id: fixtureId, status: { in: status === "LIVE" ? ["SCHEDULED", "LIVE"] : ["SCHEDULED", "LIVE", "COMPLETED"] } },
         data: { status }
@@ -172,6 +190,7 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
       if (scorers !== undefined) {
         await tx.matchGoal.deleteMany({where: {resultId: result.id}});
         if (attributed.length) await tx.matchGoal.createMany({data: attributed.map(row => ({...row, resultId: result.id}))});
+        if (assists.length) await tx.matchAssist.createMany({data: assists.map(row => ({...row, resultId: result.id}))});
       }
       const changed = previous?.status === "LIVE" && (status !== previous.status || previous.result?.homeScore !== homeScore || previous.result?.awayScore !== awayScore || (previous.result?.stage ?? null) !== score.stage);
       return { result, changed };

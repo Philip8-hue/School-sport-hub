@@ -61,6 +61,36 @@ function addScorer(fixture, saved) {
   const select = row.querySelector("select");
   roster.forEach(p => select.add(new Option(p.name + (p.club?.name ? " · " + p.club.name : ""), p.id)));
   if (saved) { select.value = saved.playerId; row.querySelector("input").value = saved.goals; }
+  const picks = document.createElement("div");
+  picks.className = "scorer-assists";
+  row.append(picks);
+  const goals = row.querySelector("input");
+  function renderAssists(values = [...picks.querySelectorAll("select")].map(input => input.value)) {
+    const scorer = roster.find(p => String(p.id) === select.value);
+    const club = saved && String(saved.playerId) === select.value ? (saved.side === "HOME" ? fixture.homeClubId : fixture.awayClubId) : scorer?.clubId;
+    const teammates = state.players.filter(p => club != null && p.clubId === club && p.sport === fixture.sport && String(p.id) !== select.value);
+    const count = select.value && goals.validity.valid ? Number(goals.value) : 0;
+    const fields = Array.from({length: count}, (_, i) => {
+      const label = document.createElement("label");
+      label.textContent = "Assist for goal " + (i + 1);
+      const input = document.createElement("select");
+      input.dataset.goalAssist = "";
+      input.add(new Option("No assist", ""));
+      teammates.forEach(player => input.add(new Option(player.name, player.id)));
+      const existing = saved?.assists?.find(a => String(a.playerId) === String(values[i]) && a.goalNumber === i + 1);
+      if (existing && !teammates.some(p => p.id === existing.playerId)) {
+        input.add(new Option(state.players.find(p => p.id === existing.playerId)?.name || "Previously credited player", existing.playerId));
+      }
+      input.value = values[i] || "";
+      if (input.selectedIndex < 0) input.value = "";
+      label.append(input);
+      return label;
+    });
+    picks.replaceChildren(...fields);
+  }
+  renderAssists(Array.from({length: saved?.goals || 0}, (_, i) => saved.assists?.find(a => a.goalNumber === i + 1)?.playerId ?? ""));
+  select.addEventListener("change", () => renderAssists([]));
+  goals.addEventListener("change", () => renderAssists());
   row.querySelector("button").onclick = () => row.remove();
   scorerRows.append(row);
 }
@@ -147,13 +177,13 @@ async function loadUsers() {
  state.users = await api('/api/admin/users');
  renderList('usersList', state.users.map(u => `<article class="data-row"><div><h4>${escapeHtml(u.name || u.email)}</h4><p>${escapeHtml(u.email)} · ${escapeHtml(u.role)}${u.executiveSport ? ' · '+escapeHtml(u.executiveSport) : ''}</p><span class="status-pill ${u.isActive ? '' : 'off'}">${u.isActive ? 'Active' : 'Disabled'}</span></div><div class="row-actions"><button data-user-action="${u.id}" data-role="${u.role === 'USER' ? 'ADMIN' : 'USER'}">${u.role === 'USER' ? 'Make admin' : 'Make user'}</button><button data-user-action="${u.id}" data-active="${!u.isActive}" class="button-secondary">${u.isActive ? 'Disable' : 'Activate'}</button>${u.role !== 'ADMIN' ? `<label>Executive sport<select data-exec-sport="${u.id}"><option value="">Choose sport</option>${['football','basketball','volleyball'].map(sport=>`<option value="${sport}" ${sport===u.executiveSport?'selected':''}>${sport[0].toUpperCase()+sport.slice(1)}</option>`).join('')}</select></label><button data-exec-user="${u.id}">${u.role==='EXECUTIVE'?'Update executive access':'Make sport executive'}</button>` : ''}</div></article>`).join(''), 'No users yet.');
 }
-function beginEdit(type, id) { const stateKey = type === "news" ? "news" : type === "club" ? "clubs" : `${type}s`; const record = state[stateKey]?.find((item) => item.id === Number(id)); if (!record) return; const formId = `${type === "club" ? "club" : type === "player" ? "player" : type === "fixture" ? "fixture" : "news"}Form`; const form = document.getElementById(formId); if (!form) return; showSection(type === "club" ? "clubs" : type === "player" ? "players" : type === "fixture" ? "fixtures" : "news"); if (type === "player") { form.elements.sport.value = record.sport; window.renderPlayerStats({...record, goals: record.manualGoals ?? record.goals}); } Object.entries(record).forEach(([key, value]) => { const field = form.elements[key]; if (!field || key === "club" || key === "homeClub" || key === "awayClub" || key === "result") return; if (field.type === "checkbox") field.checked = Boolean(value); else if (key === "startsAt" && value) field.value = new Date(new Date(String(value)).getTime() - new Date(String(value)).getTimezoneOffset() * 60000).toISOString().slice(0, 16); else field.value = (type === "player" && key === "goals" ? record.manualGoals ?? value : value) ?? ""; }); form.elements.id.value = record.id; const heading = form.querySelector("h3"); if (heading) heading.textContent = `Edit ${type}`; const submit = form.querySelector('button[type="submit"]'); if (submit) submit.textContent = `Update ${type}`; form.scrollIntoView({ behavior: "smooth", block: "start" }); }
+function beginEdit(type, id) { const stateKey = type === "news" ? "news" : type === "club" ? "clubs" : `${type}s`; const record = state[stateKey]?.find((item) => item.id === Number(id)); if (!record) return; const formId = `${type === "club" ? "club" : type === "player" ? "player" : type === "fixture" ? "fixture" : "news"}Form`; const form = document.getElementById(formId); if (!form) return; showSection(type === "club" ? "clubs" : type === "player" ? "players" : type === "fixture" ? "fixtures" : "news"); if (type === "player") { form.elements.sport.value = record.sport; window.renderPlayerStats({...record, goals: record.manualGoals ?? record.goals, assists: record.manualAssists ?? record.assists}); } Object.entries(record).forEach(([key, value]) => { const field = form.elements[key]; if (!field || key === "club" || key === "homeClub" || key === "awayClub" || key === "result") return; if (field.type === "checkbox") field.checked = Boolean(value); else if (key === "startsAt" && value) field.value = new Date(new Date(String(value)).getTime() - new Date(String(value)).getTimezoneOffset() * 60000).toISOString().slice(0, 16); else field.value = (type === "player" && key === "goals" ? record.manualGoals ?? value : type === "player" && key === "assists" ? record.manualAssists ?? value : value) ?? ""; }); form.elements.id.value = record.id; const heading = form.querySelector("h3"); if (heading) heading.textContent = `Edit ${type}`; const submit = form.querySelector('button[type="submit"]'); if (submit) submit.textContent = `Update ${type}`; form.scrollIntoView({ behavior: "smooth", block: "start" }); }
 
 const forms = {
   clubForm: async (form) => { const o = formObject(form); const data = { ...o, logoUrl: o.logoUrl || null }; await api(o.id ? `/api/clubs/${o.id}` : "/api/clubs", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Club updated." : "Club created."; },
   playerForm: async (form) => { const o = formObject(form); const numeric = ["price", "rating", ...window.playerStatFields(o.sport).map(([key]) => key)]; const data = { ...o, jerseyNumber: numberOrNull(o.jerseyNumber), clubId: numberOrNull(o.clubId), fullName: o.fullName || null, photoUrl: o.photoUrl || null, captain: form.elements.captain.checked }; numeric.forEach((key) => { data[key] = o[key] === "" ? undefined : Number(o[key]); }); await api(o.id ? `/api/players/${o.id}` : "/api/players", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Player updated." : "Player created."; },
   fixtureForm: async (form) => { const o = formObject(form); const data = { ...o, startsAt: new Date(o.startsAt).toISOString(), homeClubId: numberOrNull(o.homeClubId), awayClubId: numberOrNull(o.awayClubId) }; await api(o.id ? `/api/fixtures/${o.id}` : "/api/fixtures", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Fixture updated." : "Fixture scheduled."; },
-  resultForm: async (form, status) => { const o = formObject(form); const correction = state.fixtures.some(f => String(f.id) === o.fixtureId && f.status === "COMPLETED"); await api(`/api/fixtures/${o.fixtureId}/result`, { method: "PUT", body: JSON.stringify({ homeScore: Number(o.homeScore), awayScore: Number(o.awayScore), status: status || "LIVE", stage: status === "COMPLETED" ? null : o.stage || null, scorers: scorerPanel.disabled ? undefined : [...scorerRows.children].map(row => ({playerId: Number(row.querySelector("select").value), goals: Number(row.querySelector("input").value)})) }) }); return status === "COMPLETED" ? (correction ? "Final score corrected." : "Final score published.") : o.stage ? o.stage + " score published." : "Live score published."; },
+  resultForm: async (form, status) => { const o = formObject(form); const correction = state.fixtures.some(f => String(f.id) === o.fixtureId && f.status === "COMPLETED"); await api(`/api/fixtures/${o.fixtureId}/result`, { method: "PUT", body: JSON.stringify({ homeScore: Number(o.homeScore), awayScore: Number(o.awayScore), status: status || "LIVE", stage: status === "COMPLETED" ? null : o.stage || null, scorers: scorerPanel.disabled ? undefined : [...scorerRows.children].map(row => ({playerId: Number(row.querySelector("select").value), goals: Number(row.querySelector("input").value), assists: [...row.querySelectorAll('[data-goal-assist]')].map(input => input.value ? Number(input.value) : null)})) }) }); return status === "COMPLETED" ? (correction ? "Final score corrected." : "Final score published.") : o.stage ? o.stage + " score published." : "Live score published."; },
   tableForm: async (form) => { const o = formObject(form); await api("/api/tables", { method: "PUT", body: JSON.stringify({ ...o, clubId: Number(o.clubId), played: Number(o.played), won: Number(o.won), drawn: Number(o.drawn), lost: Number(o.lost), points: Number(o.points) }) }); return "Table entry saved."; },
   newsForm: async (form) => { const o = formObject(form); const data = { ...o, sport: o.sport || null, published: form.querySelector('[name="published"]').checked }; await api(o.id ? `/api/news/${o.id}` : "/api/news", { method: o.id ? "PATCH" : "POST", body: JSON.stringify(data) }); return o.id ? "Article updated." : "Article saved."; },
 };

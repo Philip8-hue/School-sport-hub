@@ -81,7 +81,8 @@ export const ModelName = {
   NewsRefresh: 'NewsRefresh',
   FantasyMatchStat: 'FantasyMatchStat',
   MatchPushSubscription: 'MatchPushSubscription',
-  MatchGoal: 'MatchGoal'
+  MatchGoal: 'MatchGoal',
+  MatchAssist: 'MatchAssist'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -525,6 +526,16 @@ export const MatchGoalScalarFieldEnum = {
 } as const
 
 export type MatchGoalScalarFieldEnum = (typeof MatchGoalScalarFieldEnum)[keyof typeof MatchGoalScalarFieldEnum]
+
+
+export const MatchAssistScalarFieldEnum = {
+  resultId: 'resultId',
+  scorerId: 'scorerId',
+  goalNumber: 'goalNumber',
+  playerId: 'playerId'
+} as const
+
+export type MatchAssistScalarFieldEnum = (typeof MatchAssistScalarFieldEnum)[keyof typeof MatchAssistScalarFieldEnum]
 
 
 export const SortOrder = {

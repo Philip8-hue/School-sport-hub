@@ -216,6 +216,7 @@ export type MatchGoalWhereInput = {
   playerId?: Prisma.IntFilter<"MatchGoal"> | number
   side?: Prisma.StringFilter<"MatchGoal"> | string
   goals?: Prisma.IntFilter<"MatchGoal"> | number
+  assists?: Prisma.MatchAssistListRelationFilter
   result?: Prisma.XOR<Prisma.ResultScalarRelationFilter, Prisma.ResultWhereInput>
   player?: Prisma.XOR<Prisma.PlayerScalarRelationFilter, Prisma.PlayerWhereInput>
 }
@@ -225,6 +226,7 @@ export type MatchGoalOrderByWithRelationInput = {
   playerId?: Prisma.SortOrder
   side?: Prisma.SortOrder
   goals?: Prisma.SortOrder
+  assists?: Prisma.MatchAssistOrderByRelationAggregateInput
   result?: Prisma.ResultOrderByWithRelationInput
   player?: Prisma.PlayerOrderByWithRelationInput
 }
@@ -238,6 +240,7 @@ export type MatchGoalWhereUniqueInput = Prisma.AtLeast<{
   playerId?: Prisma.IntFilter<"MatchGoal"> | number
   side?: Prisma.StringFilter<"MatchGoal"> | string
   goals?: Prisma.IntFilter<"MatchGoal"> | number
+  assists?: Prisma.MatchAssistListRelationFilter
   result?: Prisma.XOR<Prisma.ResultScalarRelationFilter, Prisma.ResultWhereInput>
   player?: Prisma.XOR<Prisma.PlayerScalarRelationFilter, Prisma.PlayerWhereInput>
 }, "resultId_playerId">
@@ -267,6 +270,7 @@ export type MatchGoalScalarWhereWithAggregatesInput = {
 export type MatchGoalCreateInput = {
   side: string
   goals: number
+  assists?: Prisma.MatchAssistCreateNestedManyWithoutGoalInput
   result: Prisma.ResultCreateNestedOneWithoutScorersInput
   player: Prisma.PlayerCreateNestedOneWithoutMatchGoalsInput
 }
@@ -276,11 +280,13 @@ export type MatchGoalUncheckedCreateInput = {
   playerId: number
   side: string
   goals: number
+  assists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutGoalInput
 }
 
 export type MatchGoalUpdateInput = {
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUpdateManyWithoutGoalNestedInput
   result?: Prisma.ResultUpdateOneRequiredWithoutScorersNestedInput
   player?: Prisma.PlayerUpdateOneRequiredWithoutMatchGoalsNestedInput
 }
@@ -290,6 +296,7 @@ export type MatchGoalUncheckedUpdateInput = {
   playerId?: Prisma.IntFieldUpdateOperationsInput | number
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUncheckedUpdateManyWithoutGoalNestedInput
 }
 
 export type MatchGoalCreateManyInput = {
@@ -357,6 +364,11 @@ export type MatchGoalSumOrderByAggregateInput = {
   resultId?: Prisma.SortOrder
   playerId?: Prisma.SortOrder
   goals?: Prisma.SortOrder
+}
+
+export type MatchGoalScalarRelationFilter = {
+  is?: Prisma.MatchGoalWhereInput
+  isNot?: Prisma.MatchGoalWhereInput
 }
 
 export type MatchGoalCreateNestedManyWithoutPlayerInput = {
@@ -443,9 +455,24 @@ export type MatchGoalUncheckedUpdateManyWithoutResultNestedInput = {
   deleteMany?: Prisma.MatchGoalScalarWhereInput | Prisma.MatchGoalScalarWhereInput[]
 }
 
+export type MatchGoalCreateNestedOneWithoutAssistsInput = {
+  create?: Prisma.XOR<Prisma.MatchGoalCreateWithoutAssistsInput, Prisma.MatchGoalUncheckedCreateWithoutAssistsInput>
+  connectOrCreate?: Prisma.MatchGoalCreateOrConnectWithoutAssistsInput
+  connect?: Prisma.MatchGoalWhereUniqueInput
+}
+
+export type MatchGoalUpdateOneRequiredWithoutAssistsNestedInput = {
+  create?: Prisma.XOR<Prisma.MatchGoalCreateWithoutAssistsInput, Prisma.MatchGoalUncheckedCreateWithoutAssistsInput>
+  connectOrCreate?: Prisma.MatchGoalCreateOrConnectWithoutAssistsInput
+  upsert?: Prisma.MatchGoalUpsertWithoutAssistsInput
+  connect?: Prisma.MatchGoalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MatchGoalUpdateToOneWithWhereWithoutAssistsInput, Prisma.MatchGoalUpdateWithoutAssistsInput>, Prisma.MatchGoalUncheckedUpdateWithoutAssistsInput>
+}
+
 export type MatchGoalCreateWithoutPlayerInput = {
   side: string
   goals: number
+  assists?: Prisma.MatchAssistCreateNestedManyWithoutGoalInput
   result: Prisma.ResultCreateNestedOneWithoutScorersInput
 }
 
@@ -453,6 +480,7 @@ export type MatchGoalUncheckedCreateWithoutPlayerInput = {
   resultId: number
   side: string
   goals: number
+  assists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutGoalInput
 }
 
 export type MatchGoalCreateOrConnectWithoutPlayerInput = {
@@ -493,6 +521,7 @@ export type MatchGoalScalarWhereInput = {
 export type MatchGoalCreateWithoutResultInput = {
   side: string
   goals: number
+  assists?: Prisma.MatchAssistCreateNestedManyWithoutGoalInput
   player: Prisma.PlayerCreateNestedOneWithoutMatchGoalsInput
 }
 
@@ -500,6 +529,7 @@ export type MatchGoalUncheckedCreateWithoutResultInput = {
   playerId: number
   side: string
   goals: number
+  assists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutGoalInput
 }
 
 export type MatchGoalCreateOrConnectWithoutResultInput = {
@@ -527,6 +557,50 @@ export type MatchGoalUpdateManyWithWhereWithoutResultInput = {
   data: Prisma.XOR<Prisma.MatchGoalUpdateManyMutationInput, Prisma.MatchGoalUncheckedUpdateManyWithoutResultInput>
 }
 
+export type MatchGoalCreateWithoutAssistsInput = {
+  side: string
+  goals: number
+  result: Prisma.ResultCreateNestedOneWithoutScorersInput
+  player: Prisma.PlayerCreateNestedOneWithoutMatchGoalsInput
+}
+
+export type MatchGoalUncheckedCreateWithoutAssistsInput = {
+  resultId: number
+  playerId: number
+  side: string
+  goals: number
+}
+
+export type MatchGoalCreateOrConnectWithoutAssistsInput = {
+  where: Prisma.MatchGoalWhereUniqueInput
+  create: Prisma.XOR<Prisma.MatchGoalCreateWithoutAssistsInput, Prisma.MatchGoalUncheckedCreateWithoutAssistsInput>
+}
+
+export type MatchGoalUpsertWithoutAssistsInput = {
+  update: Prisma.XOR<Prisma.MatchGoalUpdateWithoutAssistsInput, Prisma.MatchGoalUncheckedUpdateWithoutAssistsInput>
+  create: Prisma.XOR<Prisma.MatchGoalCreateWithoutAssistsInput, Prisma.MatchGoalUncheckedCreateWithoutAssistsInput>
+  where?: Prisma.MatchGoalWhereInput
+}
+
+export type MatchGoalUpdateToOneWithWhereWithoutAssistsInput = {
+  where?: Prisma.MatchGoalWhereInput
+  data: Prisma.XOR<Prisma.MatchGoalUpdateWithoutAssistsInput, Prisma.MatchGoalUncheckedUpdateWithoutAssistsInput>
+}
+
+export type MatchGoalUpdateWithoutAssistsInput = {
+  side?: Prisma.StringFieldUpdateOperationsInput | string
+  goals?: Prisma.IntFieldUpdateOperationsInput | number
+  result?: Prisma.ResultUpdateOneRequiredWithoutScorersNestedInput
+  player?: Prisma.PlayerUpdateOneRequiredWithoutMatchGoalsNestedInput
+}
+
+export type MatchGoalUncheckedUpdateWithoutAssistsInput = {
+  resultId?: Prisma.IntFieldUpdateOperationsInput | number
+  playerId?: Prisma.IntFieldUpdateOperationsInput | number
+  side?: Prisma.StringFieldUpdateOperationsInput | string
+  goals?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type MatchGoalCreateManyPlayerInput = {
   resultId: number
   side: string
@@ -536,6 +610,7 @@ export type MatchGoalCreateManyPlayerInput = {
 export type MatchGoalUpdateWithoutPlayerInput = {
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUpdateManyWithoutGoalNestedInput
   result?: Prisma.ResultUpdateOneRequiredWithoutScorersNestedInput
 }
 
@@ -543,6 +618,7 @@ export type MatchGoalUncheckedUpdateWithoutPlayerInput = {
   resultId?: Prisma.IntFieldUpdateOperationsInput | number
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUncheckedUpdateManyWithoutGoalNestedInput
 }
 
 export type MatchGoalUncheckedUpdateManyWithoutPlayerInput = {
@@ -560,6 +636,7 @@ export type MatchGoalCreateManyResultInput = {
 export type MatchGoalUpdateWithoutResultInput = {
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUpdateManyWithoutGoalNestedInput
   player?: Prisma.PlayerUpdateOneRequiredWithoutMatchGoalsNestedInput
 }
 
@@ -567,6 +644,7 @@ export type MatchGoalUncheckedUpdateWithoutResultInput = {
   playerId?: Prisma.IntFieldUpdateOperationsInput | number
   side?: Prisma.StringFieldUpdateOperationsInput | string
   goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.MatchAssistUncheckedUpdateManyWithoutGoalNestedInput
 }
 
 export type MatchGoalUncheckedUpdateManyWithoutResultInput = {
@@ -576,14 +654,45 @@ export type MatchGoalUncheckedUpdateManyWithoutResultInput = {
 }
 
 
+/**
+ * Count Type MatchGoalCountOutputType
+ */
+
+export type MatchGoalCountOutputType = {
+  assists: number
+}
+
+export type MatchGoalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  assists?: boolean | MatchGoalCountOutputTypeCountAssistsArgs
+}
+
+/**
+ * MatchGoalCountOutputType without action
+ */
+export type MatchGoalCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchGoalCountOutputType
+   */
+  select?: Prisma.MatchGoalCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MatchGoalCountOutputType without action
+ */
+export type MatchGoalCountOutputTypeCountAssistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchAssistWhereInput
+}
+
 
 export type MatchGoalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   resultId?: boolean
   playerId?: boolean
   side?: boolean
   goals?: boolean
+  assists?: boolean | Prisma.MatchGoal$assistsArgs<ExtArgs>
   result?: boolean | Prisma.ResultDefaultArgs<ExtArgs>
   player?: boolean | Prisma.PlayerDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.MatchGoalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["matchGoal"]>
 
 export type MatchGoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -613,8 +722,10 @@ export type MatchGoalSelectScalar = {
 
 export type MatchGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"resultId" | "playerId" | "side" | "goals", ExtArgs["result"]["matchGoal"]>
 export type MatchGoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  assists?: boolean | Prisma.MatchGoal$assistsArgs<ExtArgs>
   result?: boolean | Prisma.ResultDefaultArgs<ExtArgs>
   player?: boolean | Prisma.PlayerDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.MatchGoalCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MatchGoalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   result?: boolean | Prisma.ResultDefaultArgs<ExtArgs>
@@ -628,6 +739,7 @@ export type MatchGoalIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $MatchGoalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MatchGoal"
   objects: {
+    assists: Prisma.$MatchAssistPayload<ExtArgs>[]
     result: Prisma.$ResultPayload<ExtArgs>
     player: Prisma.$PlayerPayload<ExtArgs>
   }
@@ -1030,6 +1142,7 @@ readonly fields: MatchGoalFieldRefs;
  */
 export interface Prisma__MatchGoalClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  assists<T extends Prisma.MatchGoal$assistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MatchGoal$assistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchAssistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   result<T extends Prisma.ResultDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResultDefaultArgs<ExtArgs>>): Prisma.Prisma__ResultClient<runtime.Types.Result.GetResult<Prisma.$ResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   player<T extends Prisma.PlayerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlayerDefaultArgs<ExtArgs>>): Prisma.Prisma__PlayerClient<runtime.Types.Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1461,6 +1574,30 @@ export type MatchGoalDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many MatchGoals to delete.
    */
   limit?: number
+}
+
+/**
+ * MatchGoal.assists
+ */
+export type MatchGoal$assistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchAssist
+   */
+  select?: Prisma.MatchAssistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MatchAssist
+   */
+  omit?: Prisma.MatchAssistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchAssistInclude<ExtArgs> | null
+  where?: Prisma.MatchAssistWhereInput
+  orderBy?: Prisma.MatchAssistOrderByWithRelationInput | Prisma.MatchAssistOrderByWithRelationInput[]
+  cursor?: Prisma.MatchAssistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchAssistScalarFieldEnum | Prisma.MatchAssistScalarFieldEnum[]
 }
 
 /**

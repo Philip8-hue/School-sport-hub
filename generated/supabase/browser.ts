@@ -172,3 +172,8 @@ export type MatchPushSubscription = Prisma.MatchPushSubscriptionModel
  * 
  */
 export type MatchGoal = Prisma.MatchGoalModel
+/**
+ * Model MatchAssist
+ * 
+ */
+export type MatchAssist = Prisma.MatchAssistModel

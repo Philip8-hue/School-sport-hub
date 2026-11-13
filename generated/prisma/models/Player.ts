@@ -573,6 +573,7 @@ export type PlayerWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   matchGoals?: Prisma.MatchGoalListRelationFilter
+  matchAssists?: Prisma.MatchAssistListRelationFilter
   uploadedPhoto?: Prisma.XOR<Prisma.PlayerPhotoNullableScalarRelationFilter, Prisma.PlayerPhotoWhereInput> | null
   club?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   ownership?: Prisma.XOR<Prisma.PlayerOwnershipNullableScalarRelationFilter, Prisma.PlayerOwnershipWhereInput> | null
@@ -618,6 +619,7 @@ export type PlayerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   matchGoals?: Prisma.MatchGoalOrderByRelationAggregateInput
+  matchAssists?: Prisma.MatchAssistOrderByRelationAggregateInput
   uploadedPhoto?: Prisma.PlayerPhotoOrderByWithRelationInput
   club?: Prisma.ClubOrderByWithRelationInput
   ownership?: Prisma.PlayerOwnershipOrderByWithRelationInput
@@ -666,6 +668,7 @@ export type PlayerWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   matchGoals?: Prisma.MatchGoalListRelationFilter
+  matchAssists?: Prisma.MatchAssistListRelationFilter
   uploadedPhoto?: Prisma.XOR<Prisma.PlayerPhotoNullableScalarRelationFilter, Prisma.PlayerPhotoWhereInput> | null
   club?: Prisma.XOR<Prisma.ClubNullableScalarRelationFilter, Prisma.ClubWhereInput> | null
   ownership?: Prisma.XOR<Prisma.PlayerOwnershipNullableScalarRelationFilter, Prisma.PlayerOwnershipWhereInput> | null
@@ -795,6 +798,7 @@ export type PlayerCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
@@ -840,6 +844,7 @@ export type PlayerUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
@@ -882,6 +887,7 @@ export type PlayerUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
@@ -927,6 +933,7 @@ export type PlayerUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
@@ -1362,6 +1369,20 @@ export type PlayerUpdateOneRequiredWithoutMatchGoalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutMatchGoalsInput, Prisma.PlayerUpdateWithoutMatchGoalsInput>, Prisma.PlayerUncheckedUpdateWithoutMatchGoalsInput>
 }
 
+export type PlayerCreateNestedOneWithoutMatchAssistsInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutMatchAssistsInput, Prisma.PlayerUncheckedCreateWithoutMatchAssistsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutMatchAssistsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+}
+
+export type PlayerUpdateOneRequiredWithoutMatchAssistsNestedInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutMatchAssistsInput, Prisma.PlayerUncheckedCreateWithoutMatchAssistsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutMatchAssistsInput
+  upsert?: Prisma.PlayerUpsertWithoutMatchAssistsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutMatchAssistsInput, Prisma.PlayerUpdateWithoutMatchAssistsInput>, Prisma.PlayerUncheckedUpdateWithoutMatchAssistsInput>
+}
+
 export type PlayerCreateWithoutClubInput = {
   name: string
   fullName?: string | null
@@ -1398,6 +1419,7 @@ export type PlayerCreateWithoutClubInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutPlayerInput
@@ -1441,6 +1463,7 @@ export type PlayerUncheckedCreateWithoutClubInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
@@ -1550,6 +1573,7 @@ export type PlayerCreateWithoutOwnershipInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutPlayerInput
@@ -1594,6 +1618,7 @@ export type PlayerUncheckedCreateWithoutOwnershipInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
   snapshots?: Prisma.PlayerSnapshotUncheckedCreateNestedManyWithoutPlayerInput
@@ -1651,6 +1676,7 @@ export type PlayerUpdateWithoutOwnershipInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   availability?: Prisma.MatchAvailabilityUpdateManyWithoutPlayerNestedInput
@@ -1695,6 +1721,7 @@ export type PlayerUncheckedUpdateWithoutOwnershipInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
   snapshots?: Prisma.PlayerSnapshotUncheckedUpdateManyWithoutPlayerNestedInput
@@ -1736,6 +1763,7 @@ export type PlayerCreateWithoutAvailabilityInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
@@ -1780,6 +1808,7 @@ export type PlayerUncheckedCreateWithoutAvailabilityInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   snapshots?: Prisma.PlayerSnapshotUncheckedCreateNestedManyWithoutPlayerInput
@@ -1837,6 +1866,7 @@ export type PlayerUpdateWithoutAvailabilityInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
@@ -1881,6 +1911,7 @@ export type PlayerUncheckedUpdateWithoutAvailabilityInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   snapshots?: Prisma.PlayerSnapshotUncheckedUpdateManyWithoutPlayerNestedInput
@@ -1922,6 +1953,7 @@ export type PlayerCreateWithoutSnapshotsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
@@ -1966,6 +1998,7 @@ export type PlayerUncheckedCreateWithoutSnapshotsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
@@ -2023,6 +2056,7 @@ export type PlayerUpdateWithoutSnapshotsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
@@ -2067,6 +2101,7 @@ export type PlayerUncheckedUpdateWithoutSnapshotsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
@@ -2108,6 +2143,7 @@ export type PlayerCreateWithoutUploadedPhotoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutPlayerInput
@@ -2152,6 +2188,7 @@ export type PlayerUncheckedCreateWithoutUploadedPhotoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
   snapshots?: Prisma.PlayerSnapshotUncheckedCreateNestedManyWithoutPlayerInput
@@ -2209,6 +2246,7 @@ export type PlayerUpdateWithoutUploadedPhotoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUpdateManyWithoutPlayerNestedInput
@@ -2253,6 +2291,7 @@ export type PlayerUncheckedUpdateWithoutUploadedPhotoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
   snapshots?: Prisma.PlayerSnapshotUncheckedUpdateManyWithoutPlayerNestedInput
@@ -2293,6 +2332,7 @@ export type PlayerCreateWithoutMatchGoalsInput = {
   redCards?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  matchAssists?: Prisma.MatchAssistCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
   club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
   ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
@@ -2337,6 +2377,7 @@ export type PlayerUncheckedCreateWithoutMatchGoalsInput = {
   clubId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  matchAssists?: Prisma.MatchAssistUncheckedCreateNestedManyWithoutPlayerInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
   ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
   availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
@@ -2394,6 +2435,7 @@ export type PlayerUpdateWithoutMatchGoalsInput = {
   redCards?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
@@ -2438,6 +2480,197 @@ export type PlayerUncheckedUpdateWithoutMatchGoalsInput = {
   clubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
+  uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
+  ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
+  availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
+  snapshots?: Prisma.PlayerSnapshotUncheckedUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerCreateWithoutMatchAssistsInput = {
+  name: string
+  fullName?: string | null
+  captain?: boolean
+  sport: string
+  position?: string | null
+  jerseyNumber?: number | null
+  photoUrl?: string | null
+  price?: number | null
+  rating?: number | null
+  matches?: number
+  minutes?: number
+  goals?: number
+  assists?: number
+  aces?: number
+  blocks?: number
+  points?: number
+  rebounds?: number
+  steals?: number
+  turnovers?: number
+  fouls?: number
+  fieldGoalsMade?: number
+  threePointersMade?: number
+  freeThrowsMade?: number
+  kills?: number
+  digs?: number
+  receives?: number
+  setsPlayed?: number
+  serveErrors?: number
+  cleanSheets?: number
+  saves?: number
+  yellowCards?: number
+  redCards?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  matchGoals?: Prisma.MatchGoalCreateNestedManyWithoutPlayerInput
+  uploadedPhoto?: Prisma.PlayerPhotoCreateNestedOneWithoutPlayerInput
+  club?: Prisma.ClubCreateNestedOneWithoutPlayersInput
+  ownership?: Prisma.PlayerOwnershipCreateNestedOneWithoutPlayerInput
+  availability?: Prisma.MatchAvailabilityCreateNestedManyWithoutPlayerInput
+  snapshots?: Prisma.PlayerSnapshotCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerUncheckedCreateWithoutMatchAssistsInput = {
+  id?: number
+  name: string
+  fullName?: string | null
+  captain?: boolean
+  sport: string
+  position?: string | null
+  jerseyNumber?: number | null
+  photoUrl?: string | null
+  price?: number | null
+  rating?: number | null
+  matches?: number
+  minutes?: number
+  goals?: number
+  assists?: number
+  aces?: number
+  blocks?: number
+  points?: number
+  rebounds?: number
+  steals?: number
+  turnovers?: number
+  fouls?: number
+  fieldGoalsMade?: number
+  threePointersMade?: number
+  freeThrowsMade?: number
+  kills?: number
+  digs?: number
+  receives?: number
+  setsPlayed?: number
+  serveErrors?: number
+  cleanSheets?: number
+  saves?: number
+  yellowCards?: number
+  redCards?: number
+  clubId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  matchGoals?: Prisma.MatchGoalUncheckedCreateNestedManyWithoutPlayerInput
+  uploadedPhoto?: Prisma.PlayerPhotoUncheckedCreateNestedOneWithoutPlayerInput
+  ownership?: Prisma.PlayerOwnershipUncheckedCreateNestedOneWithoutPlayerInput
+  availability?: Prisma.MatchAvailabilityUncheckedCreateNestedManyWithoutPlayerInput
+  snapshots?: Prisma.PlayerSnapshotUncheckedCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerCreateOrConnectWithoutMatchAssistsInput = {
+  where: Prisma.PlayerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutMatchAssistsInput, Prisma.PlayerUncheckedCreateWithoutMatchAssistsInput>
+}
+
+export type PlayerUpsertWithoutMatchAssistsInput = {
+  update: Prisma.XOR<Prisma.PlayerUpdateWithoutMatchAssistsInput, Prisma.PlayerUncheckedUpdateWithoutMatchAssistsInput>
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutMatchAssistsInput, Prisma.PlayerUncheckedCreateWithoutMatchAssistsInput>
+  where?: Prisma.PlayerWhereInput
+}
+
+export type PlayerUpdateToOneWithWhereWithoutMatchAssistsInput = {
+  where?: Prisma.PlayerWhereInput
+  data: Prisma.XOR<Prisma.PlayerUpdateWithoutMatchAssistsInput, Prisma.PlayerUncheckedUpdateWithoutMatchAssistsInput>
+}
+
+export type PlayerUpdateWithoutMatchAssistsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  captain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jerseyNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  matches?: Prisma.IntFieldUpdateOperationsInput | number
+  minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.IntFieldUpdateOperationsInput | number
+  aces?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.IntFieldUpdateOperationsInput | number
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  rebounds?: Prisma.IntFieldUpdateOperationsInput | number
+  steals?: Prisma.IntFieldUpdateOperationsInput | number
+  turnovers?: Prisma.IntFieldUpdateOperationsInput | number
+  fouls?: Prisma.IntFieldUpdateOperationsInput | number
+  fieldGoalsMade?: Prisma.IntFieldUpdateOperationsInput | number
+  threePointersMade?: Prisma.IntFieldUpdateOperationsInput | number
+  freeThrowsMade?: Prisma.IntFieldUpdateOperationsInput | number
+  kills?: Prisma.IntFieldUpdateOperationsInput | number
+  digs?: Prisma.IntFieldUpdateOperationsInput | number
+  receives?: Prisma.IntFieldUpdateOperationsInput | number
+  setsPlayed?: Prisma.IntFieldUpdateOperationsInput | number
+  serveErrors?: Prisma.IntFieldUpdateOperationsInput | number
+  cleanSheets?: Prisma.IntFieldUpdateOperationsInput | number
+  saves?: Prisma.IntFieldUpdateOperationsInput | number
+  yellowCards?: Prisma.IntFieldUpdateOperationsInput | number
+  redCards?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
+  club?: Prisma.ClubUpdateOneWithoutPlayersNestedInput
+  ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
+  availability?: Prisma.MatchAvailabilityUpdateManyWithoutPlayerNestedInput
+  snapshots?: Prisma.PlayerSnapshotUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerUncheckedUpdateWithoutMatchAssistsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  captain?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sport?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jerseyNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  matches?: Prisma.IntFieldUpdateOperationsInput | number
+  minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  goals?: Prisma.IntFieldUpdateOperationsInput | number
+  assists?: Prisma.IntFieldUpdateOperationsInput | number
+  aces?: Prisma.IntFieldUpdateOperationsInput | number
+  blocks?: Prisma.IntFieldUpdateOperationsInput | number
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  rebounds?: Prisma.IntFieldUpdateOperationsInput | number
+  steals?: Prisma.IntFieldUpdateOperationsInput | number
+  turnovers?: Prisma.IntFieldUpdateOperationsInput | number
+  fouls?: Prisma.IntFieldUpdateOperationsInput | number
+  fieldGoalsMade?: Prisma.IntFieldUpdateOperationsInput | number
+  threePointersMade?: Prisma.IntFieldUpdateOperationsInput | number
+  freeThrowsMade?: Prisma.IntFieldUpdateOperationsInput | number
+  kills?: Prisma.IntFieldUpdateOperationsInput | number
+  digs?: Prisma.IntFieldUpdateOperationsInput | number
+  receives?: Prisma.IntFieldUpdateOperationsInput | number
+  setsPlayed?: Prisma.IntFieldUpdateOperationsInput | number
+  serveErrors?: Prisma.IntFieldUpdateOperationsInput | number
+  cleanSheets?: Prisma.IntFieldUpdateOperationsInput | number
+  saves?: Prisma.IntFieldUpdateOperationsInput | number
+  yellowCards?: Prisma.IntFieldUpdateOperationsInput | number
+  redCards?: Prisma.IntFieldUpdateOperationsInput | number
+  clubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
@@ -2518,6 +2751,7 @@ export type PlayerUpdateWithoutClubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUpdateManyWithoutPlayerNestedInput
@@ -2561,6 +2795,7 @@ export type PlayerUncheckedUpdateWithoutClubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   matchGoals?: Prisma.MatchGoalUncheckedUpdateManyWithoutPlayerNestedInput
+  matchAssists?: Prisma.MatchAssistUncheckedUpdateManyWithoutPlayerNestedInput
   uploadedPhoto?: Prisma.PlayerPhotoUncheckedUpdateOneWithoutPlayerNestedInput
   ownership?: Prisma.PlayerOwnershipUncheckedUpdateOneWithoutPlayerNestedInput
   availability?: Prisma.MatchAvailabilityUncheckedUpdateManyWithoutPlayerNestedInput
@@ -2612,12 +2847,14 @@ export type PlayerUncheckedUpdateManyWithoutClubInput = {
 
 export type PlayerCountOutputType = {
   matchGoals: number
+  matchAssists: number
   availability: number
   snapshots: number
 }
 
 export type PlayerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   matchGoals?: boolean | PlayerCountOutputTypeCountMatchGoalsArgs
+  matchAssists?: boolean | PlayerCountOutputTypeCountMatchAssistsArgs
   availability?: boolean | PlayerCountOutputTypeCountAvailabilityArgs
   snapshots?: boolean | PlayerCountOutputTypeCountSnapshotsArgs
 }
@@ -2637,6 +2874,13 @@ export type PlayerCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type PlayerCountOutputTypeCountMatchGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MatchGoalWhereInput
+}
+
+/**
+ * PlayerCountOutputType without action
+ */
+export type PlayerCountOutputTypeCountMatchAssistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchAssistWhereInput
 }
 
 /**
@@ -2692,6 +2936,7 @@ export type PlayerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   matchGoals?: boolean | Prisma.Player$matchGoalsArgs<ExtArgs>
+  matchAssists?: boolean | Prisma.Player$matchAssistsArgs<ExtArgs>
   uploadedPhoto?: boolean | Prisma.Player$uploadedPhotoArgs<ExtArgs>
   club?: boolean | Prisma.Player$clubArgs<ExtArgs>
   ownership?: boolean | Prisma.Player$ownershipArgs<ExtArgs>
@@ -2822,6 +3067,7 @@ export type PlayerSelectScalar = {
 export type PlayerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "fullName" | "captain" | "sport" | "position" | "jerseyNumber" | "photoUrl" | "price" | "rating" | "matches" | "minutes" | "goals" | "assists" | "aces" | "blocks" | "points" | "rebounds" | "steals" | "turnovers" | "fouls" | "fieldGoalsMade" | "threePointersMade" | "freeThrowsMade" | "kills" | "digs" | "receives" | "setsPlayed" | "serveErrors" | "cleanSheets" | "saves" | "yellowCards" | "redCards" | "clubId" | "createdAt" | "updatedAt", ExtArgs["result"]["player"]>
 export type PlayerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   matchGoals?: boolean | Prisma.Player$matchGoalsArgs<ExtArgs>
+  matchAssists?: boolean | Prisma.Player$matchAssistsArgs<ExtArgs>
   uploadedPhoto?: boolean | Prisma.Player$uploadedPhotoArgs<ExtArgs>
   club?: boolean | Prisma.Player$clubArgs<ExtArgs>
   ownership?: boolean | Prisma.Player$ownershipArgs<ExtArgs>
@@ -2840,6 +3086,7 @@ export type $PlayerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Player"
   objects: {
     matchGoals: Prisma.$MatchGoalPayload<ExtArgs>[]
+    matchAssists: Prisma.$MatchAssistPayload<ExtArgs>[]
     uploadedPhoto: Prisma.$PlayerPhotoPayload<ExtArgs> | null
     club: Prisma.$ClubPayload<ExtArgs> | null
     ownership: Prisma.$PlayerOwnershipPayload<ExtArgs> | null
@@ -3278,6 +3525,7 @@ readonly fields: PlayerFieldRefs;
 export interface Prisma__PlayerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   matchGoals<T extends Prisma.Player$matchGoalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$matchGoalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  matchAssists<T extends Prisma.Player$matchAssistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$matchAssistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchAssistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   uploadedPhoto<T extends Prisma.Player$uploadedPhotoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$uploadedPhotoArgs<ExtArgs>>): Prisma.Prisma__PlayerPhotoClient<runtime.Types.Result.GetResult<Prisma.$PlayerPhotoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   club<T extends Prisma.Player$clubArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$clubArgs<ExtArgs>>): Prisma.Prisma__ClubClient<runtime.Types.Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ownership<T extends Prisma.Player$ownershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$ownershipArgs<ExtArgs>>): Prisma.Prisma__PlayerOwnershipClient<runtime.Types.Result.GetResult<Prisma.$PlayerOwnershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3768,6 +4016,30 @@ export type Player$matchGoalsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.MatchGoalScalarFieldEnum | Prisma.MatchGoalScalarFieldEnum[]
+}
+
+/**
+ * Player.matchAssists
+ */
+export type Player$matchAssistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchAssist
+   */
+  select?: Prisma.MatchAssistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MatchAssist
+   */
+  omit?: Prisma.MatchAssistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchAssistInclude<ExtArgs> | null
+  where?: Prisma.MatchAssistWhereInput
+  orderBy?: Prisma.MatchAssistOrderByWithRelationInput | Prisma.MatchAssistOrderByWithRelationInput[]
+  cursor?: Prisma.MatchAssistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchAssistScalarFieldEnum | Prisma.MatchAssistScalarFieldEnum[]
 }
 
 /**

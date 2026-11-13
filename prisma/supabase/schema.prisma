@@ -74,6 +74,7 @@ model Club {
 
 model Player {
   matchGoals MatchGoal[]
+  matchAssists MatchAssist[]
   uploadedPhoto PlayerPhoto?
   id           Int      @id @default(autoincrement())
   name         String
@@ -426,6 +427,7 @@ model MatchPushSubscription {
 }
 
 model MatchGoal {
+  assists MatchAssist[]
   resultId Int
   playerId Int
   side     String
@@ -434,5 +436,17 @@ model MatchGoal {
   player   Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
 
   @@id([resultId, playerId])
+  @@index([playerId])
+}
+
+model MatchAssist {
+  resultId Int
+  scorerId Int
+  goalNumber Int
+  playerId Int
+  goal MatchGoal @relation(fields: [resultId, scorerId], references: [resultId, playerId], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@id([resultId, scorerId, goalNumber])
   @@index([playerId])
 }

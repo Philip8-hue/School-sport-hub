@@ -3,7 +3,7 @@ window.renderPlayerStats = function(record) {
  const container = document.getElementById('playerStatistics');
  const previous = Object.fromEntries([...container.querySelectorAll('input')].map(input => [input.name,input.value]));
  const fields = window.playerStatFields(form.elements.sport.value);
- container.innerHTML = fields.map(([key,label]) => `<label>${key === "goals" ? "Manually recorded goals (excluding match scorers)" : label}<input name="${key}" type="number" min="0" step="1" max="1000000" value="0"></label>`).join('');
+ container.innerHTML = fields.map(([key,label]) => `<label>${key === "goals" ? "Manually recorded goals (excluding match scorers)" : key === "assists" ? "Manually recorded assists (excluding match assists)" : label}<input name="${key}" type="number" min="0" step="1" max="1000000" value="0"></label>`).join('');
  for (const input of container.querySelectorAll('input')) input.value = record ? (record[input.name] ?? 0) : (previous[input.name] ?? 0);
  const sport = form.elements.sport.value;
  form.elements.position.placeholder = sport.includes('Basketball') ? 'e.g. Point guard / Center' : sport === 'Volleyball' ? 'e.g. Setter / Libero' : 'e.g. Goalkeeper / Midfielder';
