@@ -1,0 +1,6 @@
+.match-goals { margin-block: 12px; padding-block-start: 12px; border-top: 1px solid var(--line, currentColor); text-align: start; overflow-wrap: anywhere; }
+.match-goals h4, .match-goal-team { margin: 0 0 5px; font-size: .875rem; font-weight: 700; }
+.match-goals > div { margin-top: 8px; }
+.match-goals ul { margin: 0; padding-inline-start: 20px; font-size: .875rem; }
+.match-goals li { margin-block: 4px; }
+.match-goals li span { display: block; }

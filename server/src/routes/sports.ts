@@ -117,19 +117,21 @@ sportsRouter.delete("/fixtures/:id/push", async (request, response, next) => {
   } catch (error) { next(error); }
 });
 
+const publicScorers = { orderBy: { playerId: "asc" as const }, select: { side: true, goals: true, player: { select: { name: true } }, assists: { orderBy: { goalNumber: "asc" as const }, select: { goalNumber: true, player: { select: { name: true } } } } } };
+
 sportsRouter.get("/live-scores", async (_request, response, next) => {
   try {
     response.set("Cache-Control", "public, max-age=0, s-maxage=5");
     response.json(await prisma.fixture.findMany({
       where: { OR: [{ status: "LIVE" }, { status: "COMPLETED", result: { playedAt: { gte: new Date(Date.now() - 7200000) } } }] },
-      include: { homeClub: true, awayClub: true, result: true },
+      include: { homeClub: true, awayClub: true, result: { include: { scorers: publicScorers } } },
       orderBy: [{ updatedAt: "desc" }, { id: "desc" }]
     }));
   } catch (error) { next(error); }
 });
 
 sportsRouter.get("/results", async (_request, response, next) => {
-  try { response.json(await prisma.result.findMany({ where: { fixture: { status: "COMPLETED" } }, include: { fixture: { include: { homeClub: true, awayClub: true } } }, orderBy: { playedAt: "desc" } })); } catch (error) { next(error); }
+  try { response.json(await prisma.result.findMany({ where: { fixture: { status: "COMPLETED" } }, include: { scorers: publicScorers, fixture: { include: { homeClub: true, awayClub: true } } }, orderBy: { playedAt: "desc" } })); } catch (error) { next(error); }
 });
 sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, response, next) => {
   const fixtureId = id(request.params.fixtureId);
