@@ -4,6 +4,9 @@ import { prisma } from "../lib/prisma.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
 import { updatePlayerWithHistory } from "../lib/player-history.js";
 
+import { atomic, AuthError, limited } from "../lib/auth-security.js";
+import { isPushEndpoint, matchPushConfig, notifyMatchFollowers } from "../lib/match-push.js";
+
 export const sportsRouter = Router();
 export { clubSchema, playerSchema, fixtureSchema, resultSchema, tableSchema, newsSchema };
 const adminOnly: RequestHandler[] = [requireAuth, requireRole("ADMIN")];
@@ -70,6 +73,41 @@ sportsRouter.delete("/fixtures/:id", ...adminOnly, async (request, response, nex
   try { await prisma.fixture.delete({ where: { id: fixtureId } }); response.status(204).send(); } catch (error) { if (handleNotFound(error)) { response.status(404).json({ error: "Fixture not found" }); return; } next(error); }
 });
 
+const pushEndpoint = z.string().max(2048).refine(isPushEndpoint);
+const pushAuth = z.string().regex(/^[A-Za-z0-9_-]{22}$/);
+sportsRouter.get("/match-push/config", (_request, response) => {
+  response.set("Cache-Control", "no-store").json({ publicKey: matchPushConfig()?.publicKey ?? null });
+});
+sportsRouter.put("/fixtures/:id/push", async (request, response, next) => {
+  const fixtureId = id(request.params.id);
+  const body = z.object({endpoint: pushEndpoint, auth: pushAuth, p256dh: z.string().regex(/^B[A-Za-z0-9_-]{86}$/)}).safeParse(request.body);
+  if (!fixtureId || !body.success) { response.status(400).json({error: "Invalid push subscription."}); return; }
+  if (!matchPushConfig()) { response.status(503).json({error: "Phone alerts are not configured yet."}); return; }
+  try {
+    await limited(request, "match-push", body.data.endpoint, 30, 100);
+    const { endpoint, auth, p256dh } = body.data;
+    const result = await atomic(async tx => {
+      const fixture = await tx.fixture.findUnique({ where: {id: fixtureId}, select: {status: true} });
+      if (fixture?.status !== "LIVE") return false;
+      await tx.matchPushSubscription.upsert({ where: {fixtureId_endpoint: {fixtureId, endpoint}},
+        create: {fixtureId, endpoint, auth, p256dh}, update: {auth, p256dh, createdAt: new Date()} });
+      await tx.matchPushSubscription.deleteMany({ where: {createdAt: {lt: new Date(Date.now() - 30 * 86400000)}} });
+      return true;
+    });
+    if (!result) { response.status(409).json({error: "This match is no longer live."}); return; }
+    response.status(204).end();
+  } catch (error) { if (error instanceof AuthError) { response.status(error.status).json({error: error.message}); return; } next(error); }
+});
+sportsRouter.delete("/fixtures/:id/push", async (request, response, next) => {
+  const fixtureId = id(request.params.id);
+  const body = z.object({endpoint: pushEndpoint, auth: pushAuth}).safeParse(request.body);
+  if (!fixtureId || !body.success) { response.status(400).json({error: "Invalid push subscription."}); return; }
+  try {
+    await prisma.matchPushSubscription.deleteMany({where: {fixtureId, ...body.data}});
+    response.status(204).end();
+  } catch (error) { next(error); }
+});
+
 sportsRouter.get("/live-scores", async (_request, response, next) => {
   try {
     response.set("Cache-Control", "public, max-age=0, s-maxage=5");
@@ -90,17 +128,21 @@ sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, re
   if (!fixtureId || !parsed.success) { response.status(400).json({ error: "Invalid score details" }); return; }
   try {
     const { status, homeScore, awayScore, playedAt } = parsed.data;
-    const result = await prisma.$transaction(async tx => {
+    const update = await atomic(async tx => {
+      const previous = await tx.fixture.findUnique({ where: {id: fixtureId}, include: {result: true} });
       const fixture = await tx.fixture.updateMany({
         where: { id: fixtureId, status: { in: status === "LIVE" ? ["SCHEDULED", "LIVE"] : ["SCHEDULED", "LIVE", "COMPLETED"] } },
         data: { status }
       });
       if (!fixture.count) return null;
       const score = { homeScore, awayScore, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : new Date() };
-      return tx.result.upsert({ where: { fixtureId }, update: score, create: { fixtureId, ...score }, include: { fixture: true } });
+      const result = await tx.result.upsert({ where: { fixtureId }, update: score, create: { fixtureId, ...score }, include: { fixture: { include: { homeClub: true, awayClub: true } } } });
+      const changed = previous?.status === "LIVE" && (status !== previous.status || previous.result?.homeScore !== homeScore || previous.result?.awayScore !== awayScore);
+      return { result, changed };
     });
-    if (!result) { response.status(409).json({ error: "That match is unavailable for this score update." }); return; }
-    response.json(result);
+    if (!update) { response.status(409).json({ error: "That match is unavailable for this score update." }); return; }
+    if (update.changed) notifyMatchFollowers(update.result);
+    response.json(update.result);
   } catch (error) { next(error); }
 });
 

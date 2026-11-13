@@ -186,3 +186,8 @@ export type NewsRefresh = Prisma.NewsRefreshModel
  * 
  */
 export type FantasyMatchStat = Prisma.FantasyMatchStatModel
+/**
+ * Model MatchPushSubscription
+ * 
+ */
+export type MatchPushSubscription = Prisma.MatchPushSubscriptionModel

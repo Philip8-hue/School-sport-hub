@@ -67,3 +67,22 @@ The app's in-memory rate limits apply per server instance. Configure Vercel's
 Firewall or a shared rate-limit store when you need limits across instances.
 
 Reference: https://vercel.com/docs/frameworks/backend/express
+
+## Phone alerts for followed matches
+
+Apply the PostgreSQL match-push migration, then generate one stable VAPID key
+pair with `npx web-push generate-vapid-keys`. In Vercel Production, set
+MATCH_PUSH_PUBLIC_KEY and MATCH_PUSH_PRIVATE_KEY to the corresponding values,
+and MATCH_PUSH_SUBJECT to a real contact address prefixed with mailto:.
+Keep the private key out of Git and chat. Redeploy after saving the variables.
+Changing the key pair requires devices to subscribe again.
+
+On Android use a browser that supports Web Push. On iPhone or iPad, add the
+Live page to the Home Screen, open it from there, then tap Follow match and
+allow notifications. To enable notifications for a match already followed
+locally, unfollow and follow it again. Test by closing the site and having
+an admin save a changed score, then publish the final result.
+
+A phone subscription is tied to the match and device. Phone alerts only go
+out on changed live scores or the transition to final. If push is unavailable,
+fans can still follow matches and get alerts on the open Live page.

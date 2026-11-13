@@ -79,7 +79,8 @@ export const ModelName = {
   PlayerPhoto: 'PlayerPhoto',
   InternationalNews: 'InternationalNews',
   NewsRefresh: 'NewsRefresh',
-  FantasyMatchStat: 'FantasyMatchStat'
+  FantasyMatchStat: 'FantasyMatchStat',
+  MatchPushSubscription: 'MatchPushSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -504,6 +505,17 @@ export const FantasyMatchStatScalarFieldEnum = {
 } as const
 
 export type FantasyMatchStatScalarFieldEnum = (typeof FantasyMatchStatScalarFieldEnum)[keyof typeof FantasyMatchStatScalarFieldEnum]
+
+
+export const MatchPushSubscriptionScalarFieldEnum = {
+  fixtureId: 'fixtureId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  createdAt: 'createdAt'
+} as const
+
+export type MatchPushSubscriptionScalarFieldEnum = (typeof MatchPushSubscriptionScalarFieldEnum)[keyof typeof MatchPushSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

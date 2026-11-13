@@ -130,6 +130,7 @@ model Fixture {
   homeClub    Club?     @relation("HomeClub", fields: [homeClubId], references: [id], onDelete: SetNull)
   awayClub    Club?     @relation("AwayClub", fields: [awayClubId], references: [id], onDelete: SetNull)
   result      Result?
+  pushSubscriptions MatchPushSubscription[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -407,4 +408,16 @@ model FantasyMatchStat {
   stats String
   updatedAt DateTime @updatedAt
   @@unique([roundId, fixtureId, playerId])
+}
+
+model MatchPushSubscription {
+  fixtureId Int
+  endpoint  String
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+  fixture   Fixture @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
+
+  @@id([fixtureId, endpoint])
+  @@index([createdAt])
 }

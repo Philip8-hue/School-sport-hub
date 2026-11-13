@@ -425,7 +425,8 @@ export const ModelName = {
   PlayerPhoto: 'PlayerPhoto',
   InternationalNews: 'InternationalNews',
   NewsRefresh: 'NewsRefresh',
-  FantasyMatchStat: 'FantasyMatchStat'
+  FantasyMatchStat: 'FantasyMatchStat',
+  MatchPushSubscription: 'MatchPushSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -441,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "authSession" | "authToken" | "recoveryCode" | "authLimit" | "securityEvent" | "fantasyRound" | "fantasyEntry" | "playerPhoto" | "internationalNews" | "newsRefresh" | "fantasyMatchStat"
+    modelProps: "user" | "item" | "club" | "player" | "fixture" | "accessRequest" | "playerOwnership" | "coachAssignment" | "favorite" | "reviewSubmission" | "teamAnnouncement" | "matchAvailability" | "teamLineup" | "playerSnapshot" | "result" | "leagueTable" | "newsArticle" | "homepageContent" | "authSession" | "authToken" | "recoveryCode" | "authLimit" | "securityEvent" | "fantasyRound" | "fantasyEntry" | "playerPhoto" | "internationalNews" | "newsRefresh" | "fantasyMatchStat" | "matchPushSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2591,6 +2592,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MatchPushSubscription: {
+      payload: Prisma.$MatchPushSubscriptionPayload<ExtArgs>
+      fields: Prisma.MatchPushSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MatchPushSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MatchPushSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.MatchPushSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MatchPushSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.MatchPushSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.MatchPushSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.MatchPushSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MatchPushSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.MatchPushSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.MatchPushSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.MatchPushSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MatchPushSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MatchPushSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.MatchPushSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MatchPushSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.MatchPushSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMatchPushSubscription>
+        }
+        groupBy: {
+          args: Prisma.MatchPushSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatchPushSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MatchPushSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MatchPushSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3038,6 +3113,17 @@ export const FantasyMatchStatScalarFieldEnum = {
 export type FantasyMatchStatScalarFieldEnum = (typeof FantasyMatchStatScalarFieldEnum)[keyof typeof FantasyMatchStatScalarFieldEnum]
 
 
+export const MatchPushSubscriptionScalarFieldEnum = {
+  fixtureId: 'fixtureId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  createdAt: 'createdAt'
+} as const
+
+export type MatchPushSubscriptionScalarFieldEnum = (typeof MatchPushSubscriptionScalarFieldEnum)[keyof typeof MatchPushSubscriptionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3324,6 +3410,7 @@ export type GlobalOmitConfig = {
   internationalNews?: Prisma.InternationalNewsOmit
   newsRefresh?: Prisma.NewsRefreshOmit
   fantasyMatchStat?: Prisma.FantasyMatchStatOmit
+  matchPushSubscription?: Prisma.MatchPushSubscriptionOmit
 }
 
 /* Types for Logging */
