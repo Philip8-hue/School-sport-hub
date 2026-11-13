@@ -107,3 +107,16 @@ Admins retain their existing email and permissions. They can open the regular
 views from the admin dashboard and return using the Admin dashboard link.
 Regular players remain in the player view, even if they choose Fan at sign-in.
 The view selector does not grant player or coach permissions.
+
+## November 2026 verified sign-in rollout
+
+Confirm Brevo can send to both an existing admin mailbox and an Anchor student
+mailbox before activating. Set REQUIRE_VERIFIED_SIGN_IN=true in Vercel Production
+and redeploy. This immediately requires verified email for all sign-ins and
+sessions, including administrators using their existing address. A site notice
+links to the public resend and student email correction forms.
+
+At 11:59 p.m. Lagos time on Saturday, November 14, 2026, the same deployment
+automatically restricts regular accounts to verified @student.aul.edu.ng
+addresses. No second redeployment is needed. In this rollout mode the timed
+policy supersedes ANCHOR_STUDENT_EMAIL_DOMAIN. Existing profiles stay intact.

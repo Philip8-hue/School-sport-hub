@@ -54,6 +54,14 @@ form?.addEventListener("submit", async (event) => {
     });
     let data = await response.json().catch(() => ({}));
     if (!response.ok) {
+      if (data.code === 'EMAIL_SIGN_IN_UNVERIFIED') {
+        setMessage(data.error);
+        const link = document.createElement('a');
+        link.href = 'verify-email.html'; link.textContent = 'Request a verification link';
+        message.append(' ', link);
+        loginButton.disabled = false; loginButton.textContent = 'Sign in';
+        return;
+      }
       throw new Error(data.error || `Sign-in failed (${response.status})`);
     }
     data=await window.authSecurity.finishLogin(data);

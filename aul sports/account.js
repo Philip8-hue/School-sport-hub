@@ -61,10 +61,11 @@
     try {
       const response = await fetch('/api/auth/' + (registration ? 'register' : 'login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: document.getElementById(prefix + 'Email').value, password: password.value, accountType: selected.toUpperCase(), ...(registration ? { name: document.getElementById('registerName').value } : {}) }) });
       let data = await response.json();
-      if (data.code === 'SCHOOL_EMAIL_UNVERIFIED') { verificationLink(data.error); return; }
+      if (['SCHOOL_EMAIL_UNVERIFIED', 'EMAIL_SIGN_IN_UNVERIFIED'].includes(data.code)) { verificationLink(data.error); return; }
+      if (data.code === 'SCHOOL_EMAIL_REQUIRED' && !registration) { const link = document.createElement('a'); link.href = 'verify-email.html?correct=1'; link.textContent = 'Correct my email'; message.replaceChildren(data.error + ' ',link); return; }
       if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
-      if (data.schoolVerificationRequired) {
-        verificationLink(data.emailSent ? 'Check your Anchor email for a verification link before signing in.' : 'Account created, but the verification email could not be sent.');
+      if (data.signInVerificationRequired || data.schoolVerificationRequired) {
+        verificationLink(data.emailSent ? 'Check your email for a verification link before signing in.' : 'Account created, but the verification email could not be sent.');
         return;
       }
       data=await window.authSecurity.finishLogin(data);
