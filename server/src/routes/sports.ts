@@ -70,10 +70,38 @@ sportsRouter.delete("/fixtures/:id", ...adminOnly, async (request, response, nex
   try { await prisma.fixture.delete({ where: { id: fixtureId } }); response.status(204).send(); } catch (error) { if (handleNotFound(error)) { response.status(404).json({ error: "Fixture not found" }); return; } next(error); }
 });
 
-sportsRouter.get("/results", async (_request, response, next) => { try { response.json(await prisma.result.findMany({ include: { fixture: { include: { homeClub: true, awayClub: true } } }, orderBy: { playedAt: "desc" } })); } catch (error) { next(error); } });
+sportsRouter.get("/live-scores", async (_request, response, next) => {
+  try {
+    response.set("Cache-Control", "public, max-age=0, s-maxage=5");
+    response.json(await prisma.fixture.findMany({
+      where: { OR: [{ status: "LIVE" }, { status: "COMPLETED", result: { playedAt: { gte: new Date(Date.now() - 7200000) } } }] },
+      include: { homeClub: true, awayClub: true, result: true },
+      orderBy: [{ updatedAt: "desc" }, { id: "desc" }]
+    }));
+  } catch (error) { next(error); }
+});
+
+sportsRouter.get("/results", async (_request, response, next) => {
+  try { response.json(await prisma.result.findMany({ where: { fixture: { status: "COMPLETED" } }, include: { fixture: { include: { homeClub: true, awayClub: true } } }, orderBy: { playedAt: "desc" } })); } catch (error) { next(error); }
+});
 sportsRouter.put("/fixtures/:fixtureId/result", ...adminOnly, async (request, response, next) => {
-  const fixtureId = id(request.params.fixtureId); const parsed = resultSchema.safeParse(request.body); if (!fixtureId || !parsed.success) { response.status(400).json({ error: "Invalid result details" }); return; }
-  try { const result = await prisma.$transaction(async tx => { const result = await tx.result.upsert({ where: { fixtureId }, update: { ...parsed.data, playedAt: parsed.data.playedAt ? new Date(parsed.data.playedAt) : null }, create: { fixtureId, homeScore: parsed.data.homeScore, awayScore: parsed.data.awayScore, playedAt: parsed.data.playedAt ? new Date(parsed.data.playedAt) : null }, include: { fixture: true } }); await tx.fixture.update({ where: { id: fixtureId }, data: { status: "COMPLETED" } }); return result; }); response.json(result); } catch (error) { next(error); }
+  const fixtureId = id(request.params.fixtureId);
+  const parsed = resultSchema.extend({ status: z.enum(["LIVE", "COMPLETED"]).default("COMPLETED") }).safeParse(request.body);
+  if (!fixtureId || !parsed.success) { response.status(400).json({ error: "Invalid score details" }); return; }
+  try {
+    const { status, homeScore, awayScore, playedAt } = parsed.data;
+    const result = await prisma.$transaction(async tx => {
+      const fixture = await tx.fixture.updateMany({
+        where: { id: fixtureId, status: { in: status === "LIVE" ? ["SCHEDULED", "LIVE"] : ["SCHEDULED", "LIVE", "COMPLETED"] } },
+        data: { status }
+      });
+      if (!fixture.count) return null;
+      const score = { homeScore, awayScore, playedAt: status === "LIVE" ? null : playedAt ? new Date(playedAt) : new Date() };
+      return tx.result.upsert({ where: { fixtureId }, update: score, create: { fixtureId, ...score }, include: { fixture: true } });
+    });
+    if (!result) { response.status(409).json({ error: "That match is unavailable for this score update." }); return; }
+    response.json(result);
+  } catch (error) { next(error); }
 });
 
 sportsRouter.get("/tables", async (request, response, next) => { try { response.json(await prisma.leagueTable.findMany({ where: request.query.sport ? { sport: String(request.query.sport) } : undefined, include: { club: true }, orderBy: [{ points: "desc" }, { won: "desc" }] })); } catch (error) { next(error); } });

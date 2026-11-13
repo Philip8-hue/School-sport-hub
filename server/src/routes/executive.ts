@@ -94,6 +94,7 @@ for (const method of ['post','patch'] as const) {
       const existing = method === 'patch' ? await tx.fixture.findUniqueOrThrow({ where: { id: number(r.params.id) } }) : null;
       if (existing) access.check(existing.sport);
       const sport = parsed.sport ?? existing!.sport; access.check(sport);
+      if (parsed.status === 'LIVE' || (existing?.status === 'LIVE' && parsed.status !== undefined)) fail('Only administrators can manage live match coverage.');
       if (existing && sport !== existing.sport) fail('Fixtures cannot be moved between sport categories.');
       const home = parsed.homeClubId === undefined ? existing?.homeClubId : parsed.homeClubId;
       const away = parsed.awayClubId === undefined ? existing?.awayClubId : parsed.awayClubId;
@@ -109,9 +110,11 @@ executiveRouter.put('/fixtures/:id/result', endpoint(async (r, s) => {
   const result = await prisma.$transaction(async tx => {
     const access = await scope(tx, r, s); const fixture = await tx.fixture.findUniqueOrThrow({ where: { id: fixtureId } }); access.check(fixture.sport);
     await access.club(fixture.homeClubId, fixture.sport); await access.club(fixture.awayClubId, fixture.sport);
+    const changed = await tx.fixture.updateMany({ where: { id: fixtureId, status: { notIn: ['LIVE', 'CANCELLED'] } }, data: { status: 'COMPLETED' } });
+    if (!changed.count) fail('Only administrators can finish a live match. Cancelled matches cannot have results.');
     const values = { ...data, playedAt: data.playedAt ? new Date(data.playedAt) : null };
     const result = await tx.result.upsert({ where: { fixtureId }, create: { fixtureId, ...values }, update: values });
-    await tx.fixture.update({ where: { id: fixtureId }, data: { status: 'COMPLETED' } }); return result;
+    return result;
   }); s.json(result);
 }));
 executiveRouter.put('/tables', endpoint(async (r, s) => {
