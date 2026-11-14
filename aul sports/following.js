@@ -5,7 +5,6 @@
   const status=document.createElement('p');status.className='following-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');document.body.append(status);
   const nav=document.getElementById('site-navigation');
   if(nav&&!nav.querySelector('[data-following-nav]')){const a=document.createElement('a');a.href='following.html';a.dataset.followingNav='';a.textContent='Following';if(location.pathname.endsWith('/following.html'))a.setAttribute('aria-current','page');nav.append(a);}
-  const guide=document.querySelector('.site-footer');if(guide){const a=document.createElement('a');a.href='sports-hub-user-guide.pdf';a.textContent='Quick guide (PDF)';guide.append(a);}
   const page=document.getElementById('followingPage');
   let summary;
   if(document.querySelector('.home-layout .hero')){summary=document.createElement('section');summary.className='following-home';summary.hidden=true;summary.setAttribute('aria-label','Your following');document.querySelector('.home-layout .hero').after(summary);}

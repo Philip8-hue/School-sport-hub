@@ -32,7 +32,7 @@ try {
   await sign(sport,sport==='football'?'basketball':'football',403);await sign(sport);
   await req('GET','/executive.html',200,null,sport);await req('GET','/admin.html',303,null,sport);
   await req('POST','/api/auth/admin-login',403,{email:sport+'@example.test',password},sport);
-  for(const url of ['/api/admin/users','/api/admin/summary','/api/admin/approvals/queue','/api/admin/fantasy','/api/auth/security-events','/api/news?all=true'])await req('GET',url,403,null,sport);
+  for(const url of ['/api/admin/users','/api/admin/summary','/api/admin/approvals/queue','/api/auth/security-events','/api/news?all=true'])await req('GET',url,403,null,sport);
   await req('PATCH','/api/admin/users/6',403,{role:'ADMIN'},sport);
   await req('PATCH','/api/admin/approvals/requests/1',403,{status:'APPROVED'},sport);
   const category=scopes[sport][0];
@@ -48,17 +48,13 @@ try {
   const news=await req('POST','/api/executive/news',201,{sport:category,title:sport+' news',slug:sport+'-news',content:'School team update.',published:true},sport);
   await req('PATCH','/api/executive/news/'+news.id,200,{content:'Updated school story.'},sport);
   await req('DELETE','/api/executive/players/'+player.id,404,null,sport);
+  await req('GET','/api/executive/fantasy',404,null,sport);
   const dashboard=await req('GET','/api/executive/dashboard',200,null,sport);
   for(const key of ['clubs','players','fixtures','tables','news'])assert.ok(dashboard[key].every(row=>scopes[sport].includes(row.sport)));
-  const management=await req('GET','/api/executive/fantasy',200,null,sport),config=management.sportConfigs[category];assert.deepEqual(Object.keys(management.sportConfigs),scopes[sport]);
-  const positions=Object.entries(config.required).flatMap(([position,count])=>Array(count).fill(position));while(positions.length<config.squad)positions.push(config.positions[0]);
-  const catalog=[];for(let i=0;i<positions.length;i++){const p=await req('POST','/api/executive/players',201,{name:sport+' Eligible '+i,sport:category,clubId:i%2?away.id:home.id,position:positions[i]},sport);catalog.push({id:p.id,position:positions[i],price:5});}
-  const roundBody={name:sport+' test round',sport:category,deadline:new Date(Date.now()+2*86400000).toISOString(),budget:100,fixtureIds:[fixture.id],rules:config.rules,catalog};
-  const round=await req('POST','/api/executive/fantasy/rounds',201,roundBody,sport);
-  await req('PATCH','/api/executive/fantasy/rounds/'+round.id+'/deadline',200,{deadline:new Date(Date.now()+86400000).toISOString()},sport);
-  objects[sport]={home,away,player,fixture,news,round,roundBody,config,catalog};
+  objects[sport]={home,away,player,fixture,news};
   if(scopes[sport].length>1)await req('POST','/api/executive/clubs',201,{name:sport+' Women',slug:sport+'-women',sport:scopes[sport][1]},sport);
  }
+ for (const url of ['/api/fantasy','/api/admin/fantasy','/aupl%20fantasy.html','/aupl%20fantasy-football.html','/aupl%20fantasy-basketball.html','/aupl%20fantasy-volleyball.html']) await req('GET',url,404);
  const general=await req('POST','/api/news',201,{title:'General school news',slug:'general-school',content:'Overall admins only',published:true});
  for(const sport of Object.keys(scopes)){
   const own=objects[sport],other=objects[sport==='football'?'basketball':'football'];
@@ -73,15 +69,7 @@ try {
   await req('PATCH','/api/executive/fixtures/'+own.fixture.id,403,{homeClubId:other.home.id},sport);
   await req('PUT','/api/executive/fixtures/'+other.fixture.id+'/result',403,{homeScore:1,awayScore:0},sport);
   await req('PUT','/api/executive/tables',403,{sport:own.home.sport,clubId:other.home.id,played:0,won:0,drawn:0,lost:0,points:0},sport);
-  await req('POST','/api/executive/fantasy/rounds',403,other.roundBody,sport);
-  await req('PATCH','/api/executive/fantasy/rounds/'+other.round.id+'/deadline',403,{deadline:new Date(Date.now()+86400000).toISOString()},sport);
-  await req('POST','/api/executive/fantasy/rounds/'+other.round.id+'/publish',403,{},sport);
-  const otherStats=Object.fromEntries(Object.keys(other.config.stats).map(k=>[k,0]));
-  await req('PUT','/api/executive/fantasy/rounds/'+other.round.id+'/stats',403,{fixtureId:other.fixture.id,playerId:other.catalog[0].id,...otherStats},sport);
   await req('PUT','/api/executive/fixtures/'+own.fixture.id+'/result',200,{homeScore:0,awayScore:0},sport);
-  db.prepare('UPDATE FantasyRound SET deadline=? WHERE id=?').run(new Date(Date.now()-60000).toISOString(),own.round.id);
-  for(const p of own.catalog)await req('PUT','/api/executive/fantasy/rounds/'+own.round.id+'/stats',200,{fixtureId:own.fixture.id,playerId:p.id,...Object.fromEntries(Object.keys(own.config.stats).map(k=>[k,0]))},sport);
-  await req('POST','/api/executive/fantasy/rounds/'+own.round.id+'/publish',200,{},sport);
  }
  // Real admin permission is untouched; executive sessions are revoked on scope changes.
  await req('PATCH','/api/players/'+objects.basketball.player.id,200,{rating:9},'admin2');
@@ -96,6 +84,6 @@ try {
  await req('POST','/api/auth/mfa/login',200,{challenge:challenge.challenge,code:confirmed.recoveryCodes[0]},'volleyball');
  await req('GET','/api/admin/approvals/queue',403,null,'volleyball');
  assert.deepEqual(db.prepare("SELECT * FROM User WHERE role='ADMIN' ORDER BY id").all(),beforeAdmins,'Both overall admin records must remain unchanged');
- console.log(`Passed ${checks} executive checks: all three sport scopes, players/clubs/fixtures/results/tables/news/fantasy, forged grants, ID tampering, approval denial, revocation, two-step login and both overall admins unchanged.`);
+ console.log(`Passed ${checks} executive checks: all three sport scopes, players/clubs/fixtures/results/tables/news, forged grants, ID tampering, approval denial, revocation, two-step login and both overall admins unchanged.`);
  if(process.argv.includes('--preview')) {console.log('Isolated executive preview: '+base+' (basketball@example.test / Executive-test-password)');await new Promise(resolve=>process.once('SIGINT',resolve));}
 } finally {child.kill();await new Promise(resolve=>child.exitCode!==null?resolve():child.once('exit',resolve));db.close();}

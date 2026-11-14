@@ -163,19 +163,6 @@
     "value": "Players"
   },
   {
-    "key": "copy026",
-    "group": "Header and navigation",
-    "label": "Link destination (aupl fantasy.html)",
-    "value": "aupl fantasy.html",
-    "attribute": "href"
-  },
-  {
-    "key": "copy027",
-    "group": "Header and navigation",
-    "label": "Fantasy",
-    "value": "Fantasy"
-  },
-  {
     "key": "copy028",
     "group": "Header and navigation",
     "label": "Link destination (login.html)",
@@ -234,21 +221,6 @@
     "label": "Explore the match centre",
     "value": "Explore the match centre",
     "legacy": "primaryButtonLabel"
-  },
-  {
-    "key": "copy037",
-    "group": "Hero and season",
-    "label": "Link destination (aupl fantasy.html)",
-    "value": "aupl fantasy.html",
-    "attribute": "href",
-    "legacy": "secondaryButtonUrl"
-  },
-  {
-    "key": "copy038",
-    "group": "Hero and season",
-    "label": "Build your fantasy team",
-    "value": "Build your fantasy team",
-    "legacy": "secondaryButtonLabel"
   },
   {
     "key": "copy039",
@@ -354,38 +326,6 @@
     "group": "Standings",
     "label": "Loading the standings…",
     "value": "Loading the standings…"
-  },
-  {
-    "key": "copy056",
-    "group": "Fantasy",
-    "label": "Your squad. Your decisions.",
-    "value": "Your squad. Your decisions."
-  },
-  {
-    "key": "copy057",
-    "group": "Fantasy",
-    "label": "Think you know the game?",
-    "value": "Think you know the game?",
-    "legacy": "fantasyTitle"
-  },
-  {
-    "key": "copy058",
-    "group": "Fantasy",
-    "label": "Pick your players, build your dream team, and make every match count.",
-    "value": "Pick your players, build your dream team, and make every match count."
-  },
-  {
-    "key": "copy059",
-    "group": "Fantasy",
-    "label": "Link destination (aupl fantasy.html)",
-    "value": "aupl fantasy.html",
-    "attribute": "href"
-  },
-  {
-    "key": "copy060",
-    "group": "Fantasy",
-    "label": "Enter fantasy ↗",
-    "value": "Enter fantasy ↗"
   },
   {
     "key": "copy061",

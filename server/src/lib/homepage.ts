@@ -12,15 +12,6 @@ export type HomepageContent = {
   secondaryButtonUrl: string;
   liveTitle: string;
   liveMatches: Array<{ label: string; score: string; status: string }>;
-  fantasyTitle: string;
-  fantasyFootballTitle: string;
-  fantasyFootballDescription: string;
-  fantasyFootballButtonLabel: string;
-  fantasyFootballButtonUrl: string;
-  fantasyBasketballTitle: string;
-  fantasyBasketballDescription: string;
-  fantasyBasketballButtonLabel: string;
-  fantasyBasketballButtonUrl: string;
   communityTitle: string;
   communityDescription: string;
   communityTitleLabel: string;
@@ -37,8 +28,8 @@ export const defaultHomepageContent: HomepageContent = {
   heroDescription: "The fixtures, the rivalries, the moments that bring us together. Stay close to every play.",
   primaryButtonLabel: "Explore the match centre",
   primaryButtonUrl: "aupl-fixtures.html",
-  secondaryButtonLabel: "Play Fantasy",
-  secondaryButtonUrl: "aupl fantasy.html",
+  secondaryButtonLabel: "See fixtures",
+  secondaryButtonUrl: "aupl-fixtures.html",
   liveTitle: "🔴 Live Now",
   liveMatches: [
     { label: "⚽ Male Football", score: "Computer Science 2 - 1 Engineering", status: "65'" },
@@ -46,15 +37,6 @@ export const defaultHomepageContent: HomepageContent = {
     { label: "🏀 Basketball", score: "Team C 45 - 41 Team D", status: "Q3" },
     { label: "🏐 Volleyball", score: "Team E 2 - 1 Team F", status: "Set 4" },
   ],
-  fantasyTitle: "Think you know the game?",
-  fantasyFootballTitle: "⚽ Fantasy Football",
-  fantasyFootballDescription: "Build your dream football team and compete with other students.",
-  fantasyFootballButtonLabel: "Play Fantasy Football",
-  fantasyFootballButtonUrl: "aupl fantasy.html",
-  fantasyBasketballTitle: "🏀 Fantasy Basketball",
-  fantasyBasketballDescription: "Pick your basketball players and earn points from their performances.",
-  fantasyBasketballButtonLabel: "Play Fantasy Basketball",
-  fantasyBasketballButtonUrl: "aupl fantasy.html",
   communityTitle: "📣 Community Posts",
   communityDescription: "Share an update with the School Sports Hub community.",
   communityTitleLabel: "Title",

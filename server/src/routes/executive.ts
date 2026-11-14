@@ -6,7 +6,6 @@ import { requireAuth, requireRole, issueSession } from '../middleware/auth.js';
 import { limited, audit, atomic, tokenRecord, AuthError } from '../lib/auth-security.js';
 import { executiveCategories, executiveSports, isExecutiveSport } from '../lib/executive-access.js';
 import { clubSchema, playerSchema, fixtureSchema, resultSchema, tableSchema, newsSchema } from './sports.js';
-import { fantasyManagementRouter } from './fantasy.js';
 import { updatePlayerWithHistory } from '../lib/player-history.js';
 
 export const executiveRouter = Router();
@@ -134,5 +133,4 @@ for (const method of ['post','patch'] as const) executiveRouter[method]('/news' 
     return existing ? tx.newsArticle.update({ where: { id: existing.id }, data: values }) : tx.newsArticle.create({ data: values as z.infer<typeof newsSchema> });
   }); s.status(method === 'post' ? 201 : 200).json(result);
 }));
-executiveRouter.use('/fantasy', fantasyManagementRouter);
 // Intentionally no approval, user, homepage or destructive-delete endpoints.
