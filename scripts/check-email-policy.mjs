@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
-import {verificationEnforced,requiresEmailVerification} from '../dist/server/src/lib/auth-policy.js';
-const original=process.env.REQUIRE_EMAIL_VERIFICATION;
-try{delete process.env.REQUIRE_EMAIL_VERIFICATION;assert.equal(verificationEnforced(),false);assert.equal(requiresEmailVerification({emailVerificationRequired:true}),false);process.env.REQUIRE_EMAIL_VERIFICATION='false';assert.equal(requiresEmailVerification({emailVerificationRequired:true}),false);process.env.REQUIRE_EMAIL_VERIFICATION='true';assert.equal(requiresEmailVerification({emailVerificationRequired:true}),true);assert.equal(requiresEmailVerification({emailVerificationRequired:false}),false);assert.equal(requiresEmailVerification({role:'ADMIN',emailVerificationRequired:true}),false);assert.equal(requiresEmailVerification({role:'USER',emailVerificationRequired:true}),true);console.log('Passed 7 email verification policy checks: optional by default, existing pending accounts unrestricted, explicit enforcement available.');}finally{if(original===undefined)delete process.env.REQUIRE_EMAIL_VERIFICATION;else process.env.REQUIRE_EMAIL_VERIFICATION=original;}
+import {isStudentEmail, studentViewLocked} from '../dist/server/src/lib/auth-policy.js';
+assert.equal(isStudentEmail('person@student.aul.edu.ng'),true);
+assert.equal(isStudentEmail('person@student.aul.edu.ng.example'),false);
+assert.equal(studentViewLocked({role:'USER',accountType:'PLAYER'}),true);
+assert.equal(studentViewLocked({role:'ADMIN',accountType:'PLAYER'}),false);
+console.log('Optional school email correction and player view checks passed.');

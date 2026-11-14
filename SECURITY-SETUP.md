@@ -31,7 +31,7 @@ Create an API key in Brevo and enter these settings in Vercel under the Sports H
 | `BREVO_SENDER_EMAIL` | The exact email address you verified in Brevo |
 | `APP_BASE_URL` | The live website’s HTTPS origin |
 
-Deploy a commit that includes Brevo support. On its login page, use **Forgot password** with an existing account you own. Confirm receipt in your inbox or spam folder, open the reset link, and verify you can sign in with the new password. Check Brevo’s transactional logs and the app’s security events if it does not arrive. Keep existing database and session secrets, and leave `REQUIRE_EMAIL_VERIFICATION` at its current setting. No database migration is required for this provider change.
+Deploy a commit that includes Brevo support. On its login page, use **Forgot password** with an existing account you own. Confirm receipt in your inbox or spam folder, open the reset link, and verify you can sign in with the new password. Check Brevo’s transactional logs and the app’s security events if it does not arrive. Keep existing database and session secrets,. No database migration is required for this provider change.
 
 ## Email service: Resend (alternative)
 
@@ -82,41 +82,11 @@ The correct Git checkout is `.publish-checkout`, pointing to `Philip8-hue/School
 
 Expired session/link/counter rows do not grant access. Schedule periodic removal of old expired auth rows and an appropriate security-log retention policy through your database maintenance process; do not delete active rows or recovery codes. Keep server/dependency updates and backups current. This is authentication hardening, not a guarantee that the entire application is free of vulnerabilities.
 
-## Current rollout: optional email verification
+## Optional email verification
 
-`REQUIRE_EMAIL_VERIFICATION` defaults to false when absent. It is false in the local `.env` and `.env.example`. No existing account verification flags are erased: the runtime switch also bypasses verification restrictions for accounts that registered earlier. Unverified users are not shown email reminders during normal use. Registration opens their account dashboard directly and skips automatic verification emails while verification is optional. Optional verification tools remain in Account security, with sending disabled in that screen until email delivery is configured.
-
-For the current Vercel deployment, set `ALLOW_PUBLIC_REGISTRATION=true` and `REQUIRE_EMAIL_VERIFICATION=false`. Keep all database/JWT settings unchanged, retain the existing `AUTH_ENCRYPTION_KEY`, and use the production `APP_BASE_URL`. Password-reset emails still cannot be delivered until an email provider is configured. Admin MFA, approvals and all other authorization/session protections remain in place.
-
-After email sending has been configured and tested, set `REQUIRE_EMAIL_VERIFICATION=true` and redeploy. This will require verification for accounts created under the newer registration flow (including accounts registered during optional mode); original legacy accounts retain their existing access. Announce that change before enabling it. No schema migration or data import is needed for this rollout switch.
-
-## Anchor student sign-in
-
-After confirming live Brevo delivery to an Anchor student mailbox, set
-`ANCHOR_STUDENT_EMAIL_DOMAIN=student.aul.edu.ng` in Vercel Production and redeploy.
-Regular accounts must use that exact email domain and verify their address before
-receiving a session. Existing regular sessions are checked against the same rule.
-Coordinate with existing users who registered with a different email; their data
-remains intact, but they cannot sign in until their account address is corrected
-and verified. From sign-in, **Correct my email** lets a regular user confirm their
-current password and verify a replacement Anchor address before or after the
-school-only rule is enabled. The account ID stays the same and old sessions end. School mailbox access
-does not establish current enrollment if the university keeps alumni mailboxes active.
-
-Admins retain their existing email and permissions. They can open the regular
-views from the admin dashboard and return using the Admin dashboard link.
-Regular players remain in the player view, even if they choose Fan at sign-in.
-The view selector does not grant player or coach permissions.
-
-## November 2026 verified sign-in rollout
-
-Confirm Brevo can send to both an existing admin mailbox and an Anchor student
-mailbox before activating. Set REQUIRE_VERIFIED_SIGN_IN=true in Vercel Production
-and redeploy. This immediately requires verified email for all sign-ins and
-sessions, including administrators using their existing address. A site notice
-links to the public resend and student email correction forms.
-
-At 11:59 p.m. Lagos time on Saturday, November 14, 2026, the same deployment
-automatically restricts regular accounts to verified @student.aul.edu.ng
-addresses. No second redeployment is needed. In this rollout mode the timed
-policy supersedes ANCHOR_STUDENT_EMAIL_DOMAIN. Existing profiles stay intact.
+Email verification and changing to an Anchor address are optional. There is no
+deadline or email-based access restriction. Account security still lets users
+verify their current address, and **Correct my email** still lets regular users
+move to a confirmed Anchor address without losing their profile. Legacy email
+enforcement environment variables are no longer used. Keep Brevo configured
+for optional verification, email correction and password resets.

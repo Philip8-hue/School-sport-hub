@@ -1,6 +1,5 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import { unverifiedSignIn } from '../lib/auth-policy.js';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth, requireRole, issueSession } from '../middleware/auth.js';
@@ -26,7 +25,6 @@ executiveRouter.post('/login', endpoint(async (r, s) => {
   const valid = await bcrypt.compare(body.password, user?.passwordHash || dummyHash);
   if (!user?.isActive || !valid) { await audit(r, 'LOGIN_FAILED', user?.id); throw new ScopeError(401, 'Invalid email or password.'); }
   if (user.role !== 'EXECUTIVE' || user.executiveSport !== body.sport) { await audit(r, 'EXECUTIVE_LOGIN_DENIED', user.id); fail('This account has not been assigned executive access for the selected sport.'); }
-  if (unverifiedSignIn(user)) throw new AuthError(403,'Verify your email before signing in.','EMAIL_SIGN_IN_UNVERIFIED');
   if (user.mfaEnabledAt) { const challenge = await atomic(tx => tokenRecord(tx, user.id, 'MFA_LOGIN', user.sessionVersion, 5)); s.json({ mfaRequired: true, challenge }); return; }
   await issueSession(s, user); await audit(r, 'LOGIN_SUCCEEDED', user.id);
   s.json({ user: { id: user.id, name: user.name, role: user.role }, mfaSetupRequired: !!user.mfaRequiredAfter && user.mfaRequiredAfter <= new Date() });
