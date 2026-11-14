@@ -16,7 +16,7 @@ try {
     if (route === '/api/clubs') assert.equal((await response.json()).length, await prisma.club.count());
     checks++;
   }
-  const admin = await prisma.user.findFirstOrThrow({ where: { role: 'ADMIN', isActive: true, mfaEnabledAt:null, OR:[{mfaRequiredAfter:null},{mfaRequiredAfter:{gt:new Date()}}] }, select: { id: true, name: true, email: true, role: true, sessionVersion:true } });
+  const admin = await prisma.user.findFirstOrThrow({ where: { role: 'ADMIN', isActive: true, mfaEnabledAt:null }, select: { id: true, name: true, email: true, role: true, sessionVersion:true } });
   temporarySession=await prisma.authSession.create({data:{id:randomUUID(),userId:admin.id,version:admin.sessionVersion,expiresAt:new Date(Date.now()+60000)}});
   const token = createAccessToken(admin,temporarySession.id);
   for (const route of ['/admin.html', '/api/auth/me', '/api/admin/summary', '/api/admin/homepage', '/api/admin/approvals/queue', '/api/member/dashboard', '/api/member/following']) {

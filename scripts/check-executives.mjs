@@ -7,7 +7,8 @@ const password='Executive-test-password',hash=await bcrypt.hash(password,4);
 for(const [index,name] of ['admin','admin2','football','basketball','volleyball','fan'].entries())db.prepare('INSERT INTO User(id,email,name,passwordHash,role,updatedAt) VALUES(?,?,?,?,?,?)').run(index+1,name+'@example.test',name,hash,index<2?'ADMIN':'USER',new Date().toISOString());
 const beforeAdmins=db.prepare("SELECT * FROM User WHERE role='ADMIN' ORDER BY id").all();
 const port=5152,host=process.argv.includes('--preview')?'127.0.0.2':'127.0.0.1',base=`http://${host}:${port}`;
-const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,VERCEL:'0',NODE_ENV:'test',DATABASE_PROVIDER:'sqlite',DATABASE_URL:'file:'+file,HOST:host,PORT:String(port),JWT_SECRET:'executive-test-jwt-secret-at-least-32-characters',AUTH_ENCRYPTION_KEY:'cd'.repeat(32),ALLOW_PUBLIC_REGISTRATION:'true',REQUIRE_EMAIL_VERIFICATION:'false'},stdio:['ignore','pipe','pipe']});
+const noAuthenticator=process.argv.includes('--no-authenticator');
+const child=spawn(process.execPath,['dist/server/src/index.js'],{env:{...process.env,VERCEL:'0',NODE_ENV:'test',DATABASE_PROVIDER:'sqlite',DATABASE_URL:'file:'+file,HOST:host,PORT:String(port),JWT_SECRET:'executive-test-jwt-secret-at-least-32-characters',AUTH_ENCRYPTION_KEY:noAuthenticator?'':'cd'.repeat(32),ALLOW_PUBLIC_REGISTRATION:'true',REQUIRE_EMAIL_VERIFICATION:'false'},stdio:['ignore','pipe','pipe']});
 let log='',checks=0;child.stderr.on('data',chunk=>log+=chunk);const cookies={};
 async function req(method,url,status,body,who='admin'){
  const response=await fetch(base+url,{method,redirect:'manual',headers:{Origin:base,'Content-Type':'application/json',...(cookies[who]?{Cookie:cookies[who]}:{})},body:body?JSON.stringify(body):undefined});
@@ -29,7 +30,11 @@ try {
  const objects={};
  for(const [index,sport] of ['football','basketball','volleyball'].entries()){
   await req('PATCH','/api/admin/users/'+(index+3),200,{role:'EXECUTIVE',executiveSport:sport});
-  await sign(sport,sport==='football'?'basketball':'football',403);await sign(sport);
+  db.prepare('UPDATE User SET mfaRequiredAfter=? WHERE id=?').run(new Date(Date.now()-60000).toISOString(),index+3);
+  await sign(sport,sport==='football'?'basketball':'football',403);
+  assert.equal((await sign(sport)).mfaSetupRequired,false);
+  assert.equal((await req('GET','/api/auth/security',200,null,sport)).authenticatorConfigured,!noAuthenticator);
+  assert.equal((await req('POST','/api/auth/login',200,{email:sport+'@example.test',password},sport)).mfaSetupRequired,false);
   await req('GET','/executive.html',200,null,sport);await req('GET','/admin.html',303,null,sport);
   await req('POST','/api/auth/admin-login',403,{email:sport+'@example.test',password},sport);
   for(const url of ['/api/admin/users','/api/admin/summary','/api/admin/approvals/queue','/api/auth/security-events','/api/news?all=true'])await req('GET',url,403,null,sport);
@@ -76,14 +81,16 @@ try {
  await req('PATCH','/api/admin/users/3',200,{role:'EXECUTIVE',executiveSport:'basketball'});
  await req('GET','/api/executive/dashboard',401,null,'football');await sign('football','football',403);await sign('football','basketball');
  await req('PATCH','/api/admin/users/3',200,{role:'USER'});await req('GET','/api/executive/dashboard',401,null,'football');
+ if(!noAuthenticator){
  const setup=await req('POST','/api/auth/mfa/setup',200,{password},'volleyball');
  const code=new TOTP({secret:Secret.fromBase32(setup.secret),algorithm:'SHA1',digits:6,period:30}).generate();
  const confirmed=await req('POST','/api/auth/mfa/confirm',200,{setupToken:setup.setupToken,code},'volleyball');
  await req('GET','/api/executive/dashboard',200,null,'volleyball');
  await req('POST','/api/auth/logout',204,null,'volleyball');const challenge=await sign('volleyball');assert.equal(challenge.mfaRequired,true);
  await req('POST','/api/auth/mfa/login',200,{challenge:challenge.challenge,code:confirmed.recoveryCodes[0]},'volleyball');
+ }
  await req('GET','/api/admin/approvals/queue',403,null,'volleyball');
  assert.deepEqual(db.prepare("SELECT * FROM User WHERE role='ADMIN' ORDER BY id").all(),beforeAdmins,'Both overall admin records must remain unchanged');
- console.log(`Passed ${checks} executive checks: all three sport scopes, players/clubs/fixtures/results/tables/news, forged grants, ID tampering, approval denial, revocation, two-step login and both overall admins unchanged.`);
+ console.log(`Passed ${checks} executive checks: all three sport scopes, players/clubs/fixtures/results/tables/news, forged grants, ID tampering, approval denial, revocation, ${noAuthenticator?'access without authenticator configuration':'opt-in two-step login'} and both overall admins unchanged.`);
  if(process.argv.includes('--preview')) {console.log('Isolated executive preview: '+base+' (basketball@example.test / Executive-test-password)');await new Promise(resolve=>process.once('SIGINT',resolve));}
 } finally {child.kill();await new Promise(resolve=>child.exitCode!==null?resolve():child.once('exit',resolve));db.close();}

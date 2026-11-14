@@ -98,12 +98,12 @@ adminRouter.patch("/users/:id", ...adminOnly, async (request, response, next) =>
       const changed = await prisma.$transaction(async tx => {
         const user = await tx.user.findUniqueOrThrow({ where: { id: userId } });
         if (user.role === 'ADMIN') return null;
-        return tx.user.update({ where: { id: userId }, data: { role: 'EXECUTIVE', executiveSport, sessionVersion: { increment: 1 }, legacySessionsUntil: null, mfaRequiredAfter: user.mfaRequiredAfter ?? new Date(Date.now()+14*86400000), ...(isActive !== undefined ? { isActive } : {}) }, select: { id:true,email:true,name:true,role:true,executiveSport:true,isActive:true } });
+        return tx.user.update({ where: { id: userId }, data: { role: 'EXECUTIVE', executiveSport, sessionVersion: { increment: 1 }, legacySessionsUntil: null, ...(isActive !== undefined ? { isActive } : {}) }, select: { id:true,email:true,name:true,role:true,executiveSport:true,isActive:true } });
       });
       if (!changed) { response.status(400).json({ error: 'Overall administrators keep their existing access. Choose a regular user or executive.' }); return; }
       response.json(changed); return;
     }
-    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role, executiveSport: null, sessionVersion: { increment: 1 }, legacySessionsUntil: null, ...(role === "ADMIN" ? { mfaRequiredAfter: new Date(Date.now()+14*86400000) } : {}) } : {}), ...(isActive !== undefined ? { isActive, ...(role ? {} : { sessionVersion: { increment: 1 }, legacySessionsUntil: null }) } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
+    response.json(await prisma.user.update({ where: { id: userId }, data: { ...(role ? { role, executiveSport: null, sessionVersion: { increment: 1 }, legacySessionsUntil: null } : {}), ...(isActive !== undefined ? { isActive, ...(role ? {} : { sessionVersion: { increment: 1 }, legacySessionsUntil: null }) } : {}) }, select: { id: true, email: true, name: true, role: true, isActive: true } }));
   } catch (error) {
     next(error);
   }

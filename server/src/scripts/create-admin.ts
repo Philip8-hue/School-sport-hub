@@ -22,8 +22,8 @@ async function main(): Promise<void> {
   const passwordHash = await bcrypt.hash(rawPassword, 12);
   const user = await prisma.user.upsert({
     where: { email },
-    update: { name: name || undefined, passwordHash, role: "ADMIN", isActive: true, sessionVersion: { increment: 1 }, legacySessionsUntil: null, mfaRequiredAfter: new Date(Date.now()+14*86400000) },
-    create: { email, name: name || null, passwordHash, role: "ADMIN", isActive: true, mfaRequiredAfter: new Date(Date.now()+14*86400000) },
+    update: { name: name || undefined, passwordHash, role: "ADMIN", isActive: true, sessionVersion: { increment: 1 }, legacySessionsUntil: null },
+    create: { email, name: name || null, passwordHash, role: "ADMIN", isActive: true },
     select: { id: true, email: true, name: true, role: true },
   });
   console.log(`Admin account ready: ${user.email}`);

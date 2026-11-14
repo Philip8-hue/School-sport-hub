@@ -6,7 +6,7 @@ Existing account IDs, emails, password hashes, roles, approvals, profiles, favor
 
 All new sign-ins create revocable database sessions. Signing out revokes the current session. Account security also supports signing out one session or every device. A password change or password reset revokes every session and pending authentication link/challenge. Session cookies are HttpOnly, SameSite=Lax, and Secure on Vercel/production. The access cookie renews while active; the database imposes a maximum 7-day session lifetime.
 
-An additive migration accepts existing signed cookies for 7 days from migration, upgrading each to a database session on use. Logging out revokes that upgraded session and blocks its original cookie too. Password changes and log-out-all immediately end this compatibility path. Existing administrators receive a fixed 14-day enrollment grace period from migration. Their deadline is shown in Account security. After it passes, the admin can still sign in and set up MFA, but admin tools require completion. Enrollment immediately revokes old sessions and issues a new verified session. New/promoted administrators also get a dated 14-day setup window.
+An additive migration accepts existing signed cookies for 7 days from migration, upgrading each to a database session on use. Logging out revokes that upgraded session and blocks its original cookie too. Password changes and log-out-all immediately end this compatibility path. Authenticator setup is optional and there is no enrollment deadline. Executives who enable two-step verification continue to use it at sign-in. Enrollment revokes old sessions and issues a new verified session.
 
 Authenticator setup requires the existing password, a private QR code/manual key, and a valid 6-digit code. TOTP secrets are encrypted using AES-256-GCM; setup expires in 10 minutes. A used TOTP time step cannot be replayed. Ten single-use 96-bit recovery codes are shown once and stored as keyed hashes. Replacement codes invalidate the old set. An administrator who loses their phone can sign in with the password plus one recovery code, remove the old authenticator using another code and their password, and enroll a replacement. There is no email-only MFA bypass. Keep at least two codes available for this process; codes can also be regenerated after signing in with a remaining factor.
 
@@ -74,7 +74,7 @@ The correct Git checkout is `.publish-checkout`, pointing to `Philip8-hue/School
 2. Apply the additive Supabase migration `20261022200000_auth_security` using `npm run supabase:deploy` from the original project with its existing database URL. This migration has already been applied and verified in this workspace’s SQLite and configured Supabase databases; do not import sports data again.
 3. Commit/push the prepared publish checkout using your own GitHub credentials. Let Vercel build the new commit, or redeploy after updating environment variables. A redeploy of an older commit does not contain the new code.
 4. Confirm the deployment is Ready. Test verification, reset email delivery, MFA, recovery codes and log-out-all with accounts you own. Check Security activity for EMAIL_DELIVERY_FAILED if messages do not arrive.
-5. Tell existing administrators to enroll before the displayed deadline. Existing regular users can verify through Account security without creating a new account.
+5. Staff can opt in to authenticator setup through Account security if the encryption key is configured. Users can verify their email without creating a new account.
 
 ## Validation and maintenance
 

@@ -26,14 +26,14 @@ executiveRouter.post('/login', endpoint(async (r, s) => {
   if (user.role !== 'EXECUTIVE' || user.executiveSport !== body.sport) { await audit(r, 'EXECUTIVE_LOGIN_DENIED', user.id); fail('This account has not been assigned executive access for the selected sport.'); }
   if (user.mfaEnabledAt) { const challenge = await atomic(tx => tokenRecord(tx, user.id, 'MFA_LOGIN', user.sessionVersion, 5)); s.json({ mfaRequired: true, challenge }); return; }
   await issueSession(s, user); await audit(r, 'LOGIN_SUCCEEDED', user.id);
-  s.json({ user: { id: user.id, name: user.name, role: user.role }, mfaSetupRequired: !!user.mfaRequiredAfter && user.mfaRequiredAfter <= new Date() });
+  s.json({ user: { id: user.id, name: user.name, role: user.role }, mfaSetupRequired: false });
 }));
 executiveRouter.use(requireAuth, requireRole('EXECUTIVE'));
 executiveRouter.use(async (r, s, next) => {
   try {
     const user = await prisma.user.findUniqueOrThrow({ where: { id: r.user!.id } });
     if (!isExecutiveSport(user.executiveSport)) { s.status(403).json({ error: 'An overall admin must assign your sport.' }); return; }
-    if ((user.mfaEnabledAt && !r.user!.mfaVerified) || (!user.mfaEnabledAt && user.mfaRequiredAfter && user.mfaRequiredAfter <= new Date())) { s.status(403).json({ error: 'Set up or complete two-step verification in Account security.', code: 'MFA_SETUP_REQUIRED' }); return; }
+    if (user.mfaEnabledAt && !r.user!.mfaVerified) { s.status(403).json({ error: 'Complete two-step verification to use the executive workspace.', code: 'MFA_SETUP_REQUIRED' }); return; }
     s.locals.sport = user.executiveSport;
     if (!['GET','HEAD','OPTIONS'].includes(r.method)) await audit(r, 'EXECUTIVE_' + r.method + '_ATTEMPT', user.id, r.originalUrl.split('?')[0].slice(0,160));
     next();
